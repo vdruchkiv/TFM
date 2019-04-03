@@ -791,6 +791,7 @@ output$pathway_KEGG2<-renderImage({
        alt = "Something wrong")
 }, deleteFile = TRUE)
 
+#Hier I did some changes
 output$downloadPathKegg <- downloadHandler(
   filename = "Test.png",
   content = function(file) {
