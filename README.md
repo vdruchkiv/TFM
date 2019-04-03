@@ -21,8 +21,8 @@ Repeat
 
 Update Local Repository and push it
 
-`git add .`
+``
 
 `git commit -m "My comment"`
 
-`git push origin ma`
+`git push origin master`
