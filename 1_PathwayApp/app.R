@@ -37,12 +37,14 @@ ui <- dashboardPage(
              menuItem("KEGG Pathway", tabName = "pathway_KEGG", icon = icon("chart-bar"))
     ),
     menuItem("Reactome Analisis",
+             menuItem("Reactome Enrichment", tabName = "EnrichSpecs_RA", icon = icon("sliders-h")),
+             menuItem("GSEA", tabName = "GSEA_RA", icon = icon("sliders-h")),
              menuItem("Bar Plot", tabName = "BarPlot_RA", icon = icon("chart-bar")),
              menuItem("Dot Plot", tabName = "DotPlot_RA", icon = icon("chart-bar")),
-             menuItem("Enrichment Plot", tabName = "Emma_RA", icon = icon("chart-bar")),
+             menuItem("Enrichment Plot", tabName = "Emap_RA", icon = icon("chart-bar")),
              menuItem("Category-gene-network", tabName = "cnetplot_RA", icon = icon("chart-bar")),
              menuItem("GSEA plot", tabName = "gsea_RA", icon = icon("chart-bar")),
-             menuItem("Reactome Pathway", tabName = "pathway_RA", icon = icon("chart-bar"))
+             menuItem("Reactome Pathway", tabName = "path_RA", icon = icon("chart-bar"))
     )
     
   )
@@ -238,7 +240,100 @@ ui <- dashboardPage(
           downloadButton("downloadPathKegg","Download Plot as .png"),
           imageOutput("pathway_KEGG2")%>%withSpinner(color="#0dc5c1")
         )#FluidRow
-) #Item16 End  
+), #Item16 End
+#Enrichment Specs Reactome Tab
+    tabItem(tabName = "EnrichSpecs_RA",
+        fluidRow(
+          selectInput("specie_RA", h3("Specie:"),
+                      c("Homo Sapiens" = "human",
+                        "Rat" = "rat",
+                        "Mouse"="mouse",
+                        "Celegans"="celegans",
+                        "Yeast"="yeast",
+                        "Zebrafish"="zebrafish",
+                        "Fly"="fly")),
+          selectInput("adj_RA",h3("Select adjustment method"),
+                      c("holm"="holm",
+                        "hochberg"="hochberg",
+                        "hommel"="hommel",
+                        "bonferroni"="bonferroni",
+                        "BH"="BH",
+                        "BY"="BY",
+                        "fdr"="fdr",
+                        "none"="none")),
+          radioButtons("pval_RA", h3("Select P-Value threshold:"),
+                       c("0.1" = 0.1,
+                         "0.05" = 0.05,
+                         "0.01" = 0.01,
+                         "0.001" = 0.001),inline = TRUE),
+          actionButton("calcRA","Calculate Result"),
+          tags$hr(style="border-color: black;"),
+          uiOutput("download_er_RA"),
+          htmlOutput("EnrichResultTable_RA")%>%withSpinner(color="#0dc5c1")
+        )#FluidRow
+),#Item17 End
+    tabItem(tabName = "GSEA_RA",
+        fluidRow(
+          radioButtons("pval_RA_gsea", h3("Select P-Value threshold:"),
+                       c("0.1" = 0.1,
+                         "0.05" = 0.05,
+                         "0.01" = 0.01,
+                         "0.001" = 0.001),inline = TRUE),
+          actionButton("calcRAGsea","Calculate Result"),
+          tags$hr(style="border-color: black;"),
+          uiOutput("download_er_RA_gsea"),
+          htmlOutput("EnrichResultTable_RA_gsea")%>%withSpinner(color="#0dc5c1")
+        )#FluidRow
+), #Item18
+#Bar Plot GO Tab
+    tabItem(tabName = "BarPlot_RA",
+        fluidRow(
+          sliderInput("cat_barplotRA", "Number of categories",
+                      min = 0, max = 30,  value = 15),
+          imageOutput("BarPlot_RA2")%>%withSpinner(color="#0dc5c1"),
+          downloadButton("downloadBarPlotRA","Download Plot as .png")
+        )#FluidRow
+      ), #Item19 End
+#Dot Plot RA Tab
+    tabItem(tabName = "DotPlot_RA",
+        fluidRow(
+          sliderInput("cat_dotplotRA", "Number of categories",
+                      min = 0, max = 30,  value = 15),
+          imageOutput("DotPlot_RA2")%>%withSpinner(color="#0dc5c1"),
+          downloadButton("downloadDotPlotRA","Download Plot as .png")
+        )#FluidRow
+),#Item20 End
+#Emapplot
+tabItem(tabName = "Emap_RA",
+        fluidRow(
+          sliderInput("cat_emapplotRA", "Number of categories",
+                      min = 0, max = 30,  value = 15),
+          imageOutput("EmapPlot_RA2")%>%withSpinner(color="#0dc5c1"),
+          downloadButton("downloadEmapPlotRA","Download Plot as .png")
+        )#FluidRow
+),#Item21 End
+tabItem(tabName = "cnetplot_RA",
+        fluidRow(
+          sliderInput("cat_cnetplotRA", "Number of categories",
+                      min = 0, max = 30,  value = 15),
+          imageOutput("CnetPlot_RA2")%>%withSpinner(color="#0dc5c1"),
+          downloadButton("downloadCnetPlotRA","Download Plot as .png")
+        )#FluidRow
+),#Item21 End
+tabItem(tabName = "gsea_RA",
+        fluidRow(
+          htmlOutput("setsGseaRA"),
+          imageOutput("GseaPlot_RA2")%>%withSpinner(color="#0dc5c1"),
+          downloadButton("downloadGseaPlotRA","Download Plot as .png")
+        )#FluidRow
+),#Item22 End
+tabItem(tabName = "path_RA",
+        fluidRow(
+          htmlOutput("setsPathRA"),
+          imageOutput("PathPlot_RA2")%>%withSpinner(color="#0dc5c1"),
+            downloadButton("downloadPathPlotRA","Download Plot as .png")
+        )#FluidRow
+)
     )#Items
   )#Dashboard
 )#Dashboard page
@@ -540,7 +635,7 @@ output$downloadGseaPlotGo <- downloadHandler(
 ##################################################################
 ##################################################################
 ##################################################################
-###########################KEGG##################################### 
+###########################KEGG################################### 
   
 ######################################################################
 #Enrichment Specs
@@ -791,7 +886,6 @@ output$pathway_KEGG2<-renderImage({
        alt = "Something wrong")
 }, deleteFile = TRUE)
 
-#Hier I did some changes
 output$downloadPathKegg <- downloadHandler(
   filename = "Test.png",
   content = function(file) {
@@ -806,5 +900,264 @@ output$downloadPathKegg <- downloadHandler(
     file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
   }, contentType = 'image/png')
 
+##################################################################
+##################################################################
+##################################################################
+#########################REACTOME################################# 
+
+#Enrichment Specs Reactome
+enrichresRA<-eventReactive(input$calcRA,{
+  eRA <- enrichPathway(gene          = genes()[,1],
+                  organism      = input$specie_RA,
+                  pAdjustMethod = input$adj_RA,
+                  pvalueCutoff  = as.numeric(input$pval_RA),
+                  qvalueCutoff  = 0.05,
+                  readable      = TRUE)
+})
+##########################################################
+output$EnrichResultTable_RA<-renderText({
+  enrichresRA()@result[,c(1:7,9,8)]%>%
+    filter(p.adjust<=as.numeric(input$pval_RA))%>%
+    mutate(
+      p.adjust = color_tile("green", "red")(formatC(p.adjust,format = "e",digits = 2)),
+      Count=color_bar("lightgreen")(Count)
+    )%>%
+    dplyr::select(everything()) %>%
+    kable(format = "html", escape = F,digits = 3,row.names = FALSE)%>%
+    kable_styling(c("striped","hover"), full_width = F,fixed_thead = T)%>%
+    scroll_box(width = "900px", height = "600px")
+  
+})
+output$download_er_RA<- renderUI({
+  req(enrichresRA())
+  downloadButton("EnrichResultTableRADownload","Download Results as .csv")
+})
+output$EnrichResultTableRADownload<-downloadHandler(
+  filename =function(){
+    paste0("EnrichmentResult_RA",".csv",sep="")
+  },
+  content = function(file){
+    write.csv(enrichresRA(),file,row.names = FALSE)  
+  }
+)
+#GSEA
+enrichresRA_gsea<-eventReactive(input$calcRAGsea,{
+  geneListv<-geneList()[,2]
+  names(geneListv)<-geneList()[,1]
+  ego2 <- gsePathway(geneList     = geneListv,
+                organism          = input$specie_RA,
+                nPerm        = 1000,
+                minGSSize    = 100,
+                maxGSSize    = 500,
+                pvalueCutoff = as.numeric(input$pval_RA_gsea),
+                verbose      = FALSE)
+})
+output$EnrichResultTable_RA_gsea<-renderText({
+  enrichresRA_gsea()@result%>%
+    filter(p.adjust<=as.numeric(input$pval_RA_gsea))%>%
+    mutate(
+      p.adjust = color_tile("green", "red")(formatC(p.adjust,format = "e",digits = 2))
+    )%>%
+    dplyr::select(everything()) %>%
+    kable(format = "html", escape = F,digits = 3,row.names = FALSE)%>%
+    kable_styling(c("striped","hover"), full_width = F,fixed_thead = T)%>%
+    scroll_box(width = "900px", height = "600px")
+})
+output$download_er_RA_gsea <- renderUI({
+  req(enrichresRA_gsea())
+  downloadButton("EnrichResultTableRAGseaDownload","Download Results as .csv")
+})
+output$EnrichResultTableRAGseaDownload<-downloadHandler(
+  filename =function(){
+    paste0("EnrichmentResult_GSEA_RA",".csv",sep="")
+  },
+  content = function(file){
+    write.csv(enrichresRA_gsea(),file,row.names = FALSE)  
+  })
+
+##################################
+###########BarPlotKEGG##############
+output$BarPlot_RA2<-renderImage({
+  # A temp file to save the output.
+  # This file will be removed later by renderImage
+  outfile <- tempfile(fileext = '.png')
+  
+  # Generate the PNG
+  png(outfile, width = 700, height = 400)
+  print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = 7, 
+                title = paste0("Reactome Pathway Analysis",". Barplot")))
+  dev.off()
+  
+  # Return a list containing the filename
+  list(src = outfile,
+       contentType = 'image/png',
+       width = 700,
+       height = 400,
+       alt = "This is alternate text")
+}, deleteFile = TRUE)
+
+output$downloadBarPlotRA <- downloadHandler(
+  filename = "BarPlotRA.png",
+  content = function(file) {
+    png(file,width = 1600, height = 1200,res=300)
+    print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = 7, 
+                  title = paste0("Reactome Pathway Analysis",". Barplot")))
+    dev.off()
+  })
+
+##################################
+###########DotPlotRA##############
+output$DotPlot_RA2<-renderImage({
+  # A temp file to save the output.
+  # This file will be removed later by renderImage
+  outfile <- tempfile(fileext = '.png')
+  
+  # Generate the PNG
+  png(outfile, width = 700, height = 400)
+  print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = 7, 
+                title = paste0("Reactome Pathway Analysis",". Barplot")))
+  dev.off()
+  
+  # Return a list containing the filename
+  list(src = outfile,
+       contentType = 'image/png',
+       width = 700,
+       height = 400,
+       alt = "This is alternate text")
+}, deleteFile = TRUE)
+
+output$downloadDotPlotRA <- downloadHandler(
+  filename = "DotPlotRA.png",
+  content = function(file) {
+    png(file,width = 1600, height = 1200,res=300)
+    print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = 7, 
+                  title = paste0("Reactome Pathway Analysis",". Dotplot")))
+    dev.off()
+  })
+
+##################################
+###########EmapPlotRA##############
+output$EmapPlot_RA2<-renderImage({
+  # A temp file to save the output.
+  # This file will be removed later by renderImage
+  outfile <- tempfile(fileext = '.png')
+  
+  # Generate the PNG
+  png(outfile, width = 700, height = 400)
+  print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7, 
+                 title = paste0("RA Pathway Analysis",". Barplot")))
+  dev.off()
+  
+  # Return a list containing the filename
+  list(src = outfile,
+       contentType = 'image/png',
+       width = 700,
+       height = 400,
+       alt = "This is alternate text")
+}, deleteFile = TRUE)
+
+output$downloadEmapPlotRA <- downloadHandler(
+  filename = "EmapPlotRA.png",
+  content = function(file) {
+    png(file,width = 1600, height = 1200,res=300)
+    print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7, 
+                   title = paste0("Reactome Pathway Analysis",". Emapplot")))
+    dev.off()
+  })
+##################################
+###########CnetPlotRA##############
+output$CnetPlot_RA2<-renderImage({
+  # A temp file to save the output.
+  # This file will be removed later by renderImage
+  outfile <- tempfile(fileext = '.png')
+  
+  # Generate the PNG
+  png(outfile, width = 700, height = 400)
+  print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7, 
+                 title = paste0("RA Pathway Analysis",". Category-gene-network")))
+  dev.off()
+  
+  # Return a list containing the filename
+  list(src = outfile,
+       contentType = 'image/png',
+       width = 700,
+       height = 400,
+       alt = "This is alternate text")
+}, deleteFile = TRUE)
+
+output$downloadCnetPlotRA <- downloadHandler(
+  filename = "CnetPlotRA.png",
+  content = function(file) {
+    png(file,width = 1600, height = 1200,res=300)
+    print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7, 
+                   title = paste0("RA Pathway Analysis",". Category-gene-network")))
+    dev.off()
+  })
+
+##################################
+###########GseaPlotRA##############
+output$setsGseaRA <- renderUI({ 
+  selectInput("geneSetGseaRA", "Select gene set", enrichresRA_gsea()@result$Description)
+})
+output$GseaPlot_RA2<-renderImage({
+  # A temp file to save the output.
+  # This file will be removed later by renderImage
+  outfile <- tempfile(fileext = '.png')
+  
+  # Generate the PNG
+  png(outfile, width = 700, height = 400)
+  print(gseaplot(enrichresRA_gsea(), geneSetID = enrichresRA_gsea()@result$ID[enrichresRA_gsea()@result$Description==input$geneSetGseaRA]))
+  dev.off()
+  
+  # Return a list containing the filename
+  list(src = outfile,
+       contentType = 'image/png',
+       width = 700,
+       height = 400,
+       alt = "This is alternate text")
+}, deleteFile = TRUE)
+
+output$downloadGseaPlotRA <- downloadHandler(
+  filename = "GseaPlot.png",
+  content = function(file) {
+    png(file,width = 1800, height = 1600,res=300)
+    print(gseaplot(enrichresRA_gsea(), geneSetID = enrichresRA_gsea()@result$ID[enrichresRA_gsea()@result$Description==input$geneSetGseaRA]))
+    dev.off()
+  })
+
+##################################
+###########PathPlotRA##############
+output$setsPathRA <- renderUI({ 
+  selectInput("geneSetPathRA", "Select gene set", enrichresRA()@result$Description)
+})
+output$PathPlot_RA2<-renderImage({
+  geneListv<-geneList()[,2]
+  names(geneListv)<-geneList()[,1]
+  # A temp file to save the output.
+  # This file will be removed later by renderImage
+  outfile <- tempfile(fileext = '.png')
+  
+  # Generate the PNG
+  png(outfile, width = 700, height = 400)
+  print(viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv))
+  dev.off()
+  
+  # Return a list containing the filename
+  list(src = outfile,
+       contentType = 'image/png',
+       width = 700,
+       height = 400,
+       alt = "This is alternate text")
+}, deleteFile = TRUE)
+
+output$downloadPathPlotRA <- downloadHandler(
+  filename = "PathPlotRA.png",
+  content = function(file) {
+    geneListv<-geneList()[,2]
+    names(geneListv)<-geneList()[,1]
+    png(file,width = 1800, height = 1600,res=300)
+    print(viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv))
+    dev.off()
+  })
 }
 shinyApp(ui, server)

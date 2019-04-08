@@ -167,6 +167,14 @@ keggview.native(gene.data  = geneList,
                  kegg.dir="I:/2_EDU/UOC/TFM/TestFolder")
 
 
+enreac<-enrichPathway(gene=gene,pvalueCutoff=0.05, readable=T)
+str(enreac)
+enreac@result$Description[2]<-"BLA"
+
+print(barplot(enreac))
+print(viewPathway(enreac@result$Description[3],readable=TRUE, foldChange=geneList))
+
+names(enreac@result[,c(1:7,9,8)])
 source("D:/UOC/TFM/TEST/keggview_native.R")
 dir()
 barplot(ggo, drop=TRUE, showCategory=12)
