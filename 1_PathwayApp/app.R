@@ -330,15 +330,14 @@ tabItem(tabName = "gsea_RA",
 tabItem(tabName = "path_RA",
         fluidRow(
           htmlOutput("setsPathRA"),
-          imageOutput("PathPlot_RA2")%>%withSpinner(color="#0dc5c1"),
-            downloadButton("downloadPathPlotRA","Download Plot as .png")
-        )#FluidRow
+          actionButton("calcPathRA","Show path"),
+          imageOutput("PathPlot_RA2")%>%withSpinner(color="#0dc5c1"))
 )
     )#Items
   )#Dashboard
 )#Dashboard page
 
-server <- function(input, output) {
+server <- function(input, output,session) {
   #Reading data
   geneList <- reactive({
         df<-read.csv(input$file1$datapath,
@@ -1130,34 +1129,35 @@ output$downloadGseaPlotRA <- downloadHandler(
 output$setsPathRA <- renderUI({ 
   selectInput("geneSetPathRA", "Select gene set", enrichresRA()@result$Description)
 })
-output$PathPlot_RA2<-renderImage({
+
+
+
+PathPlotRA<-eventReactive(input$calcPathRA,{
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
-  # A temp file to save the output.
-  # This file will be removed later by renderImage
+  MyPlot<-viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv)
+})
+
+
+output$PathPlot_RA2<-renderImage({
+  width  <- session$clientData$output_PathPlot_RA2_width
+  height <- session$clientData$output_PathPlot_RA2_height
+  
+  # For high-res displays, this will be greater than 1
+  pixelratio <- session$clientData$pixelratio
+  
   outfile <- tempfile(fileext = '.png')
-  
-  # Generate the PNG
-  png(outfile, width = 700, height = 400)
-  print(viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv))
+  png(outfile, width = width*pixelratio, height = height*pixelratio,
+      res = 72*pixelratio)
+  print(PathPlotRA())
   dev.off()
-  
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
-       width = 700,
-       height = 400,
+       width = width,
+       height = height,
        alt = "This is alternate text")
 }, deleteFile = TRUE)
 
-output$downloadPathPlotRA <- downloadHandler(
-  filename = "PathPlotRA.png",
-  content = function(file) {
-    geneListv<-geneList()[,2]
-    names(geneListv)<-geneList()[,1]
-    png(file,width = 1800, height = 1600,res=300)
-    print(viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv))
-    dev.off()
-  })
 }
 shinyApp(ui, server)
