@@ -26,3 +26,15 @@ Update Local Repository and push it
 `git commit -m "My comment"`
 
 `git push origin master`
+
+When pulling directory the following error may occure:
+
+`The following untracked working tree files would be overwritten by checkout`
+
+Deal with it by cleaning:
+
+`git clean -f`
+
+Or with promt:
+
+`git clean -i`

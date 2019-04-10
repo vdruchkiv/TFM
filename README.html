@@ -69,9 +69,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type="text/css">
 .main-container {
@@ -102,8 +100,6 @@ summary {
 </style>
 
 
-
-<div class="container-fluid main-container">
 
 <!-- tabsets -->
 
@@ -178,6 +174,15 @@ $(document).ready(function () {
 
 
 
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
 
 <div class="fluid-row" id="header">
 
@@ -200,6 +205,12 @@ $(document).ready(function () {
 <p>``</p>
 <p><code>git commit -m &quot;My comment&quot;</code></p>
 <p><code>git push origin master</code></p>
+<p>When pulling directory the following error may occure:</p>
+<p><code>The following untracked working tree files would be overwritten by checkout</code></p>
+<p>Deal with it by cleaning:</p>
+<p><code>git clean -f</code></p>
+<p>Or with promt:</p>
+<p><code>git clean -i</code></p>
 
 
 
