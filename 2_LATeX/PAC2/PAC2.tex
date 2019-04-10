@@ -44,7 +44,34 @@ L'estructura recomanada per realitzar l'informe de seguiment és la següent:
 
     \section{Descripció de l'avanç del projecte} 
 
+A la data d'avui he desenvolpupat l'aplicació d'anàlisis de les rutes. L'aplicació es completament funcional localment i ofereix l'anàlisi a partir de les bases de dedes GO, KEGG i Reactome. Com estava previst, l'usuari indica l'especie, puja l'arxiu amb els gens i els LogRatios provenents d'estudi de microarrays o NGS. 
+
+L'aplicació està dividira doncs en 4 parts substancials:
+
+\begin{enumerate}
+\item Entrada de les dades;
+\item Anàlisi GO;
+\item Anàlisi KEGG;
+\item Anàlisi Reactome.
+\end{enumerate}
+
+\begin{figure}[h!]
+\caption{Pàgina d'entrada}
+\centering
+\includegraphics[width=0.9\textwidth]{App_F1}
+\end{figure}
+
+L'aplicació ofereix dos mètodes d'anàlisi: d'una banda es pot  fer ORA (Over-Representation Analysis) i d'altra banda l'anàlisi GSEA (Gene Set Enrichment Analisis). Recordem que l'ORA consisteix en selecionar els gens diferencialment expressats i basant-se en GO, KEGG o Reactome comprobar si una de les agrupacións de gens suggerides per aquestes bases de dades està sobre o sotraexpressada en els gens selecionats. Per dur a terme l'ORA l'usuari té opció de definir un \textit{cut-off} de Log-Ratio per formal el conjunt dels gens que s'hi utilitzara (\textit{gene set}). ORA és una bona eina per veure els efectes grans però els effectes petits li escapen.  Els efectes petits derivats dels gens individuals poden acommular-se en un efect conjunt substancial el qual ORA no serà capaç de detectar. És aquí on GSEA mostra la seva utilitat. 
+
      \subsection{Grau de compliment dels objectius i resultats previstos en el pla de treball.}
+
+Primer recordem les tasques proposats a la PAC1:
+
+\begin{figure}[h!]
+\caption{Calendàri}
+\centering
+\includegraphics[width=0.9\textwidth]{Calender}
+\end{figure}
 
      \subsection{Justificació dels canvis en cas necessari}
 

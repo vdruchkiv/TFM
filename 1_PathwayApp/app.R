@@ -17,34 +17,34 @@ ui <- dashboardPage(
     sidebarMenu(
     menuItem("Data input", tabName = "dataInput", icon = icon("upload")),
     menuItem("GO Analisis",
-    menuItem("Enrichment Specs", tabName = "EnrichSpecs_GO", icon = icon("sliders-h")),
+    menuItem("ORA", tabName = "EnrichSpecs_GO", icon = icon("sliders-h")),
     menuItem("GSEA", tabName = "GSEA_GO", icon = icon("sliders-h")),
     menuItem("Bar Plot", tabName = "BarPlot_GO", icon = icon("chart-bar")),
     menuItem("Dot Plot", tabName = "DotPlot_GO", icon = icon("chart-bar")),
-    menuItem("Enrichment Plot", tabName = "Emap_GO", icon = icon("chart-bar")),
-    menuItem("Category-gene-network", tabName = "cnetplot_GO", icon = icon("chart-bar")),
+    menuItem("Enrichment Plot", tabName = "Emap_GO", icon = icon("bezier-curve")),
+    menuItem("Category-gene-network", tabName = "cnetplot_GO", icon = icon("bezier-curve")),
     menuItem("GOplot", tabName = "goplot_GO", icon = icon("chart-bar")),
-    menuItem("GSEA plot", tabName = "gsea_GO", icon = icon("chart-bar"))
+    menuItem("GSEA plot", tabName = "gsea_GO", icon = icon("share-square"))
     ),
     menuItem("KEGG Analisis",
-             menuItem("KEGG Enrichment", tabName = "EnrichSpecs_KEGG", icon = icon("sliders-h")),
+             menuItem("ORA", tabName = "EnrichSpecs_KEGG", icon = icon("sliders-h")),
              menuItem("GSEA", tabName = "GSEA_KEGG", icon = icon("sliders-h")),
              menuItem("Bar Plot", tabName = "BarPlot_KEGG", icon = icon("chart-bar")),
              menuItem("Dot Plot", tabName = "DotPlot_KEGG", icon = icon("chart-bar")),
-             menuItem("Enrichment Plot", tabName = "Emap_KEGG", icon = icon("chart-bar")),
-             menuItem("Category-gene-network", tabName = "cnetplot_KEGG", icon = icon("chart-bar")),
-             menuItem("GSEA plot", tabName = "gsea_KEGG", icon = icon("chart-bar")),
-             menuItem("KEGG Pathway", tabName = "pathway_KEGG", icon = icon("chart-bar"))
+             menuItem("Enrichment Plot", tabName = "Emap_KEGG", icon = icon("bezier-curve")),
+             menuItem("Category-gene-network", tabName = "cnetplot_KEGG", icon = icon("bezier-curve")),
+             menuItem("GSEA plot", tabName = "gsea_KEGG", icon = icon("share-square")),
+             menuItem("KEGG Pathway", tabName = "pathway_KEGG", icon = icon("bezier-curve"))
     ),
     menuItem("Reactome Analisis",
-             menuItem("Reactome Enrichment", tabName = "EnrichSpecs_RA", icon = icon("sliders-h")),
+             menuItem("ORA", tabName = "EnrichSpecs_RA", icon = icon("sliders-h")),
              menuItem("GSEA", tabName = "GSEA_RA", icon = icon("sliders-h")),
              menuItem("Bar Plot", tabName = "BarPlot_RA", icon = icon("chart-bar")),
              menuItem("Dot Plot", tabName = "DotPlot_RA", icon = icon("chart-bar")),
-             menuItem("Enrichment Plot", tabName = "Emap_RA", icon = icon("chart-bar")),
-             menuItem("Category-gene-network", tabName = "cnetplot_RA", icon = icon("chart-bar")),
-             menuItem("GSEA plot", tabName = "gsea_RA", icon = icon("chart-bar")),
-             menuItem("Reactome Pathway", tabName = "path_RA", icon = icon("chart-bar"))
+             menuItem("Enrichment Plot", tabName = "Emap_RA", icon = icon("bezier-curve")),
+             menuItem("Category-gene-network", tabName = "cnetplot_RA", icon = icon("bezier-curve")),
+             menuItem("GSEA plot", tabName = "gsea_RA", icon = icon("share-square")),
+             menuItem("Reactome Pathway", tabName = "path_RA", icon = icon("bezier-curve"))
     )
     
   )
@@ -168,6 +168,8 @@ ui <- dashboardPage(
 ############################KEGG#########################################    
     tabItem(tabName = "EnrichSpecs_KEGG",
             fluidRow(
+              textInput("searchKEGGspecie", "Enter Search Term for Specie", "human"),
+              htmlOutput("SelSpecieKEGG"),
               radioButtons("pval_kegg", h3("Select P-Value threshold:"),
                            c("0.1" = 0.1,
                              "0.05" = 0.05,
@@ -638,6 +640,14 @@ output$downloadGseaPlotGo <- downloadHandler(
   
 ######################################################################
 #Enrichment Specs
+
+kegg_organism<-reactive({
+org<-search_kegg_organism(input$searchKEGGspecie,by='scientific_name', ignore.case = TRUE)  
+})
+output$SelSpecieKEGG <- renderUI({ 
+  selectInput("specieKEGG", "Select KEGG Specie",kegg_organism()$scientific_name)
+})
+
 enrichreskegg<-eventReactive(input$calcKEGG,{
   kk <- enrichKEGG(gene         = genes()[,1],
                    organism     = 'hsa',
