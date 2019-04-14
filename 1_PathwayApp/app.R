@@ -54,9 +54,25 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "dataInput",
         fluidRow(
-          selectInput("specie", h3("Specie:"),
+          h3(strong("GO"),style = "color:#335EFF;"),
+          selectInput("specie", "Select Specie:",
                       c("Homo Sapiens" = "org.Hs.eg.db",
                         "Mous" = "msn")),
+          tags$hr(style="border-color: black;"),
+          h3(strong("KEGG"),style = "color:#335EFF;"),
+          textInput("searchKEGGspecie", "Enter Search Term for Specie", "homo"),
+          htmlOutput("SelSpecieKEGG"),
+          tags$hr(style="border-color: black;"),
+          h3(strong("Reactome"),style = "color:#335EFF;"),
+          selectInput("specie_RA", h3("Specie:"),
+                      c("Homo Sapiens" = "human",
+                        "Rat" = "rat",
+                        "Mouse"="mouse",
+                        "Celegans"="celegans",
+                        "Yeast"="yeast",
+                        "Zebrafish"="zebrafish",
+                        "Fly"="fly")),
+          tags$hr(style="border-color: black;"),
           fileInput("file1", h3("File with all genes"),
                 multiple = FALSE,
                 accept = c("text/csv",
@@ -177,13 +193,20 @@ ui <- dashboardPage(
 ############################KEGG#########################################    
     tabItem(tabName = "EnrichSpecs_KEGG",
             fluidRow(
-              textInput("searchKEGGspecie", "Enter Search Term for Specie", "homo"),
-              htmlOutput("SelSpecieKEGG"),
               radioButtons("pval_kegg", h3("Select P-Value threshold:"),
                            c("0.1" = 0.1,
                              "0.05" = 0.05,
                              "0.01" = 0.01,
                              "0.001" = 0.001),inline = TRUE),
+              selectInput("adj_kegg",h3("Select adjustment method"),
+                          c("holm"="holm",
+                            "hochberg"="hochberg",
+                            "hommel"="hommel",
+                            "bonferroni"="bonferroni",
+                            "BH"="BH",
+                            "BY"="BY",
+                            "fdr"="fdr",
+                            "none"="none")),
               actionButton("calcKEGG","Calculate Result"),
               tags$hr(style="border-color: black;"),
               uiOutput("download_er_kegg"),
@@ -212,7 +235,7 @@ ui <- dashboardPage(
           htmlOutput("EnrichResultTable_KEGG_gsea")%>%withSpinner(color="#0dc5c1")
         )#FluidRow
     ), #Item11
-      #Bar Plot GO Tab
+      #Bar Plot KEGG Tab
     tabItem(tabName = "BarPlot_KEGG",
         fluidRow(
           sliderInput("cat_barplotkegg", "Number of categories",
@@ -264,14 +287,6 @@ ui <- dashboardPage(
 #Enrichment Specs Reactome Tab
     tabItem(tabName = "EnrichSpecs_RA",
         fluidRow(
-          selectInput("specie_RA", h3("Specie:"),
-                      c("Homo Sapiens" = "human",
-                        "Rat" = "rat",
-                        "Mouse"="mouse",
-                        "Celegans"="celegans",
-                        "Yeast"="yeast",
-                        "Zebrafish"="zebrafish",
-                        "Fly"="fly")),
           selectInput("adj_RA",h3("Select adjustment method"),
                       c("holm"="holm",
                         "hochberg"="hochberg",
@@ -314,7 +329,7 @@ ui <- dashboardPage(
           htmlOutput("EnrichResultTable_RA_gsea")%>%withSpinner(color="#0dc5c1")
         )#FluidRow
 ), #Item18
-#Bar Plot GO Tab
+#Bar Plot RA Tab
     tabItem(tabName = "BarPlot_RA",
         fluidRow(
           sliderInput("cat_barplotRA", "Number of categories",
@@ -683,7 +698,8 @@ kegg_organism2<-function(){
 enrichreskegg<-eventReactive(input$calcKEGG,{
   kk <- enrichKEGG(gene         = genes()[,1],
                    organism     = kegg_organism2(),
-                   pvalueCutoff = as.numeric(input$pval_kegg))
+                   pvalueCutoff = as.numeric(input$pval_kegg),
+                   pAdjustMethod =input$adj_kegg)
 })
 output$EnrichResultTable_KEGG<-renderText({
   enrichreskegg()@result[,c(1:7,9,8)]%>%
