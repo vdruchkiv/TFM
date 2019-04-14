@@ -23,8 +23,8 @@ ui <- dashboardPage(
     menuItem("Dot Plot", tabName = "DotPlot_GO", icon = icon("chart-bar")),
     menuItem("Enrichment Plot", tabName = "Emap_GO", icon = icon("bezier-curve")),
     menuItem("Category-gene-network", tabName = "cnetplot_GO", icon = icon("bezier-curve")),
-    menuItem("GOplot", tabName = "goplot_GO", icon = icon("chart-bar")),
-    menuItem("GSEA plot", tabName = "gsea_GO", icon = icon("share-square"))
+    menuItem("GSEA plot", tabName = "gsea_GO", icon = icon("share-square")),
+    menuItem("GOplot", tabName = "goplot_GO", icon = icon("bezier-curve"))
     ),
     menuItem("KEGG Analisis",
              menuItem("ORA", tabName = "EnrichSpecs_KEGG", icon = icon("sliders-h")),
@@ -109,6 +109,15 @@ ui <- dashboardPage(
                                "0.05" = 0.05,
                                "0.01" = 0.01,
                                "0.001" = 0.001),inline = TRUE),
+                selectInput("adj_gsea_go",h3("Select adjustment method"),
+                            c("holm"="holm",
+                              "hochberg"="hochberg",
+                              "hommel"="hommel",
+                              "bonferroni"="bonferroni",
+                              "BH"="BH",
+                              "BY"="BY",
+                              "fdr"="fdr",
+                              "none"="none")),
                 actionButton("calcGoGsea","Calculate Result"),
                 tags$hr(style="border-color: black;"),
                 uiOutput("download_er_go_gsea"),
@@ -119,7 +128,7 @@ ui <- dashboardPage(
       tabItem(tabName = "BarPlot_GO",
               fluidRow(
                 sliderInput("cat_barplotgo", "Number of categories",
-                            min = 0, max = 30,  value = 15),
+                            min = 2, max = 30,  value = 15),
                 imageOutput("BarPlot_GO2")%>%withSpinner(color="#0dc5c1"),
                 downloadButton("downloadBarPlotGo","Download Plot as .png")
               )#FluidRow
@@ -128,7 +137,7 @@ ui <- dashboardPage(
       tabItem(tabName = "DotPlot_GO",
               fluidRow(
                 sliderInput("cat_dotplotgo", "Number of categories",
-                            min = 0, max = 30,  value = 15),
+                            min = 2, max = 30,  value = 15),
                 imageOutput("DotPlot_GO2")%>%withSpinner(color="#0dc5c1"),
                 downloadButton("downloadDotPlotGo","Download Plot as .png")
               )#FluidRow
@@ -168,7 +177,7 @@ ui <- dashboardPage(
 ############################KEGG#########################################    
     tabItem(tabName = "EnrichSpecs_KEGG",
             fluidRow(
-              textInput("searchKEGGspecie", "Enter Search Term for Specie", "human"),
+              textInput("searchKEGGspecie", "Enter Search Term for Specie", "homo"),
               htmlOutput("SelSpecieKEGG"),
               radioButtons("pval_kegg", h3("Select P-Value threshold:"),
                            c("0.1" = 0.1,
@@ -188,6 +197,15 @@ ui <- dashboardPage(
                          "0.05" = 0.05,
                          "0.01" = 0.01,
                          "0.001" = 0.001),inline = TRUE),
+          selectInput("adj_gsea_kegg",h3("Select adjustment method"),
+                      c("holm"="holm",
+                        "hochberg"="hochberg",
+                        "hommel"="hommel",
+                        "bonferroni"="bonferroni",
+                        "BH"="BH",
+                        "BY"="BY",
+                        "fdr"="fdr",
+                        "none"="none")),
           actionButton("calcKeggGsea","Calculate Result"),
           tags$hr(style="border-color: black;"),
           uiOutput("download_er_kegg_gsea"),
@@ -198,7 +216,7 @@ ui <- dashboardPage(
     tabItem(tabName = "BarPlot_KEGG",
         fluidRow(
           sliderInput("cat_barplotkegg", "Number of categories",
-                      min = 0, max = 30,  value = 15),
+                      min = 2, max = 30,  value = 15),
           imageOutput("BarPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
           downloadButton("downloadBarPlotKegg","Download Plot as .png")
         )#FluidRow
@@ -207,7 +225,7 @@ ui <- dashboardPage(
     tabItem(tabName = "DotPlot_KEGG",
         fluidRow(
           sliderInput("cat_dotplotkegg", "Number of categories",
-                      min = 0, max = 30,  value = 15),
+                      min = 2, max = 30,  value = 15),
           imageOutput("DotPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
           downloadButton("downloadDotPlotKegg","Download Plot as .png")
         )#FluidRow
@@ -281,6 +299,15 @@ ui <- dashboardPage(
                          "0.05" = 0.05,
                          "0.01" = 0.01,
                          "0.001" = 0.001),inline = TRUE),
+          selectInput("adj_gsea_RA",h3("Select adjustment method"),
+                      c("holm"="holm",
+                        "hochberg"="hochberg",
+                        "hommel"="hommel",
+                        "bonferroni"="bonferroni",
+                        "BH"="BH",
+                        "BY"="BY",
+                        "fdr"="fdr",
+                        "none"="none")),
           actionButton("calcRAGsea","Calculate Result"),
           tags$hr(style="border-color: black;"),
           uiOutput("download_er_RA_gsea"),
@@ -291,7 +318,7 @@ ui <- dashboardPage(
     tabItem(tabName = "BarPlot_RA",
         fluidRow(
           sliderInput("cat_barplotRA", "Number of categories",
-                      min = 0, max = 30,  value = 15),
+                      min = 2, max = 30,  value = 15),
           imageOutput("BarPlot_RA2")%>%withSpinner(color="#0dc5c1"),
           downloadButton("downloadBarPlotRA","Download Plot as .png")
         )#FluidRow
@@ -300,7 +327,7 @@ ui <- dashboardPage(
     tabItem(tabName = "DotPlot_RA",
         fluidRow(
           sliderInput("cat_dotplotRA", "Number of categories",
-                      min = 0, max = 30,  value = 15),
+                      min = 2, max = 30,  value = 15),
           imageOutput("DotPlot_RA2")%>%withSpinner(color="#0dc5c1"),
           downloadButton("downloadDotPlotRA","Download Plot as .png")
         )#FluidRow
@@ -427,6 +454,7 @@ enrichresgo_gsea<-eventReactive(input$calcGoGsea,{
                        nPerm        = 1000,
                        minGSSize    = 100,
                        maxGSSize    = 500,
+                       pAdjustMethod = input$adj_gsea_go,
                        pvalueCutoff = as.numeric(input$pval_go_gsea),
                        verbose      = FALSE)
 })
@@ -641,16 +669,20 @@ output$downloadGseaPlotGo <- downloadHandler(
 ######################################################################
 #Enrichment Specs
 
-kegg_organism<-reactive({
+kegg_organism1<-reactive({
 org<-search_kegg_organism(input$searchKEGGspecie,by='scientific_name', ignore.case = TRUE)  
 })
 output$SelSpecieKEGG <- renderUI({ 
-  selectInput("specieKEGG", "Select KEGG Specie",kegg_organism()$scientific_name)
+selectInput("specieKEGG", "Select KEGG Specie",kegg_organism1()$scientific_name)
 })
+kegg_organism2<-function(){
+  kegg_species$kegg_code[kegg_species$scientific_name==input$specieKEGG]
+}
+#http://www.genome.jp/kegg/catalog/org_list.html
 
 enrichreskegg<-eventReactive(input$calcKEGG,{
   kk <- enrichKEGG(gene         = genes()[,1],
-                   organism     = 'hsa',
+                   organism     = kegg_organism2(),
                    pvalueCutoff = as.numeric(input$pval_kegg))
 })
 output$EnrichResultTable_KEGG<-renderText({
@@ -684,9 +716,10 @@ enrichreskegg_gsea<-eventReactive(input$calcKeggGsea,{
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
   kk2 <- gseKEGG(geneList     = geneListv,
-               organism     ='hsa',
+               organism     = kegg_organism2(),
                nPerm        = 1000,
                minGSSize    = 120,
+               pAdjustMethod = input$adj_gsea_kegg,
                pvalueCutoff = as.numeric(input$pval_kegg_gsea),
                verbose      = FALSE)
 })
@@ -958,6 +991,7 @@ enrichresRA_gsea<-eventReactive(input$calcRAGsea,{
                 nPerm        = 1000,
                 minGSSize    = 100,
                 maxGSSize    = 500,
+                pAdjustMethod = input$adj_gsea_RA,
                 pvalueCutoff = as.numeric(input$pval_RA_gsea),
                 verbose      = FALSE)
 })
@@ -985,7 +1019,7 @@ output$EnrichResultTableRAGseaDownload<-downloadHandler(
   })
 
 ##################################
-###########BarPlotKEGG##############
+###########BarPlotRA##############
 output$BarPlot_RA2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
@@ -1076,13 +1110,15 @@ output$downloadEmapPlotRA <- downloadHandler(
 ##################################
 ###########CnetPlotRA##############
 output$CnetPlot_RA2<-renderImage({
+  geneListv<-geneList()[,2]
+  names(geneListv)<-geneList()[,1]
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
   
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7, 
+  print(cnetplot(enrichresRA(), foldChange=geneListv,showCategory = input$cat_cnetplotRA, font.size = 7, 
                  title = paste0("RA Pathway Analysis",". Category-gene-network")))
   dev.off()
   
