@@ -21,7 +21,7 @@ top=20mm,
 
 \usepackage[table]{xcolor}
 \usepackage{graphicx}
-
+\usepackage{adjustbox}
 
 \title{PAC2 Desenvolupament del treball - Fase 1}
 \date{15 d'Abril 2019}
@@ -109,6 +109,56 @@ Les anàlisis \underline{específics} són:
 \end{tabular}
 \caption{Els elements de les seccions d'anàlisi}
 \end{figure}
+
+
+\begin{table}[ht]
+\begin{adjustbox}{width=1\textwidth}
+\small
+ \begin{tabular}{|| c | c | l | c | c ||} 
+ \hline
+ Base de dades & Mètode & Paquet Bioconductor & Funció & Observació \\ [0.5ex] 
+ \hline\hline
+ GO & ORA & clusterProfiler & enrichGO() & Només 7 espècies disponibles \\ 
+ \hline
+ GO & GSEA & clusterProfiler & gseGO() & Permutació de gens \\
+ \hline
+ GO & Bar-Plot & enrichplot & barplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ GO & Enrichment Map & enrichplot & emapplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ GO & Gene-Concept Network & enrichplot & cnetplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ GO & GO directed acyclic graph & enrichplot & goplot() & Nececita l'objecte del class enrichResult \\
+ \hline\hline
+ KEGG & ORA & clusterProfiler & enrichKEGG() & Totes les espècies de KEGG \\ 
+ \hline
+ KEGG & GSEA & clusterProfiler & gseKEGG() & Permutació de gens \\
+ \hline
+ KEGG & Bar-Plot & enrichplot & barplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ KEGG & Enrichment Map & enrichplot & emapplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ KEGG & Gene-Concept Network & enrichplot & cnetplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ KEGG & Pathway & pathview & pathview() & Cal modificar la funció per guardar els gràfics en el directori temporal \\
+ \hline\hline
+ Reactome & ORA & ReactomePA & enrichPathway() & Totes les espècies de KEGG \\ 
+ \hline
+ Reactome & GSEA & ReactomePA & gsePathway() & Permutació de gens \\
+ \hline
+ Reactome & Bar-Plot & enrichplot & barplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ Reactome & Enrichment Map & enrichplot & emapplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ Reactome & Gene-Concept Network & enrichplot & cnetplot() & Nececita l'objecte del class enrichResult \\
+ \hline
+ Reactome & Pathway & ReactomePA & viewPathway() & Molt llent. Per aquest motiu no he afegit botó de descarga. \\
+ \hline
+ \hline
+\end{tabular}
+\end{adjustbox}
+\caption{Resum de les anàlisis disponibles i recursos de Bioconductor R} 
+\end{table}
 
 \section{L'anàlisi comuna de GO, KEGG i Reactome}
 
@@ -334,8 +384,29 @@ L'usuari pot visualitzar una de les categories disponibles via \textit{dropdown 
 \end{figure}
 
 
-\section{Validating results}
 
-https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE129771
+\section{Validació dels resultats}
+
+Per validar l'aplicació he intentat trobar estudis que investiguin les espècies diferents i utilitzin com el tipo d'experiment o bé \textit{Microarrays} o bé \textit{NGS (New Generation Sequencing}. En la base de dades \href{https://www.ncbi.nlm.nih.gov/geo/}{GEO (Gene Expression Omnibus)} he elegit els estudis següents:
+
+\begin{center}
+ \begin{tabular}{||c  | c | c | c ||} 
+ \hline 
+ Estudi & GEO ID & Espècie & Tipo d'experiment \\ [0.5ex] 
+ \hline\hline
+ \cite{koti2013identification}  & \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51373}{GSE51373}& Homo Sapiens  & Microarrays \\ 
+ \hline
+  \cite{sgado2013transcriptome}  & \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51612}{GSE51612}& Mus musculus  & Microarrays \\ 
+  \hline
+  \cite{graze2018perturbation}  & \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE112836}{GSE112836}& Drosophila  & NGS \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+L'aplicació necessita un arxiu amb les IDs de Entrez i els LogChanges. Malauradament GEO no disposa d'aquestes dades. Només té les dades en format .cel. Per tant, primer s'hauria fer els pasos d'anàlisi de dades d'expressió per derivar les dades que m'interessen. Aquests passos inclouen: normalització d'una banda i calculació del model per derivar els LogChanges d'altra banda.   
+
+
+\bibliography{references}
+\bibliographystyle{apalike}
 \end{document}
 
