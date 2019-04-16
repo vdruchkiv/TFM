@@ -38,3 +38,8 @@ Deal with it by cleaning:
 Or with promt:
 
 `git clean -i`
+
+Check the commit history:
+
+`git log`
+

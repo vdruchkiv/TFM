@@ -54,17 +54,8 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "dataInput",
         fluidRow(
-          h3(strong("GO"),style = "color:#335EFF;"),
+          h3(strong("GO/REACTOME"),style = "color:#335EFF;"),
           selectInput("specie", "Select Specie:",
-                      c("Homo Sapiens" = "org.Hs.eg.db",
-                        "Mous" = "msn")),
-          tags$hr(style="border-color: black;"),
-          h3(strong("KEGG"),style = "color:#335EFF;"),
-          textInput("searchKEGGspecie", "Enter Search Term for Specie", "homo"),
-          htmlOutput("SelSpecieKEGG"),
-          tags$hr(style="border-color: black;"),
-          h3(strong("Reactome"),style = "color:#335EFF;"),
-          selectInput("specie_RA", h3("Specie:"),
                       c("Homo Sapiens" = "human",
                         "Rat" = "rat",
                         "Mouse"="mouse",
@@ -72,6 +63,10 @@ ui <- dashboardPage(
                         "Yeast"="yeast",
                         "Zebrafish"="zebrafish",
                         "Fly"="fly")),
+          tags$hr(style="border-color: black;"),
+          h3(strong("KEGG"),style = "color:#335EFF;"),
+          textInput("searchKEGGspecie", "Enter Search Term for Specie", "homo"),
+          htmlOutput("SelSpecieKEGG"),
           tags$hr(style="border-color: black;"),
           fileInput("file1", h3("File with all genes"),
                 multiple = FALSE,
@@ -82,6 +77,7 @@ ui <- dashboardPage(
           tags$hr(style="border-color: black;"),
           tableOutput("InputTable"),
           textOutput("TxtEnterdGenes"),
+          htmlOutput("data_preview")%>%withSpinner(color="#0dc5c1"),
           uiOutput("SelectCutOffFC"),
           textOutput("TxtSelectedGenes")
         )
@@ -387,8 +383,8 @@ server <- function(input, output,session) {
         df<-read.csv(input$file1$datapath,
                       header = TRUE,
                       sep = ",")
-        names(df)<-c("ID","FoldChange")
-        df$ID<-as.character(df$ID)
+        names(df)<-c("Entrez ID","FoldChange")
+        df$`Entrez ID`<-as.character(df$`Entrez ID`)
     return(df)
   })
   genes <- reactive({
@@ -401,19 +397,24 @@ server <- function(input, output,session) {
 ##################################################################
 ###########################GO#####################################  
   #Show first few rows
-  output$InputTable<- renderTable({
-  req(input$file1)
-  head(geneList())
-  })
-  #Rendering text. How many genes?
   output$TxtEnterdGenes<-renderText({
     req(input$file1)
-    paste0("You enterd: ",length(geneList()[,1])," genes") 
+    paste0("You uploaded: ",length(geneList()[,1])," genes") 
   })
+  
+  output$data_preview<-renderText({
+    req(input$file1)
+    head(geneList(),10)%>%
+      kable(caption="First 10 entries",format = "html", escape = F,digits = 3,row.names = FALSE)%>%
+      kable_styling(c("striped"), full_width = F,fixed_thead = T,position = "left")
+    
+  })
+  
+
   #Conditional Slidebar
   output$SelectCutOffFC<-renderUI({
     req(input$file1)
-    sliderInput("slider1", label = h3("Select FC Cut Off "), min = 0.5, 
+    sliderInput("slider1", label = h3("Select FC Cut Off for ORA Analysis"), min = 0.5, 
                 max = 4, value = 2,step=0.5)
   })
   #Rendering text. How many selected genes?
@@ -966,7 +967,7 @@ output$downloadPathKegg <- downloadHandler(
 #Enrichment Specs Reactome
 enrichresRA<-eventReactive(input$calcRA,{
   eRA <- enrichPathway(gene          = genes()[,1],
-                  organism      = input$specie_RA,
+                  organism      = input$specie,
                   pAdjustMethod = input$adj_RA,
                   pvalueCutoff  = as.numeric(input$pval_RA),
                   qvalueCutoff  = 0.05,
@@ -1003,7 +1004,7 @@ enrichresRA_gsea<-eventReactive(input$calcRAGsea,{
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
   ego2 <- gsePathway(geneList     = geneListv,
-                organism          = input$specie_RA,
+                organism          = input$specie,
                 nPerm        = 1000,
                 minGSSize    = 100,
                 maxGSSize    = 500,
