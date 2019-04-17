@@ -1,0 +1,632 @@
+---
+title: "PAC 1. Anàlisi de dades òmiques"
+author: "Vasyl Druchkiv"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+header-includes:
+    - \usepackage{setspace}\onehalfspacing
+    - \usepackage{caption}\captionsetup[figure]{name=Figure}
+    - \usepackage[font=Small]{subfig}
+    - \usepackage{courier}
+    - \usepackage{hyperref}
+    - \usepackage{booktabs}
+    - \usepackage{longtable}
+    - \usepackage{array}
+    - \usepackage{multirow}
+    - \usepackage[table]{xcolor}
+    - \usepackage{wrapfig}
+    - \usepackage{float}
+    - \usepackage{colortbl}
+    - \usepackage{pdflscape}
+    - \usepackage{tabu}
+    - \usepackage{graphicx}
+    - \usepackage{ragged2e}
+    - \makeatletter\renewcommand*{\fps@figure}{H}\makeatother
+    - \usepackage{threeparttable}
+output: 
+  pdf_document:
+    toc: yes 
+    toc_depth: 4
+---
+
+
+```{r echo=FALSE,warning=FALSE}
+library(knitr)
+library(kableExtra)
+opts_chunk$set(message = FALSE, cache=TRUE)
+
+```
+
+\newpage
+
+#Abstract
+El primer esdudi per generar el llistat dels gens amb LogChange  per a aplicació
+
+#Materials i Mètodes
+
+#Resultats
+
+##Adquisició i descripció de les dades
+
+Accedim a la base de dades http://www.ncbi.nlm.nih.gov/sites/GDSbrowser/.
+Busquem el codi \textbf{GSE51373}. Descarreguem els arxius .CEL. Anotem la descripció de cada mostra i creem l'arxiu targets. Aquí hi ha el contingut d'aquest arxiu:
+
+```{r, echo=FALSE}
+#source("http://bioconductor.org/biocLite.R")
+```
+
+
+```{r preparaDirectorios, echo=FALSE}
+setwd("I:/2_EDU/UOC/TFM/ExampleStudies/GSE51373/")
+workingDir <- getwd()
+if(!dir.exists("datos")) dir.create("datos")
+dataDir <-file.path(workingDir, "datos")
+if(!dir.exists("results")) dir.create("results")
+resultsDir <- file.path(workingDir,"results")
+
+```
+
+```{r ViewDatainFolder, include=FALSE,echo=FALSE}
+fnames<-dir(path = paste0(workingDir,"/CEL"))
+library(tidyverse)
+
+target<-tibble(fnames) %>% 
+mutate(Name = map_chr(fnames, function(s) strsplit(s, "_")[[1]][3]))
+target$Name<-gsub(".CEL","",target$Name)
+target$Target<-target$Name
+target$Condition<-substr(target$Name,1,1)
+names(target)<-c("FileName","Name","Target","Condition")
+target<-target[,c("Name","FileName","Target","Condition")]
+write.csv(target,paste0(dataDir,"/targ.csv"),row.names = FALSE,sep = ",")
+```
+
+
+```{r echo=FALSE}
+cat(readLines(paste0(paste0(workingDir,"/CEL"), "/GSM1243877_U133Plus2_S1351.CEL", collapse = ""), n = 30, encoding = "utf8") , sep = "\n" )
+```
+
+
+```{r affybatch.create, echo=FALSE, warning=FALSE}
+if(!require(Biobase))biocLite("Biobase") 
+library(Biobase)
+if(!require(affy))biocLite("affy") 
+library(affy)
+
+sampleInfo<-read.AnnotatedDataFrame(file.path(dataDir, "targ.txt"), header = TRUE, row.names = 1, sep="\t")
+
+fileNames <- pData(sampleInfo)$FileName
+rawData <- read.affybatch(filenames=file.path(dataDir, fileNames),
+                          phenoData=sampleInfo)
+```
+La taula 2 mostra l'expressió de les primeres proves per a totes les mostres de l'estudi.
+
+
+
+```{r, echo=FALSE}
+expMat = exprs(rawData)
+#dim(expMat)
+kable(head(expMat, 5),cap="Expressió gènica de les primeres proves de microarray",format="latex", booktabs=TRUE) %>%
+  kable_styling(latex_options=c("scale_down","HOLD_position"))
+```
+
+
+## Qualitat dels arrays
+
+###Distribució espacial dels arrays
+Primer mirem les imatges dels chips per veure si hi ha problemes grans amb la qualitat. 
+
+```{r include=FALSE}
+
+ par(mfrow=c(1,1))
+ for(i in 1:24){
+ jpeg(paste0("./results/","SpacialImage_",i,".jpg"))
+ image(rawData[, i])
+ dev.off()
+ }
+
+```
+
+\begin{center}
+\begin{tabular}{cccc}
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_1.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_2.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_3.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_4.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_5.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_6.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_7.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_8.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_9.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_10.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_11.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_12.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_13.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_14.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_15.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_16.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_17.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_18.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_19.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_20.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_21.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_22.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_23.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImage_24.jpg")`}\\
+ \end{tabular}
+ \captionof{figure}{Imatges espacials}
+\end{center}
+
+Observem que els arrays NrlP2A, WtP2C, WtP10A tenen un problema d'emblanquiment en algunes regions. Aquestes gràfiques són bones per identificar els problemes grans. Les gràfiques dels residus poden ser més útils per veure els problemes amb més precisió, com o veurem més endavant.
+
+###Distribució de les intensitats (Histogrames)
+
+Mirem les distribucions de les expressions en les mostres mitjançant els histogrames:
+
+```{r plotHist, echo=FALSE, warning=FALSE}
+info <- data.frame(grupo=c(1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6))
+sampleNames <- rownames(pData(rawData))
+hist(rawData, main="Signal distribution", col=info$grupo, lty=1:ncol(info))
+legend (x="topright", legend=pData(rawData)$Target ,cex=0.5, col=info$grupo, lty=1:ncol(info))
+```
+
+Observem que les distribucions són considerablement diferents entre les mostres. Tant dins del mateix grup com entre els grups. Aquest fet ens indica la necessitat de normalitzar les dades. 
+
+###Distribució de les intensitats (Boxplots)
+
+La mateixa conclusió la fem visualitzant les expressions mitjançant els boxplots. Normalment, s'espera que les caixes tinguin tant una posició com una llargada similar. Si no és el cas això pot indicar un problema experimental. 
+
+```{r boxPlot, echo=FALSE}
+boxplot(rawData, cex.axis=0.6, col=info$grupo, las=2, names=sampleNames)
+```
+Observem les distribucions inusuals dels arrays WtP2C i NrlP10D.
+
+###Anàlisi de clusters
+
+La necessitat de normalització s'observa també mitjançant l'anàlisi de "clusters". Observem que algunes mostres estan agrupades en els clusters inesperats com ho fa la mostra WtP2.
+
+```{r PlotDendro,echo=FALSE}
+clust.euclid.average <- hclust(dist(t(exprs(rawData))),method="average")
+plot(clust.euclid.average, labels=sampleNames, main="Hierarchical clustering of samples",  hang=-1,xlab = "",sub="")
+```
+
+###Anàlisi de la degradació d'ARN
+
+```{r, echo=FALSE, include=FALSE}
+which(expMat == 0, arr.ind = T)
+```
+
+L'anàlisi de la degradació de l'ARN no indica problemes grans. Les inclinacions de les línies són similars. Potser la mostra WtP2A (la línia vermella irregular en comparació amb altres línies) exhibeix unes diferències pel que fa a la degradació d'ARN. Tal com en el cas de les imatges de xips considero que tembé aquí caldrà experiència per poder prendre una decisió correcta. En tot cas, si comparem la línia vermella irregular amb el diagrama de degradació de les dades de l'estudi \textit{estrogen} amb el patró irregular de bad.CEL, es pot considerar la línia de la qualitat encara bona per incloure la mostra en l'anàlisi.
+
+```{r computeDeg, echo=FALSE}
+deg <- AffyRNAdeg(rawData, log.it=F)
+plotAffyRNAdeg(deg, lwd=2, col=info$grupo)
+legend(x="topleft", legend=sampleNames , col=info$grupo, lty=1:ncol(info), cex=0.5)
+```
+
+
+###Models de baix nivell
+
+```{r affyPLM, echo=FALSE,warning=FALSE}
+if(!require(affyPLM)){biocLite("affyPLM")}
+computePLM <- T
+if(computePLM){
+  Pset<- fitPLM(rawData)
+  save(Pset, file=file.path(dataDir,"PLM.Rda"))
+}else{
+  load (file=file.path(dataDir,"PLM.Rda"))
+}
+
+
+ par(mfrow=c(1,1))
+ for(i in 1:24){
+ jpeg(paste0("./results/","SpacialImageNR_",i,".jpg"))
+ image(Pset,which=i, type="neg.resids")
+ dev.off()
+ }
+```
+
+
+
+```{r plotRLE, echo=FALSE,warning=FALSE}
+RLE(Pset, main = "Relative Log Expression", names=sampleNames, las=2, col=info$grupo+1, cex.axis=0.6,ylim=c(-5,5))
+```
+
+```{r plotNUSE,echo=FALSE,warning=FALSE}
+
+NUSE(Pset, main = "Normalized Unscaled Standard Errors", las=2, names=sampleNames, las=2, col=info$grupo+1, cex.axis=0.6, ylim=c(0.5,1.5))
+```
+
+Observem que l'array NrlP2A és molt irregular. El valor de NUSE és molt elevat.
+
+Seria interessant mirar també els residus dels arrays obtinguts mitjançant els models de baix nivell, per veure on exactament hi ha el problema.
+
+
+\begin{center}
+\begin{tabular}{cccc}
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_1.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_2.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_3.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_4.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_5.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_6.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_7.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_8.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_9.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_10.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_11.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_12.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_13.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_14.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_15.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_16.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_17.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_18.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_19.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_20.jpg")`}\\
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_21.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_22.jpg")`} &
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_23.jpg")`} & 
+\includegraphics[width=0.20\linewidth]{`r paste0(resultsDir,"/SpacialImageNR_24.jpg")`}\\
+ \end{tabular}
+ \captionof{figure}{Imatges de residus negatius}
+\end{center}
+
+
+Observem aquí amb més claretat l'artefacte espacial en la prova NrlP2A. Em plantejaria excloure aquest array de l'anàlisi. Per poder comparar però els resultats amb aquests ja publicats per Yishida et. al (2004) inclouré tots els xips en l'anàlisi.
+
+###Resum de la qualitat
+
+El paquet \textit{arrayQualityMetrics} genera un informe que inclou una taula de resum amb els mètodes diversos de detecció dels arrays inusuals. Aquets mètodes son els següents:
+
+\begin{enumerate}
+\item Detecció dels \textit{outliers} mitjançant Distàncies entre arrays
+\item Detecció dels \textit{outliers} mitjançant Boxplots
+\item Detecció dels \textit{outliers} mitjançant Relative Log Expression (RLE)
+\item Detecció dels \textit{outliers} mitjançant Normalized Unscaled Standard Error (NUSE)
+\item Detecció dels \textit{outliers} mitjançant els Gràfics MA
+\item Detecció dels \textit{outliers} mitjançant Distribució espacial de M
+\end{enumerate}
+
+
+```{r Qmetrics,echo=FALSE,warnings=FALSE} 
+if(!require(arrayQualityMetrics))biocLite("arrayQualityMetrics") 
+ require(arrayQualityMetrics)
+#arrayQualityMetrics(rawData, outdir = file.path("./results", "QCDir.Raw"), force=TRUE)
+```
+
+
+\begin{center}
+\includegraphics[width=0.7\linewidth]{Summary_Quality.jpg}
+\end{center}
+
+Observem, que l'array Nrl2P, com hem vist abans, és identificat com un \textit{outlier} mitjançant els tres mètodes: RLE, NUSE i distribució espacial de M.
+
+
+##Normalització
+
+Hem vist les diferències d'expressió entre els arrays tant dins dels grups com entre els grups. Per aquest motiu utilitzo la normalització amb el mètode RMA (multichip average algorithm).
+
+
+```{r normalization.rma, echo=FALSE,message=FALSE,warning=FALSE}
+
+normalize <- T
+if(normalize){
+  eset_rma <- rma(rawData,verbose=F)    
+  save(eset_rma, file=file.path(dataDir,"normalized.Rda"))
+}else{
+  load (file=file.path(dataDir,"normalized.Rda"))
+}
+
+```
+
+
+```{r, echo=FALSE, message=FALSE}
+eset_rma_matrix = exprs(eset_rma)
+```
+
+Mirem els efectes de normalització mitjançant el boxplot i l'anàlisi de clusters:
+
+```{r normBoxPlot, echo=FALSE}
+boxplot(eset_rma,main="RMA", names=sampleNames, cex.axis=0.7, col=info$grupo, las=2)
+```
+
+```{r, echo=FALSE}
+clust.euclid.average <- hclust(dist(t(exprs(eset_rma))),method="average")
+plot(clust.euclid.average, labels=sampleNames, main="Hierarchical clustering of samples",  hang=-1,xlab = "",sub="")
+```
+
+##Selecció de genes diferencialment expressats.
+
+###Definició de la matriu de disseny i de la matriu de contrastos
+
+Per seleccionar els gens diferencialment expressats utilitzem el model lineal general del paquet \textit{limma}. Per això definim la matriu de disseny i la matriu de contrastos. 
+
+```{r selectLimma,echo=FALSE, warning=FALSE}
+if (!exists("eset_rma"))  load(file.path(dataDir, "normalized.rda"))
+targets <- pData(eset_rma)
+
+if(!require(limma))biocLite("limma") 
+require(limma)
+
+lev <- factor(targets$Target, levels=unique(targets$Target))
+design <- model.matrix(~ 0+lev)
+colnames(design)<-levels(lev)
+rownames(design) <-rownames(targets)
+kable(as.data.frame(design),cap="Matriu de disseny")%>%
+  kable_styling(latex_options=c("HOLD_position"))
+
+```
+
+```{r setContrasts,echo=FALSE}
+cont.matrix <- makeContrasts(
+      NrlP2=(NrlP2-WtP2),
+      NrlP10=(NrlP10-WtP10),
+      NrlM2=(NrlM2-WtM2),
+      levels=lev)
+
+kable(as.data.frame(cont.matrix),cap="Matriu de contrastos")%>%
+  kable_styling(latex_options=c("HOLD_position"))
+```
+
+```{r linearmodelfit,echo=FALSE}
+fit<-lmFit(eset_rma, design)
+fit.main<-contrasts.fit(fit, cont.matrix)
+fit.main<-eBayes(fit.main)
+```
+
+Observem que els contrastos de més interès són les diferències entre les retines N\-/\- i les retines control (wildtype) a cada període de temps.
+
+
+```{r topTable, echo=FALSE}
+topTabNrlP2 <- topTable(fit.main, number=nrow(fit.main), coef="NrlP2", adjust="fdr")
+topTabNrlP10<- topTable(fit.main, number=nrow(fit.main), coef="NrlP10", adjust="fdr")
+topTabNrlM2  <- topTable(fit.main, number=nrow(fit.main) , coef="NrlM2", adjust="fdr")
+```
+
+
+###Els gràfics volcà
+
+Els resultats els podem inicialment observar visualment mitjançant les gràfiques volcà.
+
+```{r volcano1, echo=FALSE, warning=FALSE}
+
+if(!require(mgu74av2.db))biocLite("mgu74av2.db")
+library(mgu74av2.db)
+require(annotate)
+
+
+for(i in 1: 3){
+jpeg(paste0("./results/","VP_",i,".jpg"))
+coefnum = i
+fit.Symbols <- getSYMBOL (rownames(fit.main), "mgu74av2.db")
+SYMBOLS<- fit.Symbols
+opt <- par(cex.lab = 0.7)
+
+volcanoplot(fit.main, coef=i, highlight=10, names=SYMBOLS,
+           main=paste("Differentially expressed genes", colnames(cont.matrix)[i], sep="\n"))
+abline(v=c(-1,1))
+par(opt)
+dev.off()
+}
+
+
+
+```
+
+\begin{center}
+\begin{tabular}{ccc}
+\includegraphics[width=0.3\linewidth]{`r paste0(resultsDir,"/VP_1.jpg")`} & 
+\includegraphics[width=0.3\linewidth]{`r paste0(resultsDir,"/VP_2.jpg")`} &
+\includegraphics[width=0.3\linewidth]{`r paste0(resultsDir,"/VP_3.jpg")`}\\
+ \end{tabular}
+ \captionof{figure}{Volcano plots}
+\end{center}
+
+###Les taules anotades
+
+A continuació mirem les taules anotades dels gens sobreexpressats i sotaexpressats. Els gens estan ordenats pel FDR p-valor més baix de les tres comparacions. Els logFC valors significatius estan emfatitzats amb el color verd. Els logFCs no significatius tenen el seu valor en gris.
+
+```{r  warning=FALSE, echo=FALSE, results='asis'}
+
+annotatedTopTable <- function(topTab, anotPackage)
+{
+topTab <- cbind(PROBEID=rownames(topTab), topTab)
+myProbes <- rownames(topTab)
+thePackage <- eval(parse(text = anotPackage))
+geneAnots <- AnnotationDbi::select(thePackage, myProbes, c("SYMBOL", "ENTREZID", "GENENAME"))
+annotatedTopTab<- merge(x=geneAnots, y=topTab, by.x="PROBEID", by.y="PROBEID")
+return(annotatedTopTab)
+}
+
+res<-decideTests(fit.main, method="separate", adjust.method="fdr", p.value=0.05, lfc=1.0)
+
+sum.res.rows<-apply(abs(res),1,sum)
+res.selected<-res[sum.res.rows!=0,] 
+
+ 
+topTabNrlP2.selected<-topTabNrlP2[rownames(topTabNrlP2)%in%rownames(res.selected),]
+topTabNrlP2.selected<-topTabNrlP2.selected[order(row.names(topTabNrlP2.selected)), ]
+topTabNrlP10.selected<-topTabNrlP10[rownames(topTabNrlP10)%in%rownames(res.selected),]
+topTabNrlP10.selected<-topTabNrlP10.selected[order(row.names(topTabNrlP10.selected)), ]
+topTabNrlM2.selected<-topTabNrlM2[rownames(topTabNrlM2)%in%rownames(res.selected),]
+topTabNrlM2.selected<-topTabNrlM2.selected[order(row.names(topTabNrlM2.selected)), ]
+
+topTabNrl<-as.data.frame(cbind(topTabNrlP2.selected$logFC,topTabNrlP2.selected$P.Value,
+                               topTabNrlP10.selected$logFC,topTabNrlP10.selected$P.Value,
+                               topTabNrlM2.selected$logFC,topTabNrlM2.selected$P.Value))
+names(topTabNrl)<-c("P2","P2.P.Value","P10","P10.P.Value","2 mon","2mon.P.Value")
+rownames(topTabNrl)<-rownames(res.selected)
+topTabNrl<-cbind(topTabNrl,res.selected)
+
+topTabNrl<-annotatedTopTable(topTabNrl,anotPackage="mgu74av2.db")
+topTabNrl$PROBEID<-gsub("_","\\\\_",topTabNrl$PROBEID)
+library(dplyr)
+
+topTabNrl %>%
+mutate(
+d = pmin(P2.P.Value,P10.P.Value,`2mon.P.Value`),
+P2= cell_spec(round(P2,3), "latex", color = ifelse(NrlP2==0, "gray", "green")),
+P10= cell_spec(round(P10,3), "latex", color = ifelse(NrlP10==0, "gray", "green")),
+`2 mon`= cell_spec(round(`2 mon`,3), "latex", color = ifelse(NrlM2==0, "gray", "green")),
+sign=rowSums(.[11:13])) %>%
+  filter(sign<0)%>%
+  arrange(d)%>%
+dplyr::select(PROBEID,SYMBOL,ENTREZID,GENENAME,P2, P10, `2 mon`)  %>%
+kable(cap="Els gens sotaexpressats. FDR \\textless 0.05 \\& logFC \\textless -1.0",longtable=T, row.names = FALSE,escape=F,format="latex", booktabs=TRUE,linesep="",align = "llllcccc")%>%
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),font_size = 5)%>%
+  add_header_above(c(" "=1," "=1," "=1," "=1,"logFC"=3))
+
+topTabNrl %>%
+mutate(
+d = pmin(P2.P.Value,P10.P.Value,`2mon.P.Value`),
+P2= cell_spec(round(P2,3), "latex", color = ifelse(NrlP2==0, "gray", "green")),
+P10= cell_spec(round(P10,3), "latex", color = ifelse(NrlP10==0, "gray", "green")),
+`2 mon`= cell_spec(round(`2 mon`,3), "latex", color = ifelse(NrlM2==0, "gray", "green")),
+sign=rowSums(.[11:13])) %>%
+  filter(sign>0)%>%
+  arrange(d)%>%
+dplyr::select(PROBEID,SYMBOL,ENTREZID,GENENAME,P2, P10, `2 mon`)  %>%
+kable(cap="Els gens sobreexpressats.FDR \\textless 0.05 \\& logFC \\textless -1.0",longtable=T, row.names = FALSE,escape=F,format="latex", booktabs=TRUE,linesep="",align = "llllcccc")%>%
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"),font_size = 5)%>%
+  add_header_above(c(" "=1," "=1," "=1," "=1,"logFC"=3))
+```
+
+
+També podem identificar el nombre de gens diferencialment expressats en contrastos establerts:
+
+```{r venn1, echo=FALSE}
+require(limma)
+res<-decideTests(fit.main, method="separate", adjust.method="fdr", p.value=0.05, lfc=1.0)
+sum.res.rows<-apply(abs(res),1,sum)
+res.selected<-res[sum.res.rows!=0,] 
+
+kable(summary(res),row.names = TRUE,escape=F,format="latex", booktabs=TRUE,linesep="")%>%
+  kable_styling(latex_options=c("HOLD_position","striped","repeat_header"))
+
+vennDiagram (res.selected[,1:3], main="\nGenes in common between the three comparisons\n Genes selected with FDR < 0.1 and logFC > 1", cex=0.9, circle.col = 1:7)
+```
+
+```{r HeatMap, echo=FALSE,warning=FALSE}
+
+require(limma)
+my_palette <- colorRampPalette(c("blue", "red"))(n = 300)
+probesInHeatmap <- rownames(res.selected)
+HMdata <- exprs(eset_rma)[rownames(exprs(eset_rma)) %in% probesInHeatmap,]
+geneSymbols <- AnnotationDbi::select(mgu74av2.db, rownames(HMdata), c("SYMBOL","GENENAME"))
+
+geneSymbols<-geneSymbols%>%group_by(PROBEID)%>%mutate(n1=row_number())
+geneSymbols<-geneSymbols[geneSymbols$n1==1,]
+SYMBOLS<-geneSymbols$SYMBOL
+geneSymbols$SYMBOL[is.na(geneSymbols$SYMBOL)]<-"Not defined"
+rownames(HMdata) <- SYMBOLS
+#write.csv(HMdata, file = file.path("./results/data4Heatmap.csv"))
+require(gplots)
+
+
+   heatplot<-function(){
+   jpeg(file=paste0("./results/","HeatMap.jpg"))
+     heatmap.2(HMdata,
+           Rowv = TRUE,
+           Colv = TRUE,
+           dendrogram = "both",
+           main = "Differentially expressed genes \n FDR < 0.05, logFC >=1",
+           scale = "row",
+           col = my_palette,
+           sepcolor = "white",
+           sepwidth = c(0.05,0.05),
+           cexRow = 0.5,
+           cexCol = 0.9,
+           key = TRUE,
+           keysize = 1.5,
+           density.info = "histogram",
+           ColSideColors = c(rep("red",4),rep("blue",4), rep("green",4), rep("yellow",4),
+                             rep("black",4),rep("darkgreen",4)),
+           tracecol = NULL,
+           srtCol = 30)
+   dev.off()
+   }
+  invisible(heatplot())
+```
+\begin{center}
+\includegraphics[width=0.7\linewidth]{`r paste0(resultsDir,"/HeatMap.jpg")`} \\
+\end{center}
+
+##Anàlisi de l'enriquiment
+
+Finalment fem l'anàlisi de l'enriquiment. Aquesta anàlisi requereix el nombre més gran de gens. Per tant podem ampliar el nostre criteri de selecció per incloure els gens expressats diferencialment al nivell de significació de 0.15 i sense limitació respecte a \textit{foldchange}. A continuació es presenten els gràfics de barres amb el nombre de gens per cada funció biològica amb identificació de la significació estadística d'aquesta funció. Així veiem que en el període P2 les diferències s'observen més en els gens implicats en el cicle cel·lular. Per a l'anàlisi més detallada es generen els arxius .csv que inclouen més informació. Aquests arxius estan guardats a la carpeta \textit{results}.
+
+
+```{r, echo=FALSE,warning=FALSE, message=FALSE}
+topTabNrlP2 <- topTable(fit.main, number=nrow(fit.main), coef="NrlP2", adjust="fdr")
+topTabNrlP10<- topTable(fit.main, number=nrow(fit.main), coef="NrlP10", adjust="fdr")
+topTabNrlM2  <- topTable(fit.main, number=nrow(fit.main) , coef="NrlM2", adjust="fdr")
+
+topAnnotated_NrlP2 <- annotatedTopTable(topTabNrlP2,anotPackage="mgu74av2.db")
+topAnnotated_NrlP10 <- annotatedTopTable(topTabNrlP10,anotPackage="mgu74av2.db")
+topAnnotated_NrlM2 <- annotatedTopTable(topTabNrlM2,anotPackage="mgu74av2.db")
+
+
+
+listOfTables <- list(NrlvsWt.P2 = topTabNrlP2, 
+                     NrlvsWt.P10 = topTabNrlP10, 
+                     NrlvsWt.M2 = topTabNrlM2)
+ listOfSelected <- list()
+ for (i in 1:length(listOfTables)){
+   # select the toptable
+   topTab <- listOfTables[[i]]
+   # select the genes to be included in the analysis
+   whichGenes<-topTab["adj.P.Val"]<0.15
+   selectedIDs <- rownames(topTab)[whichGenes]
+   # convert the ID to Entrez
+   EntrezIDs<- AnnotationDbi::select(mgu74av2.db, selectedIDs, c("ENTREZID"))
+   EntrezIDs <- EntrezIDs$ENTREZID
+   listOfSelected[[i]] <- EntrezIDs
+   names(listOfSelected)[i] <- names(listOfTables)[i]
+ }
+
+ EntrezUni <- topAnnotated_NrlP2$ENTREZID
+
+ if(!require(ReactomePA))biocLite("ReactomePA")
+
+ listOfData <- listOfSelected[1:3]
+ comparisonsNames <- names(listOfData)
+ 
+ organisme <- "mouse"
+ universe <- as.character(EntrezUni)
+ 
+ for (i in 1:length(listOfData)){
+   data <- listOfData[[i]]
+   genesIn <- listOfSelected[[i]]
+   comparison <- comparisonsNames[i]
+   enrich.result <- ReactomePA::enrichPathway(gene = genesIn,
+                                  pvalueCutoff = 0.05,
+                                  readable = T,
+                                  organism =  organisme,
+                                  universe = universe,
+                                  minGSSize = 5,
+                                  maxGSSize = 500,
+                                  pAdjustMethod = "BH")
+   
+   if (length(rownames(enrich.result@result)) != 0) {
+       write.csv(as.data.frame(enrich.result), 
+           file =paste0("./results/","ReactomePA.Results.",comparison,".csv"), 
+           row.names = FALSE)
+
+   pdf(file=paste0("./results/","ReactomePABarplot.",comparison,".pdf"))
+     print(barplot(enrich.result, showCategory = 15, font.size = 4, 
+             title = paste0("Reactome Pathway Analysis for ", comparison,". Barplot")))
+   dev.off()
+   
+   }
+ }
+
+```
+
+\begin{center}
+\includegraphics[width=0.8\linewidth]{`r paste0(resultsDir,"/ReactomePABarplot.NrlvsWt.P2.pdf")`} \\
+\includegraphics[width=0.8\linewidth]{`r paste0(resultsDir,"/ReactomePABarplot.NrlvsWt.P10.pdf")`} \\
+\includegraphics[width=0.8\linewidth]{{`r paste0(resultsDir,"/ReactomePABarplot.NrlvsWt.M2.pdf")`}}\\
+\end{center}
+
+#Discussió
+
+Els resultats en el present informe són molt similars als resultats publicats per Yoshida et al. Els autors no comenten però que feien una anàlisi de qualitat dels arrays. A l'informe hem vist que la qualitat d'alguns arrays no era bona. He identificat els arrays problemàtics amb mètodes diferents i penso que els resultats haurien de ser validats mitjançant una selecció d'arrays de bona qualitat.  
