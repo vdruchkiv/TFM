@@ -54,7 +54,29 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "dataInput",
         fluidRow(
-          h3(strong("GO/REACTOME"),style = "color:#335EFF;"),
+          h3(strong("GO"),style = "color:#335EFF;"),
+          selectInput("specie_go", "Select Specie:",
+                      c("Homo Sapiens" = "org.Hs.eg.db",
+                        "Rat" = "org.Rn.eg.db",
+                        "Mouse"="org.Rn.eg.db",
+                        "Celegans"="org.Ce.eg.db",
+                        "Yeast"="org.Sc.sgd.db",
+                        "Zebrafish"="org.Dr.eg.db",
+                        "Fly"="org.Dm.eg.db",
+                        "Arabidopsis"="org.At.tair.db",
+                        "Bovine"="org.Bt.eg.db",
+                        "Chicken"="org.Gg.eg.db",
+                        "Canine"="org.Cf.eg.db",
+                        "Pig"="org.Ss.eg.db2",
+                        "Rhesus"="org.Mmu.eg.db",
+                        "E coli strain K12"="org.EcK12.eg.db",
+                        "Xenopus"="org.Xl.eg.db",
+                        "Anopheles"="org.Ag.eg.db",
+                        "Chimp"="org.Pt.eg.db",
+                        "Malaria"="org.Pf.plasmo.db",
+                        "E coli strain Sakai"="org.EcSakai.eg.db")),
+          tags$hr(style="border-color: black;"),
+          h3(strong("Reactome"),style = "color:#335EFF;"),
           selectInput("specie", "Select Specie:",
                       c("Homo Sapiens" = "human",
                         "Rat" = "rat",
@@ -73,13 +95,18 @@ ui <- dashboardPage(
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
                            ".csv")),
+          fileInput("file2", h3("File with selected genes"),
+                    multiple = FALSE,
+                    accept = c("text/csv",
+                               "text/comma-separated-values,text/plain",
+                               ".csv")),
           HTML("<b>Note</b>: The file should contain two columns, one for gene ID (no duplicated ID allowed) and another one for fold change.<br></br>"),
           tags$hr(style="border-color: black;"),
           tableOutput("InputTable"),
           textOutput("TxtEnterdGenes"),
           htmlOutput("data_preview")%>%withSpinner(color="#0dc5c1"),
-          uiOutput("SelectCutOffFC"),
-          textOutput("TxtSelectedGenes")
+          textOutput("TxtSelectedGenes"),
+          htmlOutput("data_preview2")%>%withSpinner(color="#0dc5c1")
         )
         ), #Item 1 End
         #Enrichment Specs GO Tab
@@ -142,7 +169,13 @@ ui <- dashboardPage(
                 sliderInput("cat_barplotgo", "Number of categories",
                             min = 2, max = 30,  value = 15),
                 imageOutput("BarPlot_GO2")%>%withSpinner(color="#0dc5c1"),
-                downloadButton("downloadBarPlotGo","Download Plot as .png")
+                box(title="Image download options",
+                    status = "primary",width=3,
+                numericInput("wid_bp_go","Width (pixel)",value=1600),
+                numericInput("hei_bp_go","Height (pixel)",value = 1200),
+                numericInput("res_bp_go","Resolution",value=300),
+                numericInput("text_bp_go","Text size",value=7),
+                downloadButton("downloadBarPlotGo","Download Plot as .png"))
               )#FluidRow
       ),#Item4 End
       #Dot Plot GO Tab
@@ -151,7 +184,13 @@ ui <- dashboardPage(
                 sliderInput("cat_dotplotgo", "Number of categories",
                             min = 2, max = 30,  value = 15),
                 imageOutput("DotPlot_GO2")%>%withSpinner(color="#0dc5c1"),
-                downloadButton("downloadDotPlotGo","Download Plot as .png")
+                box(title="Image download options",
+                    status = "primary",width=3,
+                    numericInput("wid_dp_go","Width (pixel)",value=1600),
+                    numericInput("hei_dp_go","Height (pixel)",value = 1200),
+                    numericInput("res_dp_go","Resolution",value=300),
+                    numericInput("text_dp_go","Text size",value=7),
+                    downloadButton("downloadDotPlotGo","Download Plot as .png"))
               )#FluidRow
       ),#Item5 End
       #Emapplot
@@ -160,7 +199,12 @@ ui <- dashboardPage(
               sliderInput("cat_emapplotgo", "Number of categories",
                           min = 0, max = 30,  value = 15),
               imageOutput("EmapPlot_GO2")%>%withSpinner(color="#0dc5c1"),
-              downloadButton("downloadEmapPlotGo","Download Plot as .png")
+              box(title="Image download options",
+                  status = "primary",width=3,
+                  numericInput("wid_ep_go","Width (pixel)",value=1600),
+                  numericInput("hei_ep_go","Height (pixel)",value = 1200),
+                  numericInput("res_ep_go","Resolution",value=300),
+                  downloadButton("downloadEmapPlotGo","Download Plot as .png"))
             )#FluidRow
     ),#Item6 End
     tabItem(tabName = "cnetplot_GO",
@@ -168,7 +212,12 @@ ui <- dashboardPage(
               sliderInput("cat_cnetplotgo", "Number of categories",
                           min = 0, max = 30,  value = 15),
               imageOutput("CnetPlot_GO2")%>%withSpinner(color="#0dc5c1"),
-              downloadButton("downloadCnetPlotGo","Download Plot as .png")
+              box(title="Image download options",
+                  status = "primary",width=3,
+                  numericInput("wid_cp_go","Width (pixel)",value=1600),
+                  numericInput("hei_cp_go","Height (pixel)",value = 1200),
+                  numericInput("res_cp_go","Resolution",value=300),
+                  downloadButton("downloadCnetPlotGo","Download Plot as .png"))
             )#FluidRow
     ),#Item7 End
     tabItem(tabName = "goplot_GO",
@@ -176,7 +225,12 @@ ui <- dashboardPage(
               sliderInput("cat_goplotgo", "Number of categories",
                           min = 0, max = 30,  value = 15),
               imageOutput("GoPlot_GO2")%>%withSpinner(color="#0dc5c1"),
-              downloadButton("downloadGoPlotGo","Download Plot as .png")
+              box(title="Image download options",
+                  status = "primary",width=3,
+                  numericInput("wid_gp_go","Width (pixel)",value=1600),
+                  numericInput("hei_gp_go","Height (pixel)",value = 1200),
+                  numericInput("res_gp_go","Resolution",value=300),
+                  downloadButton("downloadGoPlotGo","Download Plot as .png"))
             )#FluidRow
     ),#Item8 End
     tabItem(tabName = "gsea_GO",
@@ -388,9 +442,15 @@ server <- function(input, output,session) {
     return(df)
   })
   genes <- reactive({
-    genes <- geneList()[abs(geneList()[,2]) > input$slider1,]
-    return(genes)
+    df<-read.csv(input$file2$datapath,
+                 header = TRUE,
+                 sep = ",")
+    names(df)<-c("Entrez ID","FoldChange")
+    df$`Entrez ID`<-as.character(df$`Entrez ID`)
+    return(df)
   })
+  
+
 
 ##################################################################
 ##################################################################
@@ -411,23 +471,24 @@ server <- function(input, output,session) {
   })
   
 
-  #Conditional Slidebar
-  output$SelectCutOffFC<-renderUI({
-    req(input$file1)
-    sliderInput("slider1", label = h3("Select FC Cut Off for ORA Analysis"), min = 0.5, 
-                max = 4, value = 2,step=0.5)
-  })
   #Rendering text. How many selected genes?
   output$TxtSelectedGenes<-renderText({
-    req(input$file1)
+    req(input$file2)
     paste0("You selected: ",length(genes()[,1])," genes") 
+  })
+  output$data_preview2<-renderText({
+    req(input$file2)
+    head(genes(),10)%>%
+      kable(caption="First 10 entries",format = "html", escape = F,digits = 3,row.names = FALSE)%>%
+      kable_styling(c("striped"), full_width = F,fixed_thead = T,position = "left")
+    
   })
   ######################################################################
   #Enrichment Specs GO
   enrichresgo<-eventReactive(input$calcGo,{
     ego <- enrichGO(gene          = genes()[,1],
                     universe      = geneList()[,1],
-                    OrgDb         = input$specie,
+                    OrgDb         = input$specie_go,
                     ont           = input$ont_go,
                     pAdjustMethod = input$adj_go,
                     pvalueCutoff  = as.numeric(input$pval_go),
@@ -505,7 +566,7 @@ output$BarPlot_GO2<-renderImage({
   outfile <- tempfile(fileext = '.png')
   
   # Generate the PNG
-  png(outfile, width = 700, height = 400)
+  png(outfile, width = 700, height =400)
   print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = 7, 
           title = paste0("GO Pathway Analysis",". Barplot")))
   dev.off()
@@ -521,8 +582,8 @@ output$BarPlot_GO2<-renderImage({
 output$downloadBarPlotGo <- downloadHandler(
   filename = "BarPlot.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = 7, 
+    png(file,width =input$wid_bp_go, height = input$hei_bp_go,res=input$res_bp_go)
+    print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = input$text_bp_go, 
                   title = paste0("GO Pathway Analysis",". Barplot")))
     dev.off()
   })    
@@ -550,8 +611,8 @@ output$DotPlot_GO2<-renderImage({
 output$downloadDotPlotGo <- downloadHandler(
   filename = "DotPlot.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(dotplot(enrichresgo(), showCategory = input$cat_dotplotgo, font.size = 7, 
+    png(file,width = input$wid_dp_go, height = input$hei_dp_go,res=input$res_dp_go)
+    print(dotplot(enrichresgo(), showCategory = input$cat_dotplotgo, font.size = input$text_dp_go, 
                   title = paste0("GO Pathway Analysis",". Dotplot")))
     dev.off()
   })
@@ -564,7 +625,7 @@ output$EmapPlot_GO2<-renderImage({
   outfile <- tempfile(fileext = '.png')
   
   # Generate the PNG
-  png(outfile, width = 700, height = 400)
+  png(outfile, width=700,height = 400)
   print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo, font.size = 7, 
                 title = paste0("GO Pathway Analysis",". Barplot")))
   dev.off()
@@ -574,14 +635,15 @@ output$EmapPlot_GO2<-renderImage({
        contentType = 'image/png',
        width = 700,
        height = 400,
+       res=input$res_bp_go,
        alt = "This is alternate text")
 }, deleteFile = TRUE)
 
 output$downloadEmapPlotGo <- downloadHandler(
   filename = "EmapPlot.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo, font.size = 7, 
+    png(file,width = input$wid_ep_go, height = input$hei_ep_go,res=input$res_ep_go)
+    print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo, 
                   title = paste0("GO Pathway Analysis",". Emapplot")))
     dev.off()
   })
@@ -610,7 +672,7 @@ output$CnetPlot_GO2<-renderImage({
 output$downloadCnetPlotGo <- downloadHandler(
   filename = "CnetPlot.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
+    png(file,width = input$wid_cp_go, height = input$he_cp_go,res=input$res_cp_go)
     print(cnetplot(enrichresgo(), showCategory = input$cat_cnetplotgo, font.size = 7, 
                    title = paste0("GO Pathway Analysis",". Category-gene-network")))
     dev.off()
@@ -640,8 +702,8 @@ output$GoPlot_GO2<-renderImage({
 output$downloadGoPlotGo <- downloadHandler(
   filename = "GoPlot.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(goplot(enrichresgo(), showCategory = input$cat_goplotgo, font.size = 7, 
+    png(file,width = input$wid_gp_go, height = input$hei_gp_go,res=input$res_gp_go)
+    print(goplot(enrichresgo(), showCategory = input$cat_goplotgo, 
                    title = paste0("GO Pathway Analysis",". Go Plot")))
     dev.off()
   })
