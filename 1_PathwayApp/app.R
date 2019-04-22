@@ -237,7 +237,12 @@ ui <- dashboardPage(
             fluidRow(
               htmlOutput("setsGseaGo"),
               imageOutput("GseaPlot_GO2")%>%withSpinner(color="#0dc5c1"),
-              downloadButton("downloadGseaPlotGo","Download Plot as .png")
+              box(title="Image download options",
+                  status = "primary",width=3,
+                  numericInput("wid_gsp_go","Width (pixel)",value=1600),
+                  numericInput("hei_gsp_go","Height (pixel)",value = 1200),
+                  numericInput("res_gsp_go","Resolution",value=300),
+                  downloadButton("downloadGseaPlotGo","Download Plot as .png"))
             )#FluidRow
     ),#Item9 End
 ############################KEGG#########################################    
@@ -526,7 +531,7 @@ enrichresgo_gsea<-eventReactive(input$calcGoGsea,{
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
   ego2 <- gseGO(geneList     = geneListv,
-                       OrgDb        = input$specie,
+                       OrgDb        = input$specie_go,
                        ont          = input$ont_go_gsea,
                        nPerm        = 1000,
                        minGSSize    = 100,
@@ -672,8 +677,8 @@ output$CnetPlot_GO2<-renderImage({
 output$downloadCnetPlotGo <- downloadHandler(
   filename = "CnetPlot.png",
   content = function(file) {
-    png(file,width = input$wid_cp_go, height = input$he_cp_go,res=input$res_cp_go)
-    print(cnetplot(enrichresgo(), showCategory = input$cat_cnetplotgo, font.size = 7, 
+    png(file,width = input$wid_cp_go, height = input$hei_cp_go,res=input$res_cp_go)
+    print(cnetplot(enrichresgo(), showCategory = input$cat_cnetplotgo,
                    title = paste0("GO Pathway Analysis",". Category-gene-network")))
     dev.off()
   })
@@ -734,7 +739,7 @@ output$GseaPlot_GO2<-renderImage({
 output$downloadGseaPlotGo <- downloadHandler(
   filename = "GseaPlot.png",
   content = function(file) {
-    png(file,width = 1800, height = 1600,res=300)
+    png(file,input$wid_gsp_go, height = input$hei_gsp_go,res=input$res_gsp_go)
     print(gseaplot(enrichresgo_gsea(), geneSetID = enrichresgo_gsea()@result$ID[enrichresgo_gsea()@result$Description==input$geneSetGseaGo]))
     dev.off()
   })
@@ -885,7 +890,7 @@ output$downloadDotPlotKegg <- downloadHandler(
   })
 
 ##################################
-###########EmapPlotGO##############
+###########EmapPlotKEGG##############
 output$EmapPlot_KEGG2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
@@ -1244,7 +1249,7 @@ output$GseaPlot_RA2<-renderImage({
 output$downloadGseaPlotRA <- downloadHandler(
   filename = "GseaPlot.png",
   content = function(file) {
-    png(file,width = 1800, height = 1600,res=300)
+    png(file,width = input$wid_gsp_ra, height = hei_gsp_ra,res=res_gsp_ra)
     print(gseaplot(enrichresRA_gsea(), geneSetID = enrichresRA_gsea()@result$ID[enrichresRA_gsea()@result$Description==input$geneSetGseaRA]))
     dev.off()
   })
