@@ -23,8 +23,10 @@ names1<-names(geneList)
 write.csv(geneList,"I:/2_EDU/UOC/TFM/TestData/geneList.csv")
 
 gene <- names(geneList)[abs(geneList) > 2]
-write.csv(gene,"I:/2_EDU/UOC/TFM/TestData/selectedGenes.csv")
-geneList<-read.csv("I:/2_EDU/UOC/TFM/TestData/geneList.csv")
+
+genes<-geneList[abs(geneList) > 2]
+write.csv(genes,"E:/2_EDU/UOC/TFM/TestData/selectedGenes.csv")
+geneList<-read.csv("E:/2_EDU/UOC/TFM/TestData/geneList.csv")
 names2<-geneList$X
 setdiff(names2,names1)
 head(geneList)
