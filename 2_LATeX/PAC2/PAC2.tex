@@ -394,12 +394,145 @@ Per validar l'aplicació he intentat trobar estudis que investiguin les espècie
  \hline 
  Estudi & GEO ID & Espècie & Tipo d'experiment \\ [0.5ex] 
  \hline\hline
+ \cite{schmidt2008humoral}  & \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE11121}{GSE11121}& Homo sapiens & Microarrays  \\
+ \hline
  \cite{li2017zbtb7b}  & \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE100924}{GSE100924}& Mus musculus  & Microarrays  \\ 
  \hline
 \end{tabular}
 \end{center}
 
 L'aplicació necessita un arxiu amb les IDs de Entrez i els LogChanges. Malauradament GEO no disposa d'aquestes dades. Només té les dades en format .cel. Per tant, primer s'hauria fer els pasos d'anàlisi de dades d'expressió per derivar les dades que m'interessen. Aquests passos inclouen: normalització d'una banda i calculació del model per derivar els LogChanges d'altra banda.   
+
+Les dades d'estudi \cite{li2017zbtb7b} són ja preprocessades per Ricardo Gonzalo Sanz i Sanchez Pla i estan disponibles a \href{https://github.com/alexsanchezpla/StatisticalAnalysisOfMicroarrayData}{github}. De la carpeta \textit{results} he agafat les taules \textit{topAnnotated\_KOvsWT\_COLD.csv} i \textit{topAnnotated\_KOvsWT\_RT.csv}. Sanz i Pla utilitzen el paquet \helvetica{ReactomePA} per a l'anàlisi d'enriquement. Repeteixo doncs el seu anàlisi utilitzant l'aplicació. 
+
+\begin{enumerate}
+
+\item Ellegeixo la espècie \textit{Mus musculus} per a GO, KEGG i Reactome.
+  
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig1_Select_Specie.png} 
+\caption{Selecció d'espècie}
+\end{figure}
+
+L'output a baix indica que s'ha pujat el total de 5995 gens. Per a l'arxiu dels gens seleccionats l'aplicació diu que s'han pujat 769 gens.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig2_Select_Specie.png} 
+\caption{Selecció d'espècie}
+\end{figure}
+
+
+\item Clico en l'apartat \textit{Reactome Analysis}$\rightarrow$\textit{ORA}. Selecciono com a mètode d'ajustament \textit{BH} i el cut-off del valor de P ajustat 0.05. Clico a \textit{Calculate results}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig3_ORA_RA.png} 
+\caption{Resultat d'anàlisi ORA de Reactome}
+\end{figure}
+
+Observem que els gens mostrats són els mateixos esmentats per Sanz i Pla.
+
+\item Visualització  del resultat ORA
+
+\begin{itemize}
+\item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Bar Plot}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig4_ORA_BP_RA.png} 
+\caption{Gràfic de barres}
+\end{figure}
+
+\item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Dot Plot}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig5_ORA_Dot_RA.png} 
+\caption{Gràfic de punts}
+\end{figure}
+
+\item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Enrichment Map Plot}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig6_ORA_EP_RA.png} 
+\caption{Mapa d'enriquement}
+\end{figure}
+
+\item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Category Gene Network}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig7_ORA_CP_RA.png} 
+\caption{Red de les categories i gens}
+\end{figure}
+
+\item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Reactome Pathway}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig8_ORA_PP_RA.png} 
+\caption{Rutes Reactome}
+\end{figure}
+\end{itemize}
+\end{enumerate}
+
+Addicionalment a l'anàlisi ORA podem fer mitjançant l'aplicació l'anàlis GSEA per  les rutes de Reactome. Per fer-ho:
+
+\begin{enumerate}
+
+\item Clico en l'apartat \textit{Reactome Analysis}$\rightarrow$\textit{GSEA}. Selecciono com a mètode d'ajustament \textit{BH} i el cut-off del valor de P ajustat 0.05. Clico a \textit{Calculate results}
+
+Amb  el valor de P de 0.05 l'anàlisi no troba cap ruta enriquida.
+
+\item Augmento el Cut-Off del valor de P a 0.1
+
+Amb el Cut-Off més alt l'aplicació retorna un llistat de gens.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig9_GSEA_RA.png} 
+\caption{Anàlisi GSEA}
+\end{figure}
+
+\item Per obtenir els gràfics GSEA anem a  \textit{Reactome Analysis}$\rightarrow$\textit{GSEA plot}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig10_GSEA_RA.png} 
+\caption{Gràfic GSEA}
+\end{figure}
+\end{enumerate}
+
+També podem fer l'anàlisi de KEGG. El resultat de KEGG és similar a l'anàlisi de Reactome. L'aplicació permet però generar les rutes KEGG. Per obtenir-les:
+
+\begin{enumerate}
+\item Clico en l'apartat \textit{KEGG Analysis}$\rightarrow$\textit{ORA}. Selecciono com a mètode d'ajustament \textit{BH} i el cut-off del valor de P ajustat 0.05. Clico a \textit{Calculate results}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig11_ORA_KEGG.png} 
+\caption{Anàlisi ORA de KEGG}
+\end{figure}
+
+\item Anem a \textit{KEGG}$\rightarrow$\textit{KEGG Pathway}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig12_KEGG_Pathway.png} 
+\caption{Gràfic de les rutes KEGG}
+\end{figure}
+\end{enumerate}
+
+L'anàlisi GO no retorna cap termes GO amb el nivell de significació de 0.05. Pujant el nivell de significació fins 0.1 retorana un llistat dels termes enriquits per als components cel·lulars.
+
+Clico en l'apartat \textit{GO Analysis}$\rightarrow$\textit{ORA}. Selecciono com a mètode d'ajustament \textit{BH} i el cut-off del valor de P ajustat 0.1. Selecciono també \textit{CC}. Clico a \textit{Calculate results}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{Estudi1_Fig13_GO.png} 
+\caption{L'anàlisi ORA de GO}
+\end{figure}
+
+
+\section{Activitats no previstes}
 
 Treballant en el projecte he notat la necessitat de fer tot el procès més segur. El moment clau era quan no he pogut trobar l'USB on he guardat el meu projecte. Ho tenia en USB perquè en treballava dels molts ordinadors diferents: de casa, de feina, en portàtil quan era de viatge. Per tan he decidit guardar tot el projecte en github.com. He creat un repositori al qual puc accedir des d'ordenadors diferents.
 
@@ -408,6 +541,8 @@ Treballant en el projecte he notat la necessitat de fer tot el procès més segu
 \includegraphics[width=0.9\textwidth]{GitHub.png} 
 \caption{Github repositori del TFM}
 \end{figure}
+
+
 
 \bibliography{references}
 \bibliographystyle{apalike}

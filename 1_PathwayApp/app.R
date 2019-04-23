@@ -58,7 +58,7 @@ ui <- dashboardPage(
           selectInput("specie_go", "Select Specie:",
                       c("Homo Sapiens" = "org.Hs.eg.db",
                         "Rat" = "org.Rn.eg.db",
-                        "Mouse"="org.Rn.eg.db",
+                        "Mouse"="org.Mm.eg.db",
                         "Celegans"="org.Ce.eg.db",
                         "Yeast"="org.Sc.sgd.db",
                         "Zebrafish"="org.Dr.eg.db",
@@ -390,7 +390,14 @@ ui <- dashboardPage(
           sliderInput("cat_barplotRA", "Number of categories",
                       min = 2, max = 30,  value = 15),
           imageOutput("BarPlot_RA2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadBarPlotRA","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_bp_ra","Width (pixel)",value=1600),
+              numericInput("hei_bp_ra","Height (pixel)",value = 1200),
+              numericInput("res_bp_ra","Resolution",value=300),
+              numericInput("text_bp_ra","Text size",value=7),
+              downloadButton("downloadBarPlotRA","Download Plot as .png"))
+          
         )#FluidRow
       ), #Item19 End
 #Dot Plot RA Tab
@@ -399,7 +406,13 @@ ui <- dashboardPage(
           sliderInput("cat_dotplotRA", "Number of categories",
                       min = 2, max = 30,  value = 15),
           imageOutput("DotPlot_RA2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadDotPlotRA","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_dp_ra","Width (pixel)",value=1600),
+              numericInput("hei_dp_ra","Height (pixel)",value = 1200),
+              numericInput("res_dp_ra","Resolution",value=300),
+              numericInput("text_dp_ra","Text size",value=7),
+              downloadButton("downloadDotPlotRA","Download Plot as .png"))
         )#FluidRow
 ),#Item20 End
 #Emapplot
@@ -408,7 +421,13 @@ tabItem(tabName = "Emap_RA",
           sliderInput("cat_emapplotRA", "Number of categories",
                       min = 0, max = 30,  value = 15),
           imageOutput("EmapPlot_RA2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadEmapPlotRA","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_ep_ra","Width (pixel)",value=1600),
+              numericInput("hei_ep_ra","Height (pixel)",value = 1200),
+              numericInput("res_ep_ra","Resolution",value=300),
+              downloadButton("downloadEmapPlotRA","Download Plot as .png"))
+          
         )#FluidRow
 ),#Item21 End
 tabItem(tabName = "cnetplot_RA",
@@ -416,21 +435,37 @@ tabItem(tabName = "cnetplot_RA",
           sliderInput("cat_cnetplotRA", "Number of categories",
                       min = 0, max = 30,  value = 15),
           imageOutput("CnetPlot_RA2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadCnetPlotRA","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_cp_ra","Width (pixel)",value=1600),
+              numericInput("hei_cp_ra","Height (pixel)",value = 1200),
+              numericInput("res_cp_ra","Resolution",value=300),
+              downloadButton("downloadCnetPlotRA","Download Plot as .png"))
         )#FluidRow
 ),#Item21 End
 tabItem(tabName = "gsea_RA",
         fluidRow(
           htmlOutput("setsGseaRA"),
           imageOutput("GseaPlot_RA2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadGseaPlotRA","Download Plot as .png")
-        )#FluidRow
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_gsp_ra","Width (pixel)",value=1600),
+              numericInput("hei_gsp_ra","Height (pixel)",value = 1200),
+              numericInput("res_gsp_ra","Resolution",value=300),
+              downloadButton("downloadGseaPlotRA","Download Plot as .png"))
+          )#FluidRow
 ),#Item22 End
 tabItem(tabName = "path_RA",
         fluidRow(
           htmlOutput("setsPathRA"),
           actionButton("calcPathRA","Show path"),
-          imageOutput("PathPlot_RA2")%>%withSpinner(color="#0dc5c1"))
+          imageOutput("PathPlot_RA2")%>%withSpinner(color="#0dc5c1")),
+          box(title="Image download options",
+            status = "primary",width=3,
+            numericInput("wid_pp_ra","Width (pixel)",value=1600),
+            numericInput("hei_pp_ra","Height (pixel)",value = 1200),
+            numericInput("res_pp_ra","Resolution",value=300),
+            downloadButton("downloadPathPlotRA","Download Plot as .png"))
 )
     )#Items
   )#Dashboard
@@ -497,6 +532,8 @@ server <- function(input, output,session) {
                     ont           = input$ont_go,
                     pAdjustMethod = input$adj_go,
                     pvalueCutoff  = as.numeric(input$pval_go),
+                    minGSSize = 5, 
+                    maxGSSize = 500,
                     qvalueCutoff  = 0.05,
                     readable      = TRUE)
   })
@@ -534,7 +571,7 @@ enrichresgo_gsea<-eventReactive(input$calcGoGsea,{
                        OrgDb        = input$specie_go,
                        ont          = input$ont_go_gsea,
                        nPerm        = 1000,
-                       minGSSize    = 100,
+                       minGSSize    = 5,
                        maxGSSize    = 500,
                        pAdjustMethod = input$adj_gsea_go,
                        pvalueCutoff = as.numeric(input$pval_go_gsea),
@@ -767,7 +804,9 @@ enrichreskegg<-eventReactive(input$calcKEGG,{
   kk <- enrichKEGG(gene         = genes()[,1],
                    organism     = kegg_organism2(),
                    pvalueCutoff = as.numeric(input$pval_kegg),
-                   pAdjustMethod =input$adj_kegg)
+                   pAdjustMethod =input$adj_kegg,
+                   minGSSize = 10, 
+                   maxGSSize = 500)
 })
 output$EnrichResultTable_KEGG<-renderText({
   enrichreskegg()@result[,c(1:7,9,8)]%>%
@@ -802,9 +841,10 @@ enrichreskegg_gsea<-eventReactive(input$calcKeggGsea,{
   kk2 <- gseKEGG(geneList     = geneListv,
                organism     = kegg_organism2(),
                nPerm        = 1000,
-               minGSSize    = 120,
                pAdjustMethod = input$adj_gsea_kegg,
                pvalueCutoff = as.numeric(input$pval_kegg_gsea),
+               minGSSize = 5, 
+               maxGSSize = 500,
                verbose      = FALSE)
 })
 output$EnrichResultTable_KEGG_gsea<-renderText({
@@ -998,7 +1038,7 @@ output$pathway_KEGG2<-renderImage({
   pathview(gene.data  = geneListv,
            pathway.id = path.id,
            kegg.dir = paste0(tempdir(),"\\"),
-           species    = "hsa",
+           species    =  kegg_organism2(),
            limit      = list(gene=max(abs(geneListv)), cpd=1))
 
   img <- readPNG(paste0(tempdir(),"\\",path.id,".pathview.png"))
@@ -1021,7 +1061,7 @@ output$downloadPathKegg <- downloadHandler(
     pathview(gene.data  = geneListv,
              pathway.id = path.id,
              kegg.dir = paste0(tempdir(),"\\"),
-             species    = "hsa",
+             species    =  kegg_organism2(),
              limit      = list(gene=max(abs(geneListv)), cpd=1))
     file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
   }, contentType = 'image/png')
@@ -1038,7 +1078,9 @@ enrichresRA<-eventReactive(input$calcRA,{
                   pAdjustMethod = input$adj_RA,
                   pvalueCutoff  = as.numeric(input$pval_RA),
                   qvalueCutoff  = 0.05,
-                  readable      = TRUE)
+                  readable      = TRUE,
+                  minGSSize = 5,
+                  maxGSSize = 500)
 })
 ##########################################################
 output$EnrichResultTable_RA<-renderText({
@@ -1070,10 +1112,11 @@ output$EnrichResultTableRADownload<-downloadHandler(
 enrichresRA_gsea<-eventReactive(input$calcRAGsea,{
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
+  geneListv<-sort(geneListv,decreasing = TRUE)
   ego2 <- gsePathway(geneList     = geneListv,
                 organism          = input$specie,
                 nPerm        = 1000,
-                minGSSize    = 100,
+                minGSSize    = 5,
                 maxGSSize    = 500,
                 pAdjustMethod = input$adj_gsea_RA,
                 pvalueCutoff = as.numeric(input$pval_RA_gsea),
@@ -1126,8 +1169,8 @@ output$BarPlot_RA2<-renderImage({
 output$downloadBarPlotRA <- downloadHandler(
   filename = "BarPlotRA.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = 7, 
+    png(file,width = input$wid_bp_ra, height = input$hei_bp_ra,res=input$res_bp_ra)
+    print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = input$text_bp_ra, 
                   title = paste0("Reactome Pathway Analysis",". Barplot")))
     dev.off()
   })
@@ -1156,8 +1199,8 @@ output$DotPlot_RA2<-renderImage({
 output$downloadDotPlotRA <- downloadHandler(
   filename = "DotPlotRA.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = 7, 
+    png(file,width = input$wid_dp_ra, height = input$hei_dp_ra,res=input$res_dp_ra)
+    print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = input$text_dp_ra, 
                   title = paste0("Reactome Pathway Analysis",". Dotplot")))
     dev.off()
   })
@@ -1186,7 +1229,7 @@ output$EmapPlot_RA2<-renderImage({
 output$downloadEmapPlotRA <- downloadHandler(
   filename = "EmapPlotRA.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
+    png(file,width = input$wid_ep_ra, height = input$hei_ep_ra,res=input$res_ep_ra)
     print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7, 
                    title = paste0("Reactome Pathway Analysis",". Emapplot")))
     dev.off()
@@ -1217,7 +1260,7 @@ output$CnetPlot_RA2<-renderImage({
 output$downloadCnetPlotRA <- downloadHandler(
   filename = "CnetPlotRA.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
+    png(file,width = input$wid_cp_ra, height = input$hei_cp_ra,res=input$res_cp_ra)
     print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7, 
                    title = paste0("RA Pathway Analysis",". Category-gene-network")))
     dev.off()
@@ -1265,7 +1308,7 @@ output$setsPathRA <- renderUI({
 PathPlotRA<-eventReactive(input$calcPathRA,{
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
-  MyPlot<-viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv)
+  MyPlot<-viewPathway(input$geneSetPathRA,readable=TRUE, foldChange=geneListv,organism=input$specie)
 })
 
 
@@ -1277,17 +1320,24 @@ output$PathPlot_RA2<-renderImage({
   pixelratio <- session$clientData$pixelratio
   
   outfile <- tempfile(fileext = '.png')
-  png(outfile, width = width*pixelratio, height = height*pixelratio,
-      res = 72*pixelratio)
+  png(outfile, width = 700, height = 400)
   print(PathPlotRA())
   dev.off()
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
-       width = width,
-       height = height,
+       width = 700,
+       height = 400,
        alt = "This is alternate text")
 }, deleteFile = TRUE)
 
+
+output$downloadPathPlotRA<- downloadHandler(
+  filename = "GseaPlot.png",
+  content = function(file) {
+    png(file,width = input$wid_pp_ra, height = hei_pp_ra,res=res_pp_ra)
+    print(PathPlotRA())
+    dev.off()
+  })
 }
 shinyApp(ui, server)
