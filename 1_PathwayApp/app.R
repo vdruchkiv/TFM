@@ -296,7 +296,13 @@ ui <- dashboardPage(
           sliderInput("cat_barplotkegg", "Number of categories",
                       min = 2, max = 30,  value = 15),
           imageOutput("BarPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadBarPlotKegg","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_bp_kegg","Width (pixel)",value=1600),
+              numericInput("hei_bp_kegg","Height (pixel)",value = 1200),
+              numericInput("res_bp_kegg","Resolution",value=300),
+              numericInput("text_bp_kegg","Text size",value=7),
+              downloadButton("downloadBarPlotKegg","Download Plot as .png"))
         )#FluidRow
     ),#Item12 End
     #Dot Plot KEGG Tab
@@ -305,7 +311,13 @@ ui <- dashboardPage(
           sliderInput("cat_dotplotkegg", "Number of categories",
                       min = 2, max = 30,  value = 15),
           imageOutput("DotPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadDotPlotKegg","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_dp_kegg","Width (pixel)",value=1600),
+              numericInput("hei_dp_kegg","Height (pixel)",value = 1200),
+              numericInput("res_dp_kegg","Resolution",value=300),
+              numericInput("text_dp_kegg","Text size",value=7),
+          downloadButton("downloadDotPlotKegg","Download Plot as .png"))
         )#FluidRow
     ), #Item13 End
     #Emapplot
@@ -314,7 +326,12 @@ ui <- dashboardPage(
                   sliderInput("cat_emapplotkegg", "Number of categories",
                               min = 0, max = 30,  value = 15),
                   imageOutput("EmapPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
-                  downloadButton("downloadEmapPlotKegg","Download Plot as .png")
+                  box(title="Image download options",
+                      status = "primary",width=3,
+                      numericInput("wid_ep_kegg","Width (pixel)",value=1600),
+                      numericInput("hei_ep_kegg","Height (pixel)",value = 1200),
+                      numericInput("res_ep_kegg","Resolution",value=300),
+                  downloadButton("downloadEmapPlotKegg","Download Plot as .png"))
                 )#FluidRow
         ), #Item14 End
     tabItem(tabName = "cnetplot_KEGG",
@@ -322,14 +339,24 @@ ui <- dashboardPage(
           sliderInput("cat_cnetplotkegg", "Number of categories",
                       min = 0, max = 30,  value = 15),
           imageOutput("CnetPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadCnetPlotKegg","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_cp_kegg","Width (pixel)",value=1600),
+              numericInput("hei_cp_kegg","Height (pixel)",value = 1200),
+              numericInput("res_cp_kegg","Resolution",value=300),
+          downloadButton("downloadCnetPlotKegg","Download Plot as .png"))
         )#FluidRow
     ),#Item14 End
     tabItem(tabName = "gsea_KEGG",
         fluidRow(
           htmlOutput("setsGseaKegg"),
           imageOutput("GseaPlot_KEGG2")%>%withSpinner(color="#0dc5c1"),
-          downloadButton("downloadGseaPlotKegg","Download Plot as .png")
+          box(title="Image download options",
+              status = "primary",width=3,
+              numericInput("wid_gsp_kegg","Width (pixel)",value=1600),
+              numericInput("hei_gsp_kegg","Height (pixel)",value = 1200),
+              numericInput("res_gsp_kegg","Resolution",value=300),
+          downloadButton("downloadGseaPlotKegg","Download Plot as .png"))
         )#FluidRow
     ), #Item15 End  
     tabItem(tabName = "pathway_KEGG",
@@ -894,11 +921,13 @@ output$BarPlot_KEGG2<-renderImage({
 output$downloadBarPlotKegg <- downloadHandler(
   filename = "BarPlotKEGG.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(barplot(enrichreskegg(), showCategory = input$cat_barplotkegg, font.size = 7, 
+    png(file,width = input$wid_bp_kegg, height = input$hei_bp_kegg,res=input$res_bp_kegg)
+    print(barplot(enrichreskegg(), showCategory = input$cat_barplotkegg, font.size = input$text_bp_kegg, 
                   title = paste0("KEGG Pathway Analysis",". Barplot")))
     dev.off()
   })
+
+
 ##################################
 ###########DotPlotKEGG##############
 output$DotPlot_KEGG2<-renderImage({
@@ -923,8 +952,8 @@ output$DotPlot_KEGG2<-renderImage({
 output$downloadDotPlotKegg <- downloadHandler(
   filename = "DotPlotKegg.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(dotplot(enrichrekegg(), showCategory = input$cat_dotplotkegg, font.size = 7, 
+    png(file,width = input$wid_dp_kegg, height = input$hei_dp_kegg,res=input$res_dp_kegg)
+    print(dotplot(enrichrekegg(), showCategory = input$cat_dotplotkegg, font.size = input$res_dp_kegg, 
                   title = paste0("KEGG Pathway Analysis",". Dotplot")))
     dev.off()
   })
@@ -953,8 +982,8 @@ output$EmapPlot_KEGG2<-renderImage({
 output$downloadEmapPlotKegg <- downloadHandler(
   filename = "EmapPlotKEGG.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(emapplot(enrichreskegg(), showCategory = input$cat_emapplotkegg, font.size = 7, 
+    png(file,width = input$wid_ep_kegg, height = input$hei_ep_kegg,res=input$res_ep_kegg)
+    print(emapplot(enrichreskegg(), showCategory = input$cat_emapplotkegg,
                    title = paste0("KEGG Pathway Analysis",". Emapplot")))
     dev.off()
   })
@@ -983,8 +1012,8 @@ output$CnetPlot_KEGG2<-renderImage({
 output$downloadCnetPlotKegg <- downloadHandler(
   filename = "CnetPlotKEGG.png",
   content = function(file) {
-    png(file,width = 1600, height = 1200,res=300)
-    print(cnetplot(enrichreskegg(), showCategory = input$cat_cnetplotkegg, font.size = 7, 
+    png(file,width = input$wid_cp_kegg, height = input$hei_cp_kegg,res=input$res_cp_kegg)
+    print(cnetplot(enrichreskegg(), showCategory = input$cat_cnetplotkegg, 
                    title = paste0("KEGG Pathway Analysis",". Category-gene-network")))
     dev.off()
   })
@@ -1016,7 +1045,7 @@ output$GseaPlot_KEGG2<-renderImage({
 output$downloadGseaPlotKegg <- downloadHandler(
   filename = "GseaPlotKEGG.png",
   content = function(file) {
-    png(file,width = 1800, height = 1600,res=300)
+    png(file,input$wid_gsp_kegg, height = input$hei_gsp_kegg,res=input$res_gsp_kegg)
     print(gseaplot(enrichreskegg_gsea(), geneSetID = enrichreskegg_gsea()@result$ID[enrichreskegg_gsea()@result$Description==input$geneSetGseaKegg]))
     dev.off()
   })
