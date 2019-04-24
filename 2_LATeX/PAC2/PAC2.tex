@@ -638,8 +638,14 @@ Utilitzant el GitBash es pot documentar els canvis (\helvetica{commit}) i pujar 
 
 \section*{Biblilografia}
 \addcontentsline{toc}{section}{Biblilografia}
+
+\begingroup
+\renewcommand{\section}[2]{}%
+%\renewcommand{\chapter}[2]{}% for other classes
 \bibliography{references}
+\endgroup
 \bibliographystyle{apalike}
+
 
 \newpage
 \section*{Apèndix}
@@ -753,6 +759,7 @@ package:utils & write.csv\\
 \bottomrule
 \end{longtable}
 \endgroup{}
+
 
 \end{document}
 
