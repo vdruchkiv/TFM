@@ -1,4 +1,4 @@
-Package: pathview
+Package: pathview_patched
 Type: Package
 Title: a tool set for pathway based data integration and visualization
 Version: 1.22.3

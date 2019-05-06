@@ -1,6 +1,12 @@
+pathview_patched
+-------------
+
+  o saves images to dir=... folder
+
+
 VERSION 1.23.3 (1.22.3)
 -------------
-  
+
   o fix error and warning cause by geneannot.map() function. change
     if(in.type == out.type) to if(all(in.type == out.type)). change
     biocLite installation to BiocManager::install. make similar changes
@@ -11,14 +17,14 @@ VERSION 1.23.3 (1.22.3)
 
 VERSION 1.18.2
 -------------
-  
+
   o korg now include 5245 KEGG species. To speed up pathview package
     loading, an updated version of korg is now checked out from
     Pathview Web server only when it is acutally used and needed.
 
 VERSION 1.17.7
 -------------
-  
+
   o updated combineKEGGnodes.R, i.e. changed the stop error to a
     warning message when a group node include different node types,
     i.e. both gene and compound. This problematic KEGG node definition
@@ -32,7 +38,7 @@ VERSION 1.17.7
 
 VERSION 1.17.1
 -------------
-  
+
   o major expansion in korg, which now include both KEGG and NCBI
     taxonomy IDs, two more gene ID types, i.e. NCBI protein and uniprot
     IDs. In addition, Entrez or NCBI Gene IDs are discontinued for most
@@ -45,13 +51,13 @@ VERSION 1.17.1
 
 VERSION 1.15.1
 -------------
-  
+
   o fixed bug in node.map on single row/mapped data, and in mapped row
     numbers.
 
 VERSION 1.10.2
 -------------
-  
+
   o fixed problem that no node mapped when one gene/protein ID maps to
     multiple Entrez Gene ID (like Enzyme IDs): id2eg call with unique.map=F.
 
@@ -202,11 +208,11 @@ VERSION 1.0.0
 
   o Main function: pathview
 
-  o Four functional modules: 
+  o Four functional modules:
     -Downloader: download.kegg;
     -Parser: node.info, combineKEGGnodes, reaction2edge;
     -Mapper: node.map, eg2id, id2eg, cpdkegg2name, cpdname2kegg,
-    	     cpd2kegg, cpdidmap, kegg.species.code, mol.sum, 
+    	     cpd2kegg, cpdidmap, kegg.species.code, mol.sum,
 	     sim.mol.data;
-    -Viewer: keggview.native, keggview.graph, node.color, 
+    -Viewer: keggview.native, keggview.graph, node.color,
     	     col.key, wordwrap, strfit
