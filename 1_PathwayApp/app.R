@@ -46,7 +46,7 @@ ui <- dashboardPage(
              menuItem("GSEA plot", tabName = "gsea_RA", icon = icon("share-square")),
              menuItem("Reactome Pathway", tabName = "path_RA", icon = icon("bezier-curve"))
     )
-    
+
   )
   ),
   dashboardBody(
@@ -245,7 +245,7 @@ ui <- dashboardPage(
                   downloadButton("downloadGseaPlotGo","Download Plot as .png"))
             )#FluidRow
     ),#Item9 End
-############################KEGG#########################################    
+############################KEGG#########################################
     tabItem(tabName = "EnrichSpecs_KEGG",
             fluidRow(
               radioButtons("pval_kegg", h3("Select P-Value threshold:"),
@@ -358,7 +358,7 @@ ui <- dashboardPage(
               numericInput("res_gsp_kegg","Resolution",value=300),
           downloadButton("downloadGseaPlotKegg","Download Plot as .png"))
         )#FluidRow
-    ), #Item15 End  
+    ), #Item15 End
     tabItem(tabName = "pathway_KEGG",
         fluidRow(
           htmlOutput("PathKeggUi"),
@@ -424,7 +424,7 @@ ui <- dashboardPage(
               numericInput("res_bp_ra","Resolution",value=300),
               numericInput("text_bp_ra","Text size",value=7),
               downloadButton("downloadBarPlotRA","Download Plot as .png"))
-          
+
         )#FluidRow
       ), #Item19 End
 #Dot Plot RA Tab
@@ -454,7 +454,7 @@ tabItem(tabName = "Emap_RA",
               numericInput("hei_ep_ra","Height (pixel)",value = 1200),
               numericInput("res_ep_ra","Resolution",value=300),
               downloadButton("downloadEmapPlotRA","Download Plot as .png"))
-          
+
         )#FluidRow
 ),#Item21 End
 tabItem(tabName = "cnetplot_RA",
@@ -516,39 +516,39 @@ server <- function(input, output,session) {
     df$`Entrez ID`<-as.character(df$`Entrez ID`)
     return(df)
   })
-  
 
 
+
 ##################################################################
 ##################################################################
 ##################################################################
-###########################GO#####################################  
+###########################GO#####################################
   #Show first few rows
   output$TxtEnterdGenes<-renderText({
     req(input$file1)
-    paste0("You uploaded: ",length(geneList()[,1])," genes") 
+    paste0("You uploaded: ",length(geneList()[,1])," genes")
   })
-  
+
   output$data_preview<-renderText({
     req(input$file1)
     head(geneList(),10)%>%
       kable(caption="First 10 entries",format = "html", escape = F,digits = 3,row.names = FALSE)%>%
       kable_styling(c("striped"), full_width = F,fixed_thead = T,position = "left")
-    
+
   })
-  
+
 
   #Rendering text. How many selected genes?
   output$TxtSelectedGenes<-renderText({
     req(input$file2)
-    paste0("You selected: ",length(genes()[,1])," genes") 
+    paste0("You selected: ",length(genes()[,1])," genes")
   })
   output$data_preview2<-renderText({
     req(input$file2)
     head(genes(),10)%>%
       kable(caption="First 10 entries",format = "html", escape = F,digits = 3,row.names = FALSE)%>%
       kable_styling(c("striped"), full_width = F,fixed_thead = T,position = "left")
-    
+
   })
   ######################################################################
   #Enrichment Specs GO
@@ -559,7 +559,7 @@ server <- function(input, output,session) {
                     ont           = input$ont_go,
                     pAdjustMethod = input$adj_go,
                     pvalueCutoff  = as.numeric(input$pval_go),
-                    minGSSize = 5, 
+                    minGSSize = 5,
                     maxGSSize = 500,
                     qvalueCutoff  = 0.05,
                     readable      = TRUE)
@@ -586,7 +586,7 @@ output$EnrichResultTableGoDownload<-downloadHandler(
     paste0("EnrichmentResult_GO",".csv",sep="")
   },
   content = function(file){
-  write.csv(enrichresgo(),file,row.names = FALSE)  
+  write.csv(enrichresgo(),file,row.names = FALSE)
   }
 )
 ######################################################################
@@ -624,7 +624,7 @@ output$EnrichResultTableGoGseaDownload<-downloadHandler(
     paste0("EnrichmentResult_GSEA_GO",".csv",sep="")
   },
   content = function(file){
-    write.csv(enrichresgo_gsea(),file,row.names = FALSE)  
+    write.csv(enrichresgo_gsea(),file,row.names = FALSE)
   })
 
 ##################################
@@ -633,13 +633,13 @@ output$BarPlot_GO2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height =400)
-  print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = 7, 
+  print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = 7,
           title = paste0("GO Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -652,23 +652,23 @@ output$downloadBarPlotGo <- downloadHandler(
   filename = "BarPlot.png",
   content = function(file) {
     png(file,width =input$wid_bp_go, height = input$hei_bp_go,res=input$res_bp_go)
-    print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = input$text_bp_go, 
+    print(barplot(enrichresgo(), showCategory = input$cat_barplotgo, font.size = input$text_bp_go,
                   title = paste0("GO Pathway Analysis",". Barplot")))
     dev.off()
-  })    
+  })
 ##################################
 ###########DotPlotGO##############
 output$DotPlot_GO2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(dotplot(enrichresgo(), showCategory = input$cat_dotplotgo, font.size = 7, 
+  print(dotplot(enrichresgo(), showCategory = input$cat_dotplotgo, font.size = 7,
                 title = paste0("GO Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -681,7 +681,7 @@ output$downloadDotPlotGo <- downloadHandler(
   filename = "DotPlot.png",
   content = function(file) {
     png(file,width = input$wid_dp_go, height = input$hei_dp_go,res=input$res_dp_go)
-    print(dotplot(enrichresgo(), showCategory = input$cat_dotplotgo, font.size = input$text_dp_go, 
+    print(dotplot(enrichresgo(), showCategory = input$cat_dotplotgo, font.size = input$text_dp_go,
                   title = paste0("GO Pathway Analysis",". Dotplot")))
     dev.off()
   })
@@ -692,13 +692,13 @@ output$EmapPlot_GO2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width=700,height = 400)
-  print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo, font.size = 7, 
+  print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo, font.size = 7,
                 title = paste0("GO Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -712,7 +712,7 @@ output$downloadEmapPlotGo <- downloadHandler(
   filename = "EmapPlot.png",
   content = function(file) {
     png(file,width = input$wid_ep_go, height = input$hei_ep_go,res=input$res_ep_go)
-    print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo, 
+    print(emapplot(enrichresgo(), showCategory = input$cat_emapplotgo,
                   title = paste0("GO Pathway Analysis",". Emapplot")))
     dev.off()
   })
@@ -723,13 +723,13 @@ output$CnetPlot_GO2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(cnetplot(enrichresgo(), showCategory = input$cat_cnetplotgo, font.size = 7, 
+  print(cnetplot(enrichresgo(), showCategory = input$cat_cnetplotgo, font.size = 7,
                  title = paste0("GO Pathway Analysis",". Category-gene-network")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -753,13 +753,13 @@ output$GoPlot_GO2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(goplot(enrichresgo(), showCategory = input$cat_goplotgo, font.size = 7, 
+  print(goplot(enrichresgo(), showCategory = input$cat_goplotgo, font.size = 7,
                  title = paste0("GO Pathway Analysis",". Go Plot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -772,26 +772,26 @@ output$downloadGoPlotGo <- downloadHandler(
   filename = "GoPlot.png",
   content = function(file) {
     png(file,width = input$wid_gp_go, height = input$hei_gp_go,res=input$res_gp_go)
-    print(goplot(enrichresgo(), showCategory = input$cat_goplotgo, 
+    print(goplot(enrichresgo(), showCategory = input$cat_goplotgo,
                    title = paste0("GO Pathway Analysis",". Go Plot")))
     dev.off()
   })
 
 ##################################
 ###########GseaPlotGO##############
-output$setsGseaGo <- renderUI({ 
+output$setsGseaGo <- renderUI({
   selectInput("geneSetGseaGo", "Select gene set", enrichresgo_gsea()@result$Description)
 })
 output$GseaPlot_GO2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
   print(gseaplot(enrichresgo_gsea(), geneSetID = enrichresgo_gsea()@result$ID[enrichresgo_gsea()@result$Description==input$geneSetGseaGo]))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -811,15 +811,15 @@ output$downloadGseaPlotGo <- downloadHandler(
 ##################################################################
 ##################################################################
 ##################################################################
-###########################KEGG################################### 
-  
+###########################KEGG###################################
+
 ######################################################################
 #Enrichment Specs
 
 kegg_organism1<-reactive({
-org<-search_kegg_organism(input$searchKEGGspecie,by='scientific_name', ignore.case = TRUE)  
+org<-search_kegg_organism(input$searchKEGGspecie,by='scientific_name', ignore.case = TRUE)
 })
-output$SelSpecieKEGG <- renderUI({ 
+output$SelSpecieKEGG <- renderUI({
 selectInput("specieKEGG", "Select KEGG Specie",kegg_organism1()$scientific_name)
 })
 kegg_organism2<-function(){
@@ -832,7 +832,7 @@ enrichreskegg<-eventReactive(input$calcKEGG,{
                    organism     = kegg_organism2(),
                    pvalueCutoff = as.numeric(input$pval_kegg),
                    pAdjustMethod =input$adj_kegg,
-                   minGSSize = 10, 
+                   minGSSize = 10,
                    maxGSSize = 500)
 })
 output$EnrichResultTable_KEGG<-renderText({
@@ -846,7 +846,7 @@ output$EnrichResultTable_KEGG<-renderText({
     kable(format = "html", escape = F,digits = 3,row.names = FALSE)%>%
     kable_styling(c("striped","hover"), full_width = F,fixed_thead = T)%>%
     scroll_box(width = "900px", height = "600px")
-  
+
 })
 output$download_er_kegg <- renderUI({
   req(enrichreskegg())
@@ -857,7 +857,7 @@ output$EnrichResultTableKeggDownload<-downloadHandler(
     paste0("EnrichmentResult_Kegg",".csv",sep="")
   },
   content = function(file){
-    write.csv(enrichreskegg(),file,row.names = FALSE)  
+    write.csv(enrichreskegg(),file,row.names = FALSE)
   }
 )
 ############################################################################
@@ -870,7 +870,7 @@ enrichreskegg_gsea<-eventReactive(input$calcKeggGsea,{
                nPerm        = 1000,
                pAdjustMethod = input$adj_gsea_kegg,
                pvalueCutoff = as.numeric(input$pval_kegg_gsea),
-               minGSSize = 5, 
+               minGSSize = 5,
                maxGSSize = 500,
                verbose      = FALSE)
 })
@@ -894,7 +894,7 @@ output$EnrichResultTableKeggGseaDownload<-downloadHandler(
     paste0("EnrichmentResult_GSEA_KEGG",".csv",sep="")
   },
   content = function(file){
-    write.csv(enrichreskegg_gsea(),file,row.names = FALSE)  
+    write.csv(enrichreskegg_gsea(),file,row.names = FALSE)
   })
 
 ##################################
@@ -903,13 +903,13 @@ output$BarPlot_KEGG2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(barplot(enrichreskegg(), showCategory = input$cat_barplotkegg, font.size = 7, 
+  print(barplot(enrichreskegg(), showCategory = input$cat_barplotkegg, font.size = 7,
                 title = paste0("KEGG Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -922,7 +922,7 @@ output$downloadBarPlotKegg <- downloadHandler(
   filename = "BarPlotKEGG.png",
   content = function(file) {
     png(file,width = input$wid_bp_kegg, height = input$hei_bp_kegg,res=input$res_bp_kegg)
-    print(barplot(enrichreskegg(), showCategory = input$cat_barplotkegg, font.size = input$text_bp_kegg, 
+    print(barplot(enrichreskegg(), showCategory = input$cat_barplotkegg, font.size = input$text_bp_kegg,
                   title = paste0("KEGG Pathway Analysis",". Barplot")))
     dev.off()
   })
@@ -934,13 +934,13 @@ output$DotPlot_KEGG2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(dotplot(enrichreskegg(), showCategory = input$cat_dotplotkegg, font.size = 7, 
+  print(dotplot(enrichreskegg(), showCategory = input$cat_dotplotkegg, font.size = 7,
                 title = paste0("KEGG Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -953,7 +953,7 @@ output$downloadDotPlotKegg <- downloadHandler(
   filename = "DotPlotKegg.png",
   content = function(file) {
     png(file,width = input$wid_dp_kegg, height = input$hei_dp_kegg,res=input$res_dp_kegg)
-    print(dotplot(enrichrekegg(), showCategory = input$cat_dotplotkegg, font.size = input$res_dp_kegg, 
+    print(dotplot(enrichrekegg(), showCategory = input$cat_dotplotkegg, font.size = input$res_dp_kegg,
                   title = paste0("KEGG Pathway Analysis",". Dotplot")))
     dev.off()
   })
@@ -964,13 +964,13 @@ output$EmapPlot_KEGG2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(emapplot(enrichreskegg(), showCategory = input$cat_emapplotkegg, font.size = 7, 
+  print(emapplot(enrichreskegg(), showCategory = input$cat_emapplotkegg, font.size = 7,
                  title = paste0("KEGG Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -994,13 +994,13 @@ output$CnetPlot_KEGG2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(cnetplot(enrichreskegg(), showCategory = input$cat_cnetplotkegg, font.size = 7, 
+  print(cnetplot(enrichreskegg(), showCategory = input$cat_cnetplotkegg, font.size = 7,
                  title = paste0("KEGG Pathway Analysis",". Category-gene-network")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1013,7 +1013,7 @@ output$downloadCnetPlotKegg <- downloadHandler(
   filename = "CnetPlotKEGG.png",
   content = function(file) {
     png(file,width = input$wid_cp_kegg, height = input$hei_cp_kegg,res=input$res_cp_kegg)
-    print(cnetplot(enrichreskegg(), showCategory = input$cat_cnetplotkegg, 
+    print(cnetplot(enrichreskegg(), showCategory = input$cat_cnetplotkegg,
                    title = paste0("KEGG Pathway Analysis",". Category-gene-network")))
     dev.off()
   })
@@ -1021,19 +1021,19 @@ output$downloadCnetPlotKegg <- downloadHandler(
 
 ##################################
 ###########GseaPlotGO##############
-output$setsGseaKegg <- renderUI({ 
+output$setsGseaKegg <- renderUI({
   selectInput("geneSetGseaKegg", "Select gene set", enrichreskegg_gsea()@result$Description)
 })
 output$GseaPlot_KEGG2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
   print(gseaplot(enrichreskegg_gsea(), geneSetID = enrichreskegg_gsea()@result$ID[enrichreskegg_gsea()@result$Description==input$geneSetGseaKegg]))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1052,7 +1052,7 @@ output$downloadGseaPlotKegg <- downloadHandler(
 
 ###################################
 ##########Pathway_KEGG############
-output$PathKeggUi <- renderUI({ 
+output$PathKeggUi <- renderUI({
   selectInput("PathKegg", "Select gene set", enrichreskegg()@result$Description[enrichreskegg()@result$p.adjust<=as.numeric(input$pval_kegg)])
 })
 # path.id<-reactive({
@@ -1063,8 +1063,8 @@ output$pathway_KEGG2<-renderImage({
   req(enrichreskegg())
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
- path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg] 
-  pathview(gene.data  = geneListv,
+ path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
+ pathviewPatched::pathview(gene.data  = geneListv,
            pathway.id = path.id,
            kegg.dir = paste0(tempdir(),"\\"),
            species    =  kegg_organism2(),
@@ -1073,7 +1073,7 @@ output$pathway_KEGG2<-renderImage({
   img <- readPNG(paste0(tempdir(),"\\",path.id,".pathview.png"))
   width <- ncol(img)*0.5
   height <- nrow(img)*0.5
-  
+
   list(src = paste0(tempdir(),"\\",path.id,".pathview.png"),
        contentType = 'image/png',
        width = width,
@@ -1087,7 +1087,7 @@ output$downloadPathKegg <- downloadHandler(
     geneListv<-geneList()[,2]
     names(geneListv)<-geneList()[,1]
     path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
-    pathview(gene.data  = geneListv,
+    pathviewPatched::pathview(gene.data  = geneListv,
              pathway.id = path.id,
              kegg.dir = paste0(tempdir(),"\\"),
              species    =  kegg_organism2(),
@@ -1098,7 +1098,7 @@ output$downloadPathKegg <- downloadHandler(
 ##################################################################
 ##################################################################
 ##################################################################
-#########################REACTOME################################# 
+#########################REACTOME#################################
 
 #Enrichment Specs Reactome
 enrichresRA<-eventReactive(input$calcRA,{
@@ -1123,7 +1123,7 @@ output$EnrichResultTable_RA<-renderText({
     kable(format = "html", escape = F,digits = 3,row.names = FALSE)%>%
     kable_styling(c("striped","hover"), full_width = F,fixed_thead = T)%>%
     scroll_box(width = "900px", height = "600px")
-  
+
 })
 output$download_er_RA<- renderUI({
   req(enrichresRA())
@@ -1134,7 +1134,7 @@ output$EnrichResultTableRADownload<-downloadHandler(
     paste0("EnrichmentResult_RA",".csv",sep="")
   },
   content = function(file){
-    write.csv(enrichresRA(),file,row.names = FALSE)  
+    write.csv(enrichresRA(),file,row.names = FALSE)
   }
 )
 #GSEA
@@ -1171,7 +1171,7 @@ output$EnrichResultTableRAGseaDownload<-downloadHandler(
     paste0("EnrichmentResult_GSEA_RA",".csv",sep="")
   },
   content = function(file){
-    write.csv(enrichresRA_gsea(),file,row.names = FALSE)  
+    write.csv(enrichresRA_gsea(),file,row.names = FALSE)
   })
 
 ##################################
@@ -1180,13 +1180,13 @@ output$BarPlot_RA2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = 7, 
+  print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = 7,
                 title = paste0("Reactome Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1199,7 +1199,7 @@ output$downloadBarPlotRA <- downloadHandler(
   filename = "BarPlotRA.png",
   content = function(file) {
     png(file,width = input$wid_bp_ra, height = input$hei_bp_ra,res=input$res_bp_ra)
-    print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = input$text_bp_ra, 
+    print(barplot(enrichresRA(), showCategory = input$cat_barplotRA, font.size = input$text_bp_ra,
                   title = paste0("Reactome Pathway Analysis",". Barplot")))
     dev.off()
   })
@@ -1210,13 +1210,13 @@ output$DotPlot_RA2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = 7, 
+  print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = 7,
                 title = paste0("Reactome Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1229,7 +1229,7 @@ output$downloadDotPlotRA <- downloadHandler(
   filename = "DotPlotRA.png",
   content = function(file) {
     png(file,width = input$wid_dp_ra, height = input$hei_dp_ra,res=input$res_dp_ra)
-    print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = input$text_dp_ra, 
+    print(dotplot(enrichresRA(), showCategory = input$cat_dotplotRA, font.size = input$text_dp_ra,
                   title = paste0("Reactome Pathway Analysis",". Dotplot")))
     dev.off()
   })
@@ -1240,13 +1240,13 @@ output$EmapPlot_RA2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7, 
+  print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7,
                  title = paste0("RA Pathway Analysis",". Barplot")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1259,7 +1259,7 @@ output$downloadEmapPlotRA <- downloadHandler(
   filename = "EmapPlotRA.png",
   content = function(file) {
     png(file,width = input$wid_ep_ra, height = input$hei_ep_ra,res=input$res_ep_ra)
-    print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7, 
+    print(emapplot(enrichresRA(), showCategory = input$cat_emapplotRA, font.size = 7,
                    title = paste0("Reactome Pathway Analysis",". Emapplot")))
     dev.off()
   })
@@ -1271,13 +1271,13 @@ output$CnetPlot_RA2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
-  print(cnetplot(enrichresRA(), foldChange=geneListv,showCategory = input$cat_cnetplotRA, font.size = 7, 
+  print(cnetplot(enrichresRA(), foldChange=geneListv,showCategory = input$cat_cnetplotRA, font.size = 7,
                  title = paste0("RA Pathway Analysis",". Category-gene-network")))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1290,26 +1290,26 @@ output$downloadCnetPlotRA <- downloadHandler(
   filename = "CnetPlotRA.png",
   content = function(file) {
     png(file,width = input$wid_cp_ra, height = input$hei_cp_ra,res=input$res_cp_ra)
-    print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7, 
+    print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7,
                    title = paste0("RA Pathway Analysis",". Category-gene-network")))
     dev.off()
   })
 
 ##################################
 ###########GseaPlotRA##############
-output$setsGseaRA <- renderUI({ 
+output$setsGseaRA <- renderUI({
   selectInput("geneSetGseaRA", "Select gene set", enrichresRA_gsea()@result$Description)
 })
 output$GseaPlot_RA2<-renderImage({
   # A temp file to save the output.
   # This file will be removed later by renderImage
   outfile <- tempfile(fileext = '.png')
-  
+
   # Generate the PNG
   png(outfile, width = 700, height = 400)
   print(gseaplot(enrichresRA_gsea(), geneSetID = enrichresRA_gsea()@result$ID[enrichresRA_gsea()@result$Description==input$geneSetGseaRA]))
   dev.off()
-  
+
   # Return a list containing the filename
   list(src = outfile,
        contentType = 'image/png',
@@ -1328,7 +1328,7 @@ output$downloadGseaPlotRA <- downloadHandler(
 
 ##################################
 ###########PathPlotRA##############
-output$setsPathRA <- renderUI({ 
+output$setsPathRA <- renderUI({
   selectInput("geneSetPathRA", "Select gene set", enrichresRA()@result$Description)
 })
 
@@ -1344,10 +1344,10 @@ PathPlotRA<-eventReactive(input$calcPathRA,{
 output$PathPlot_RA2<-renderImage({
   width  <- session$clientData$output_PathPlot_RA2_width
   height <- session$clientData$output_PathPlot_RA2_height
-  
+
   # For high-res displays, this will be greater than 1
   pixelratio <- session$clientData$pixelratio
-  
+
   outfile <- tempfile(fileext = '.png')
   png(outfile, width = 700, height = 400)
   print(PathPlotRA())
