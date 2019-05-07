@@ -1,5 +1,5 @@
-\name{runExample}
-\alias{runExample}
+\name{runPathwayApp}
+\alias{runPathwayApp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{runExample
 %%  ~~function to do ... ~~
