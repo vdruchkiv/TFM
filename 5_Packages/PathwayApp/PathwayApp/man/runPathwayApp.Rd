@@ -11,7 +11,7 @@ Launches PathwayApp
 \usage{
 runExample()
 }
-%- maybe also 'usage' for other objects documented here.
+%- maybe also 'usage' for other lsobjects documented here.
 \arguments{
   \item{}{
 %%     ~~Describe \code{x} here~~
