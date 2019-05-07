@@ -19,5 +19,6 @@ Imports:
     knitr,
     kableExtra,
     formattable,
-    pathview
+    pathview,
+    pathviewPatched
 Remotes: vdruchkiv/TFM/5_Packages/pathviewPatched
