@@ -5,8 +5,9 @@
 %%  ~~function to do ... ~~
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 Launches PathwayApp
+see my project on GitHub https://github.com/vdruchkiv/TFM.
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 runExample()
@@ -45,15 +46,7 @@ Vasyl Druchkiv
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x)
-{
-  }
-}
+runExample()
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
