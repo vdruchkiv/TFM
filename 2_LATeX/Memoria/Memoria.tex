@@ -1,0 +1,92 @@
+\documentclass[]{article}
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+}
+\usepackage{booktabs} 
+\usepackage{longtable}
+\usepackage{appendix}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage[justification=centering]{caption}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\DeclareTextFontCommand{\helvetica}{\fontfamily{phv}\selectfont}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+\linespread{1.5}
+
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+
+\title{Memoria del treball final de màster}
+\date{15 d'Abril 2019}
+\author{Vasyl Druchkiv \\ Estudiant del Màster de Bioestadística i Bioinformàtica}
+\renewcommand{\contentsname}{Índice}
+\usepackage{setspace}
+
+
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+{-2.5ex\@plus -1ex \@minus -.25ex}%
+{1.25ex \@plus .25ex}%
+{\normalfont\normalsize\bfseries}}
+
+\begin{document}
+\maketitle
+\makeatletter
+
+\makeatother
+\begin{spacing}{0.1}
+\tableofcontents
+\end{spacing}
+
+\begin{center}
+\noindent\rule{8cm}{0.4pt}
+\end{center}
+
+\section{Introducció}
+\section{Descripció dels mètodes} 
+
+\section{Anàlisi de les rutes - final del pipeline d'anàlisi d'expressió}
+\subsection{ORA}
+
+L'anàlisi de sobreexpressió és una tècnica d'identificació de les rutes significativament enriquides en la mostra d'interès. 
+
+El paper original què se cita habitualment quan es parla d'anàlisi d'expressió genètica és de \cite{boyle2004go}. El mètode estadístic descrit consisteix bàsicament en els pasos següents:
+
+\begin{enumerate}
+\item \textbf{De tots els gens de la mostra seleccionar un grup de gens que es considera que són significativament expressats.}
+
+Els criteris de selecció poden baser-se en \textit{log ratios} o/i en el valor de p provenent d'un test estadístic. \textit{Log ratios} donen la magnitut amb el qual un gen és sobre o sotaexpressats. Les diferències entre els grups però són el resultat d'un procès estochàstic i per tan hem d'intentar de minimitzar el risc de prendre decisions falses. El valor de p representa la probabilitat d'aquest risc i per tant dona certa confiança sobre la significació de les diferències observades.
+
+\item \textbf{Determinar si algunes rutes anoten la llista especificada de gens amb la freqüència més alta que un esperaria per casualitat.} 
+
+El test estadístic es basa en la distribució hipergeomètrica: 
+
+$$p = 1 - \displaystyle\sum_{i = 0}^{k-1}\frac{{M \choose i}{{N-M} \choose {n-i}}} {{N \choose n}}$$
+
+En aquesta equació $N$ és el nombre total de gens en la distribució de fons, $M$ és el nombre de gens dins d'aquesta distribució que són anotats a la ruta d'interès, $n$ és el nombre total en la llista especificada de gens i $k$ és el nombre de gens dins d'aquesta llista que són anotats a la ruta. La distribució de fons pot ser o bé tots els gens en la base de dades d'anotació o bé tots els gens d'experiment.
+
+El valor de P obtingut amb aquesta formula dona la probabilitat de veure el nombre $x$ de gens de la llista relacionats amb la ruta específica en la llista del nombre total de gens $n$ donat la proporció de gens relacionats amb aquesta ruta en la distibucó de fons.
+ 
+
+\end{enumerate}
+
+\section*{Biblilografia}
+\addcontentsline{toc}{section}{Biblilografia}
+\renewcommand{\section}[2]{}%
+%\renewcommand{\chapter}[2]{}% for other classes
+\bibliography{references}
+\bibliographystyle{apalike}
+
+
+\end{document}
+
+
