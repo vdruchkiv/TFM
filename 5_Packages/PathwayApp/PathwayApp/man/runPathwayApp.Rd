@@ -1,12 +1,12 @@
 \name{runPathwayApp}
 \alias{runPathwayApp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{runExample
+\title{runPathwayApp
 %%  ~~function to do ... ~~
 }
 \description{
 Launches PathwayApp
-see my project on GitHub.
+see my project on GitHub https://github.com/vdruchkiv/TFM.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
