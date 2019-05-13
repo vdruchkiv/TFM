@@ -10,7 +10,7 @@ see my project on GitHub https://github.com/vdruchkiv/TFM.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-runExample()
+runPathwayApp()
 }
 %- maybe also 'usage' for other lsobjects documented here.
 \arguments{
@@ -46,7 +46,7 @@ Vasyl Druchkiv
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-runExample()
+runPathwayApp()
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
