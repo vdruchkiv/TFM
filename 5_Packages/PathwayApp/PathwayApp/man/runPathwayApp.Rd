@@ -6,7 +6,7 @@
 }
 \description{
 Launches PathwayApp
-see my project on GitHub https://github.com/vdruchkiv/TFM.
+see my project on GitHub.
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
