@@ -10,6 +10,7 @@ runPathwayApp <- function() {
   if(!require(knitr))install.packages("knitr")
   if(!require(kableExtra))install.packages("kableExtra")
   if(!require(formattable))install.packages("formattable")
+  if(!require(shinyhelper))install.packages("shinyhelper")
   if(!require(pathviewPatched))devtools::install_github("vdruchkiv/TFM/5_Packages/pathviewPatched")
   appDir <- system.file("shiny-examples", "PathwayApp", package = "PathwayApp")
   if (appDir == "") {

@@ -11,6 +11,8 @@ library(kableExtra)
 library(formattable)
 library(pathview)
 library(png)
+library(shinyhelper)
+
 ui <- dashboardPage(
   dashboardHeader(title = "Pathway analysis"),
   dashboardSidebar(
@@ -54,6 +56,11 @@ ui <- dashboardPage(
       # First tab content
       tabItem(tabName = "dataInput",
         fluidRow(
+          h3(strong("Select Specie"))%>%helper(icon = "question",
+                                               colour = "green",
+                                               type = "markdown",
+                                               content = "SelectingSpecie",
+                                               style = "position:relative;left: 150px;top: -31px"),
           h3(strong("GO"),style = "color:#335EFF;"),
           selectInput("specie_go", "Select Specie:",
                       c("Homo Sapiens" = "org.Hs.eg.db",
@@ -90,17 +97,21 @@ ui <- dashboardPage(
           textInput("searchKEGGspecie", "Enter Search Term for Specie", "homo"),
           htmlOutput("SelSpecieKEGG"),
           tags$hr(style="border-color: black;"),
-          fileInput("file1", h3("File with all genes"),
+          h3(strong("Upload Data"))%>%helper(icon = "question",
+                    colour = "green",
+                    type = "markdown",
+                    content = "UploadingData",
+                    style = "position:relative;left: 150px;top: -31px"),
+          fileInput("file1", h3(strong("File with all genes"),style = "color:#335EFF;"),
                 multiple = FALSE,
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
                            ".csv")),
-          fileInput("file2", h3("File with selected genes"),
+          fileInput("file2", h3(strong("File with selected genes"),style = "color:#335EFF;"),
                     multiple = FALSE,
                     accept = c("text/csv",
                                "text/comma-separated-values,text/plain",
                                ".csv")),
-          HTML("<b>Note</b>: The file should contain two columns, one for gene ID (no duplicated ID allowed) and another one for fold change.<br></br>"),
           tags$hr(style="border-color: black;"),
           tableOutput("InputTable"),
           textOutput("TxtEnterdGenes"),
@@ -498,7 +509,11 @@ tabItem(tabName = "path_RA",
   )#Dashboard
 )#Dashboard page
 
-server <- function(input, output,session) {
+server <- function(input,output,session) {
+  # uses 'helpfiles' directory by default
+  # in this example, we use the withMathJax parameter to render formulae
+  observe_helpers(withMathJax = TRUE)
+
   #Reading data
   geneList <- reactive({
         df<-read.csv(input$file1$datapath,
@@ -579,7 +594,11 @@ output$EnrichResultTable_GO<-renderText({
 })
 output$download_er_go <- renderUI({
   req(enrichresgo())
-  downloadButton("EnrichResultTableGoDownload","Download Results as .csv")
+  downloadButton("EnrichResultTableGoDownload","Download Results as .csv")%>%helper(icon = "question",
+                                                                                    colour = "green",
+                                                                                    type = "markdown",
+                                                                                    content = "ORAOutput",
+                                                                                    style = "position:relative;left: 220px;top: -27px")
 })
 output$EnrichResultTableGoDownload<-downloadHandler(
   filename =function(){
