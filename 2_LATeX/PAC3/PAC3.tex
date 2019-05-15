@@ -1,0 +1,119 @@
+\documentclass[]{article}
+\usepackage{geometry}
+\geometry{
+a4paper,
+total={170mm,257mm},
+left=20mm,
+top=20mm,
+}
+\usepackage{booktabs} 
+\usepackage{longtable}
+\usepackage{appendix}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage[justification=centering]{caption}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage[autostyle]{csquotes} 
+\DeclareTextFontCommand{\helvetica}{\fontfamily{phv}\selectfont}
+\setlength{\parindent}{4em}
+\setlength{\parskip}{1em}
+\linespread{1.5}
+
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+
+\title{PAC2 Desenvolupament del treball - Fase 1}
+\date{15 d'Abril 2019}
+\author{Vasyl Druchkiv \\ Estudiant del Màster de Bioestadística i Bioinformàtica}
+\renewcommand{\contentsname}{Índice}
+\usepackage{setspace}
+
+
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+{-2.5ex\@plus -1ex \@minus -.25ex}%
+{1.25ex \@plus .25ex}%
+{\normalfont\normalsize\bfseries}}
+
+\begin{document}
+\maketitle
+\makeatletter
+
+\makeatother
+\begin{spacing}{0.1}
+\tableofcontents
+\end{spacing}
+
+\begin{center}
+\noindent\rule{8cm}{0.4pt}
+\end{center}
+
+\section{Descripció de l'avenç del projecte} 
+El comentari del professor desprès de la primera PAC incluia els punts següents:
+
+\begin{itemize}
+\item Pensar en la memòria on has d'explicar també els mètodes que utilitzo;
+
+\item Pensar en el manual i les ajudes del programa. Es fonamental que sigui el mes autoexplicatiu possible;
+
+\item Preparar un instalador de forma que no calgui entrar en el codi. De fet alguns paquets no s'instalen com els altres i això fa que l'execució de l'app no sigui imediata.
+
+\end{itemize}
+
+Els punts són important i van definir el full de ruta de la PAC actual. Explico per punt el que he pogut fer  per realitzar quests punts.
+
+ \subsection{Instal·lació de l'aplicació}
+
+La solució més plausible i ràpida era empaquetar tota l'aplicació dins d'un paquet R i fer la disponible d'aquesta manera en el GitHub. Hi havia també dues opcións més serioses: 
+
+\begin{itemize}
+\item Publicar l'aplicació a CRAN
+\item Publicar l'aplicació en un servidor Shiny
+\end{itemize}
+ 
+La primera opció, publicació en CRAN, no he conteplat encara, perquè la solució no és immediata, sino és un procès que no és fàcil i pot tardar fins que el paquet està publicat amb éxit. Com comenta \cite{HWick} \enquote{submitting to CRAN is a lot more work than just providing a version on github, but the vast majority of R users do not install packages from github, because CRAN provides discoverability, ease of installation and a stamp of authenticity. The CRAN submission process can be frustrating, but it’s worthwhile...}. Normalment els paquets han de ser en perfectes condicions abans d'entregar-los i seran revisats  manualmet per a equip dels voluntaris.  D'aquesta manera l'aplicació no seria avaluable dins del marc temporal previst per a treball de master. A més a més considero que podria millorar encara més l'aplicació abans d'entregar-lo.
+
+La segona opció, publicació via Shiny Server, és molt interessant, però implicaria un treball considerable per configurar el servidor. Perque ho faria per primera vegada, no puc assegurar que tot estaria preparat a temps. A més a més encara tinc pendents la redacció del manual (que explicaré més endabant) i de la memoria. 
+
+Per tant, el paquet \helvetica{PathwayApp} es pot installar del repositori GitHub seguint els pasos següents:
+
+\begin{enumerate}
+\item Installar, si encara no està fet, el paquet \helvetica{devtools}
+
+\begin{lstlisting}[language=R]
+install.packages(``devtools'')
+library(devtools)
+\end{lstlisting}
+
+
+\item Installar el paquet \helvetica{PathwayApp}
+
+\begin{lstlisting}[language=R]
+devtools::install_github("vdruchkiv/TFM/5_Packages/PathwayApp/PathwayApp")
+\end{lstlisting}
+
+\item Iniciar l'aplicació 
+\begin{lstlisting}[language=R]
+PathwayApp::runPathwayApp()
+\end{lstlisting}
+\end{enumerate}
+
+La funció \helvetica{runPathwayApp()} iniciarà la comprobació dels paquets necessaris i començarà l'aplicació. 
+
+\section*{Biblilografia}
+\addcontentsline{toc}{section}{Biblilografia}
+
+\begingroup
+\renewcommand{\section}[2]{}%
+%\renewcommand{\chapter}[2]{}% for other classes
+\bibliography{references}
+\endgroup
+\bibliographystyle{apalike}
+
+\end{document}
+
+
