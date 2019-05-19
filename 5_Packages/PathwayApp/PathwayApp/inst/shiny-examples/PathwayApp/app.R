@@ -14,11 +14,14 @@ library(png)
 library(shinyhelper)
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Pathway analysis"),
+  dashboardHeader(title = "Pathway analysis"%>%helper(icon = "question",
+                                                      colour = "red",
+                                                      type = "markdown",
+                                                      content = "Manual")),
   dashboardSidebar(
     sidebarMenu(
     menuItem("Data input", tabName = "dataInput", icon = icon("upload")),
-    menuItem("GO Analisis",
+    menuItem("GO Analysis",
     menuItem("ORA", tabName = "EnrichSpecs_GO", icon = icon("sliders-h")),
     menuItem("GSEA", tabName = "GSEA_GO", icon = icon("sliders-h")),
     menuItem("Bar Plot", tabName = "BarPlot_GO", icon = icon("chart-bar")),
@@ -28,7 +31,7 @@ ui <- dashboardPage(
     menuItem("GSEA plot", tabName = "gsea_GO", icon = icon("share-square")),
     menuItem("GOplot", tabName = "goplot_GO", icon = icon("bezier-curve"))
     ),
-    menuItem("KEGG Analisis",
+    menuItem("KEGG Analysis",
              menuItem("ORA", tabName = "EnrichSpecs_KEGG", icon = icon("sliders-h")),
              menuItem("GSEA", tabName = "GSEA_KEGG", icon = icon("sliders-h")),
              menuItem("Bar Plot", tabName = "BarPlot_KEGG", icon = icon("chart-bar")),
@@ -38,7 +41,7 @@ ui <- dashboardPage(
              menuItem("GSEA plot", tabName = "gsea_KEGG", icon = icon("share-square")),
              menuItem("KEGG Pathway", tabName = "pathway_KEGG", icon = icon("bezier-curve"))
     ),
-    menuItem("Reactome Analisis",
+    menuItem("Reactome Analysis",
              menuItem("ORA", tabName = "EnrichSpecs_RA", icon = icon("sliders-h")),
              menuItem("GSEA", tabName = "GSEA_RA", icon = icon("sliders-h")),
              menuItem("Bar Plot", tabName = "BarPlot_RA", icon = icon("chart-bar")),
@@ -124,9 +127,9 @@ ui <- dashboardPage(
         tabItem(tabName = "EnrichSpecs_GO",
                 fluidRow(
                   radioButtons("ont_go", h3("Select ontology:"),
-                              c("CC" = "CC",
-                                "MF" = "MF",
-                                "BP" = "BP"),inline = TRUE),
+                              c("Cellular Component" = "CC",
+                                "Molecular Function" = "MF",
+                                "Biological Process" = "BP"),inline = TRUE),
                   selectInput("adj_go",h3("Select adjustment method"),
                               c("holm"="holm",
                                 "hochberg"="hochberg",
@@ -151,9 +154,9 @@ ui <- dashboardPage(
       tabItem(tabName = "GSEA_GO",
               fluidRow(
                 radioButtons("ont_go_gsea", h3("Select ontology:"),
-                             c("CC" = "CC",
-                               "MF" = "MF",
-                               "BP" = "BP"),inline = TRUE),
+                             c("Cellular Component" = "CC",
+                               "Molecular Function" = "MF",
+                               "Biological Process" = "BP"),inline = TRUE),
                 radioButtons("pval_go_gsea", h3("Select P-Value threshold:"),
                              c("0.1" = 0.1,
                                "0.05" = 0.05,
@@ -636,7 +639,11 @@ output$EnrichResultTable_GO_gsea<-renderText({
 })
 output$download_er_go_gsea <- renderUI({
   req(enrichresgo_gsea())
-  downloadButton("EnrichResultTableGoGseaDownload","Download Results as .csv")
+  downloadButton("EnrichResultTableGoGseaDownload","Download Results as .csv")%>%helper(icon = "question",
+                                                                                        colour = "green",
+                                                                                        type = "markdown",
+                                                                                        content = "GSEA_Output",
+                                                                                        style = "position:relative;left: 220px;top: -27px")
 })
 output$EnrichResultTableGoGseaDownload<-downloadHandler(
   filename =function(){
@@ -869,7 +876,11 @@ output$EnrichResultTable_KEGG<-renderText({
 })
 output$download_er_kegg <- renderUI({
   req(enrichreskegg())
-  downloadButton("EnrichResultTableKeggDownload","Download Results as .csv")
+  downloadButton("EnrichResultTableKeggDownload","Download Results as .csv")%>%helper(icon = "question",
+                                                                                      colour = "green",
+                                                                                      type = "markdown",
+                                                                                      content = "ORAOutput",
+                                                                                      style = "position:relative;left: 220px;top: -27px")
 })
 output$EnrichResultTableKeggDownload<-downloadHandler(
   filename =function(){
@@ -906,7 +917,11 @@ output$EnrichResultTable_KEGG_gsea<-renderText({
 })
 output$download_er_kegg_gsea <- renderUI({
   req(enrichreskegg_gsea())
-  downloadButton("EnrichResultTableKeggGseaDownload","Download Results as .csv")
+  downloadButton("EnrichResultTableKeggGseaDownload","Download Results as .csv")%>%helper(icon = "question",
+                                                                                          colour = "green",
+                                                                                          type = "markdown",
+                                                                                          content = "GSEA_Output",
+                                                                                          style = "position:relative;left: 220px;top: -27px")
 })
 output$EnrichResultTableKeggGseaDownload<-downloadHandler(
   filename =function(){
@@ -1146,7 +1161,11 @@ output$EnrichResultTable_RA<-renderText({
 })
 output$download_er_RA<- renderUI({
   req(enrichresRA())
-  downloadButton("EnrichResultTableRADownload","Download Results as .csv")
+  downloadButton("EnrichResultTableRADownload","Download Results as .csv")%>%helper(icon = "question",
+                                                                                    colour = "green",
+                                                                                    type = "markdown",
+                                                                                    content = "ORAOutput",
+                                                                                    style = "position:relative;left: 220px;top: -27px")
 })
 output$EnrichResultTableRADownload<-downloadHandler(
   filename =function(){
@@ -1183,7 +1202,11 @@ output$EnrichResultTable_RA_gsea<-renderText({
 })
 output$download_er_RA_gsea <- renderUI({
   req(enrichresRA_gsea())
-  downloadButton("EnrichResultTableRAGseaDownload","Download Results as .csv")
+  downloadButton("EnrichResultTableRAGseaDownload","Download Results as .csv")%>%helper(icon = "question",
+                                                                                        colour = "green",
+                                                                                        type = "markdown",
+                                                                                        content = "GSEA_Output",
+                                                                                        style = "position:relative;left: 220px;top: -27px")
 })
 output$EnrichResultTableRAGseaDownload<-downloadHandler(
   filename =function(){
@@ -1285,6 +1308,7 @@ output$downloadEmapPlotRA <- downloadHandler(
 ##################################
 ###########CnetPlotRA##############
 output$CnetPlot_RA2<-renderImage({
+  req(input$file2)
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
   # A temp file to save the output.
@@ -1308,8 +1332,13 @@ output$CnetPlot_RA2<-renderImage({
 output$downloadCnetPlotRA <- downloadHandler(
   filename = "CnetPlotRA.png",
   content = function(file) {
+    req(geneList())
+    req(enrichresRA())
+    geneListv<-geneList()[,2]
+    names(geneListv)<-geneList()[,1]
+    # Generate the PNG
     png(file,width = input$wid_cp_ra, height = input$hei_cp_ra,res=input$res_cp_ra)
-    print(cnetplot(enrichresRA(), showCategory = input$cat_cnetplotRA, font.size = 7,
+    print(cnetplot(enrichresRA(), foldChange=geneListv,showCategory = input$cat_cnetplotRA, font.size = 7,
                    title = paste0("RA Pathway Analysis",". Category-gene-network")))
     dev.off()
   })

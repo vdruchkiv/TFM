@@ -1,7 +1,7 @@
 Uploading your data
 ===================
 
-To get started you need to upload two comda delimited csv files:
+To get started you need to upload two comma delimited csv files:
 
 1.  File with all genes from your experiment;
 
@@ -16,8 +16,8 @@ Each file should include two columns:
 <img src="ExampleDataFormat.jpg" width="193" style="display:block; margin:auto;" />
 
 **Note:** both files should include a header row. The order of the
-variables matters: first column should be **Entrez ID** and the second
-**LogRatios**. On the other hand the names of the variable don't matter.
+variables matters: the first column should be **Entrez ID** and the second
+**LogRatios**. On the other hand the names of the variables don't matter.
 
 If you want to performe only GSEA analysis you don't need to upload the
 file with differencially expressed genes.
