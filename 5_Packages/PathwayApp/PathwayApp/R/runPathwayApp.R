@@ -6,7 +6,7 @@ runPathwayApp <- function() {
   if(!require(shiny))install.packages("shiny")
   if(!require(shinydashboard))install.packages("shinydashboard")
   if(!require(ggplot2))install.packages("ggplot2")
-  if(!require(ggplot2))install.packages("shinycssloaders")
+  if(!require(shinycssloaders))install.packages("shinycssloaders")
   if(!require(knitr))install.packages("knitr")
   if(!require(kableExtra))install.packages("kableExtra")
   if(!require(formattable))install.packages("formattable")

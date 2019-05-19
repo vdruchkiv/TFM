@@ -27,8 +27,8 @@ top=20mm,
 \usepackage{graphicx}
 \usepackage{adjustbox}
 
-\title{PAC2 Desenvolupament del treball - Fase 1}
-\date{15 d'Abril 2019}
+\title{PAC3 Desenvolupament del treball - Fase 1}
+\date{20 d'Abril 2019}
 \author{Vasyl Druchkiv \\ Estudiant del Màster de Bioestadística i Bioinformàtica}
 \renewcommand{\contentsname}{Índice}
 \usepackage{setspace}
@@ -56,7 +56,7 @@ top=20mm,
 El comentari del professor desprès de la primera PAC incluia els punts següents:
 
 \begin{itemize}
-\item Pensar en la memòria on has d'explicar també els mètodes que utilitzo;
+\item Pensar en la memòria on he d'explicar els mètodes que utilitzo;
 
 \item Pensar en el manual i les ajudes del programa. Es fonamental que sigui el mes autoexplicatiu possible;
 
@@ -82,15 +82,18 @@ La segona opció, publicació via Shiny Server, és molt interessant, però impl
 Per tant, el paquet \helvetica{PathwayApp} es pot installar del repositori GitHub seguint els pasos següents:
 
 \begin{enumerate}
-\item Installar, si encara no està fet, el paquet \helvetica{devtools}
+\item Instal·lar, si encara no està fet, la versió actual de R;
+
+\item Instal·lar, si encara no està fet, el Bioconductor;
+
+\item Instal·lar, si encara no està fet, el paquet \helvetica{devtools}
 
 \begin{lstlisting}[language=R]
 install.packages(``devtools'')
 library(devtools)
 \end{lstlisting}
 
-
-\item Installar el paquet \helvetica{PathwayApp}
+\item Instal·lar el paquet \helvetica{PathwayApp}
 
 \begin{lstlisting}[language=R]
 devtools::install_github("vdruchkiv/TFM/5_Packages/PathwayApp/PathwayApp")
@@ -102,7 +105,128 @@ PathwayApp::runPathwayApp()
 \end{lstlisting}
 \end{enumerate}
 
-La funció \helvetica{runPathwayApp()} iniciarà la comprobació dels paquets necessaris i començarà l'aplicació. 
+La funció \helvetica{runPathwayApp()} iniciarà la comprobació dels paquets necessaris i començarà l'aplicació. Els paquets següents seran instal·lats, si no hos són encara:
+
+\begin{center}
+\begin{tabular}{||c | c ||} 
+\hline\hline 
+\textbf{Paquet} & \textbf{Font} \\ [0.5ex] 
+\hline\hline
+clusterProfiler & Bioconductor \\
+\hline
+ReactomePA & Bioconductor \\
+\hline
+pathview & Bioconductor \\ 
+\hline
+pathviewPatched & GitHub vdruchkiv/TFM\\
+\hline
+dplyr & CRAN \\
+\hline 
+ggplot2 & CRAN \\
+\hline
+knitr & CRAN \\
+\hline
+kableExtra & CRAN \\
+\hline
+formattable & CRAN \\
+\hline
+shiny & CRAN \\
+\hline 
+shinydashboard & CRAN \\ 
+\hline
+shinyhelper & CRAN \\
+\hline 
+shinycssloaders & CRAN\\
+\hline\hline
+\end{tabular}
+\end{center}
+
+\subsection{Manual i les ajudes del programa}
+
+Per facilitar l'us d'aplicació he pensat com es podria fer-ho de manera més intuitiva possible. Primer cal destacar que com a lengua de manual he elegit inglès per poder fer l'us d'aplicació més inclusiu possible. Segon, l'usuari pot accedir tan al manual com a ajudes, que es guarden en els arxius .Md separats. Per accedir al manual l'usuari ha de clicar al símbol interrogatori a prop del títol \textbf{Pathway analysis}:
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{Manual.jpg} 
+\caption{Manual per a aplicació}
+\end{figure}
+
+Com es veu hi ha apartats diferents. Depen dels objectius d'usuari l'usuari pot seleccionar l'apartat que més l'interessa. Així, si l'usuari vol fer l'anàlisi ORA amb l'anotació KEGG ell pot navegar a la secció |textbf{Scenario 3: ORA Analysis. KEGG Database}. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{Manual2.jpg} 
+\caption{Manual per a l'anàlisi ORA amb l'anotació KEGG}
+\end{figure}
+
+
+També, l'usuari pot accedir a ajuda clicant als simbols enterrogatoris distribuits per la aplicació en als llocs, que penso poden generar dubtes. 
+
+Per fer-ho possible s'utilitza el paquet \helvetica{shinyhelper} que s'instal·la en executar la funció  \helvetica{runPathwayApp()}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{Help_Data_Input.jpg} 
+\caption{Senyals d'ajuda}
+\end{figure}
+
+El clic en aquests senyal es fa que aparegui una finestreta amb la informació d'ajuda.
+
+Aquí són informacions de l'apartat \textbf{Data Input}:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Help_Specie.jpg} 
+\caption{Ajuda per a elecció de l'espècie}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Help_Upload_Data.jpg} 
+\caption{Ajuda per pujar les dades}
+\end{figure}
+
+Les informacions per a apartat ORA són següents:
+
+ \begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Help_ORA_output.jpg} 
+\caption{Infromació per la interpretació d'anàlisi ORA}
+\end{figure}
+Aquí cal destacar que les formulas, depen de l'ordinador, no apareixen degudament en el RStudio Browser. Sí que aparexen bé quan l'aplicació s'obra via el internet browser. L'usuari ha de tenir la conecció amb internet perquè l'aplicació pugui decodificar la formula via MathJax. Encara no he trobat la causa per la qual el Rstudio Browser en alguns ordenadors no visualitza bé les formules. Pot ser un problema amb Java, que s'ha d'actualitza? Ho estic investigant.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Help_GSEA_output.jpg} 
+\caption{Ajuda per la interpretació de GSEA}
+\end{figure}
+
+\subsection{Memoria}
+Ja he començat descriure els mètodes per a memoria.  El draft de la memòria l'adjunto junts amb aquesta PAC. Clarament hi escriuré mès informació. Per ara, amb el temps disponible, m'he centrat en la descripció dels mètodes ORA i GSEA. A mès a mès encara no tinc disponible l'estructura predeterminda d'accord amb el pla docent. En les pròximes dues setmanes tindré temps suficient per acabar-la.
+
+\section{Grau de compliment dels objectius.}
+Mirem el calendari previst per a aquesta PAC
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Calender.png} 
+\caption{Calender}
+\end{figure}
+
+Les activitats previster eren:
+\begin{enumerate}
+\item \textbf{Programar amb Shiny};
+
+	 Crec que he pogut millorar l'aplicació affegint el manual i les ajudes. Temporalment m'ha costat trobar i implementar les ajudes però finalment ho he aconseguit i estic content amb el resultat. Les millores en aquesta direcció (afegir més informació o més apartats al manual) ja no trigaran gaire, perquè ja sé com ho fer.
+	 
+\item \textbf{Publicació de l'aplicació}.
+
+Com he explicat en el primer apartat, la opció de publicació elegida és la via GitHub. Les altres opcions són també possibles però al mateix temps impliquen una feina fora del límite temporal previst per el TFM. 
+
+\item \textbf{Apuntar els resultats en memoria}.
+
+Ja ho he començat fent i estic segur que tenint l'aplicació acabada  i rebent les instruccions determinades per part del professor acabaré amb la memoria més ràpidament. 
+
+\end{enumerate}
 
 \section*{Biblilografia}
 \addcontentsline{toc}{section}{Biblilografia}
@@ -113,6 +237,7 @@ La funció \helvetica{runPathwayApp()} iniciarà la comprobació dels paquets ne
 \bibliography{references}
 \endgroup
 \bibliographystyle{apalike}
+
 
 \end{document}
 
