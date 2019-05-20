@@ -1,0 +1,34 @@
+---
+title: "Adjustment Methods"
+output: md_document
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#From R manual `p.adjust{stats}`
+  The adjustment methods include the Bonferroni correction
+  in which the p-values are multiplied by the
+  number of comparisons.  Less conservative corrections are also
+  included by @holm1979simple, @hochberg1988sharper
+  (`hochberg`), @hommel1988stagewise (`hommel`), @benjamini1995controlling (`BH` or its alias `fdr`), and @benjamini2001control (`BY`), respectively.
+  A pass-through option (`none`) is also included.
+
+  The first four methods are designed to give strong control of the
+  family-wise error rate.  There seems no reason to use the unmodified
+  Bonferroni correction because it is dominated by Holm's method, which
+  is also valid under arbitrary assumptions.
+  Hochberg's and Hommel's methods are valid when the hypothesis tests
+  are independent or when they are non-negatively associated (@sarkar1998some; @sarkar1997simes).  Hommel's method is more powerful than
+  Hochberg's, but the difference is usually small and the Hochberg
+  p-values are faster to compute.
+  The `BH` (aka `fdr`) and `BY` method of
+  Benjamini, Hochberg, and Yekutieli control the false discovery rate,
+  the expected proportion of false discoveries amongst the rejected
+  hypotheses.  The false discovery rate is a less stringent condition
+  than the family-wise error rate, so these methods are more powerful
+  than the others.
+
+#References
