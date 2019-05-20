@@ -27,8 +27,8 @@ top=20mm,
 \usepackage{graphicx}
 \usepackage{adjustbox}
 
-\title{PAC3 Desenvolupament del treball - Fase 1}
-\date{20 d'Abril 2019}
+\title{PAC3 Desenvolupament del treball - Fase 2}
+\date{20 de Maig 2019}
 \author{Vasyl Druchkiv \\ Estudiant del Màster de Bioestadística i Bioinformàtica}
 \renewcommand{\contentsname}{Índice}
 \usepackage{setspace}
@@ -53,33 +53,32 @@ top=20mm,
 \end{center}
 
 \section{Descripció de l'avenç del projecte} 
-El comentari del professor desprès de la primera PAC incluia els punts següents:
+El comentari del professor després de la primera PAC incloïa els punts següents:
 
 \begin{itemize}
 \item Pensar en la memòria on he d'explicar els mètodes que utilitzo;
 
-\item Pensar en el manual i les ajudes del programa. Es fonamental que sigui el mes autoexplicatiu possible;
+\item Pensar en el manual i les ajudes del programa. Es fonamental que sigui el més autoexplicatiu possible;
 
-\item Preparar un instalador de forma que no calgui entrar en el codi. De fet alguns paquets no s'instalen com els altres i això fa que l'execució de l'app no sigui imediata.
+\item Preparar un instal·lador de forma que no calgui entrar en el codi. De fet alguns paquets no s'instal•len com els altres i això fa que l'execució de l'app no sigui immediata.
 
 \end{itemize}
 
-Els punts són important i van definir el full de ruta de la PAC actual. Explico per punt el que he pogut fer  per realitzar quests punts.
+Els punts són importants i van definir el full de ruta de la PAC actual. Explico punt per punt el que he pogut fer per realitzar quests punts.
 
- \subsection{Instal·lació de l'aplicació}
+\subsection{Instal·lació de l'aplicació}
 
-La solució més plausible i ràpida era empaquetar tota l'aplicació dins d'un paquet R i fer la disponible d'aquesta manera en el GitHub. Hi havia també dues opcións més serioses: 
+La solució més plausible i ràpida era empaquetar tota l'aplicació dins d'un paquet R i fer-la disponible d'aquesta manera en el GitHub. Hi havia també dues opcions més: 
 
 \begin{itemize}
 \item Publicar l'aplicació a CRAN
 \item Publicar l'aplicació en un servidor Shiny
 \end{itemize}
- 
-La primera opció, publicació en CRAN, no he conteplat encara, perquè la solució no és immediata, sino és un procès que no és fàcil i pot tardar fins que el paquet està publicat amb éxit. Com comenta \cite{HWick} \enquote{submitting to CRAN is a lot more work than just providing a version on github, but the vast majority of R users do not install packages from github, because CRAN provides discoverability, ease of installation and a stamp of authenticity. The CRAN submission process can be frustrating, but it’s worthwhile...}. Normalment els paquets han de ser en perfectes condicions abans d'entregar-los i seran revisats  manualmet per a equip dels voluntaris.  D'aquesta manera l'aplicació no seria avaluable dins del marc temporal previst per a treball de master. A més a més considero que podria millorar encara més l'aplicació abans d'entregar-lo.
+La primera opció, la publicació en CRAN, no l’he contemplat encara, perquè la solució no és immediata, sino és un procès que no és fàcil i pot tardar fins que el paquet estigui publicat amb èxit. Com comenta \cite{HWick} \enquote{submitting to CRAN is a lot more work than just providing a version on github, but the vast majority of R users do not install packages from github, because CRAN provides discoverability, ease of installation and a stamp of authenticity. The CRAN submission process can be frustrating, but it’s worthwhile...}. Normalment els paquets han d’estar en perfectes condicions abans d'entregar-los i seran revisats manualmet per un equip de voluntaris. D'aquesta manera l'aplicació no seria avaluable dins del marc temporal previst per al treball de màster. A més a més considero que podria millorar encara més l'aplicació abans d'entregar-lo.
 
-La segona opció, publicació via Shiny Server, és molt interessant, però implicaria un treball considerable per configurar el servidor. Perque ho faria per primera vegada, no puc assegurar que tot estaria preparat a temps. A més a més encara tinc pendents la redacció del manual (que explicaré més endabant) i de la memoria. 
+La segona opció, la publicació via Shiny Server, és molt interessant, però implicaria un treball considerable per configurar el servidor. Com que ho faria per primera vegada, no puc assegurar que tot estaria preparat a temps. A més a més encara tinc pendents la redacció del manual (que explicaré més endavant) i de la memòria. 
 
-Per tant, el paquet \helvetica{PathwayApp} es pot installar del repositori GitHub seguint els pasos següents:
+Per tant, el paquet \helvetica{PathwayApp} es pot instal•lar des del repositori GitHub seguint els passos següents:
 
 \begin{enumerate}
 \item Instal·lar, si encara no està fet, la versió actual de R;
@@ -105,7 +104,7 @@ PathwayApp::runPathwayApp()
 \end{lstlisting}
 \end{enumerate}
 
-La funció \helvetica{runPathwayApp()} iniciarà la comprobació dels paquets necessaris i començarà l'aplicació. Els paquets següents seran instal·lats, si no hos són encara:
+La funció \helvetica{runPathwayApp()} iniciarà la comprovació dels paquets necessaris i començarà l'aplicació. Els paquets següents seran instal·lats, si no ho són encara:
 
 \begin{center}
 \begin{tabular}{||c | c ||} 
@@ -143,14 +142,14 @@ shinycssloaders & CRAN\\
 
 \subsection{Manual i les ajudes del programa}
 
-Per facilitar l'us d'aplicació he pensat com es podria fer-ho de manera més intuitiva possible. Primer cal destacar que com a lengua de manual he elegit inglès per poder fer l'us d'aplicació més inclusiu possible. Segon, l'usuari pot accedir tan al manual com a ajudes, que es guarden en els arxius .Md separats. Per accedir al manual l'usuari ha de clicar al símbol interrogatori a prop del títol \textbf{Pathway analysis}:
+Per facilitar l'ús de l’aplicació he pensat com es podria fer de manera més intuïtiva possible. Primer cal destacar que com a llengua de manual he elegit l’anglès per poder fer l'ús de l'aplicació el més inclusiu possible. Segon, l'usuari pot accedir tant al manual com a l'ajuda, que es guarden en arxius .Md separats. Per accedir al manual l'usuari ha de clicar al símbol d’interrogació a prop del títol \textbf{Pathway analysis}:
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{Manual.jpg} 
 \caption{Manual per a aplicació}
 \end{figure}
 
-Com es veu hi ha apartats diferents. Depen dels objectius d'usuari l'usuari pot seleccionar l'apartat que més l'interessa. Així, si l'usuari vol fer l'anàlisi ORA amb l'anotació KEGG ell pot navegar a la secció |textbf{Scenario 3: ORA Analysis. KEGG Database}. 
+Com es veu hi ha apartats diferents. Depenent dels objectius de l'usuari, aquest pot seleccionar l'apartat que més l'interessi. Així, si l'usuari vol fer l'anàlisi ORA amb l'anotació KEGG pot navegar en la secció |textbf{Scenario 3: ORA Analysis. KEGG Database}. 
 
 \begin{figure}[H]
 \centering
@@ -159,9 +158,9 @@ Com es veu hi ha apartats diferents. Depen dels objectius d'usuari l'usuari pot 
 \end{figure}
 
 
-També, l'usuari pot accedir a ajuda clicant als simbols enterrogatoris distribuits per la aplicació en als llocs, que penso poden generar dubtes. 
+També, l'usuari pot accedir a l'ajuda clicant als símbols d'interrogació distribuïts per l’aplicació en els llocs que penso que poden generar dubtes. 
 
-Per fer-ho possible s'utilitza el paquet \helvetica{shinyhelper} que s'instal·la en executar la funció  \helvetica{runPathwayApp()}.
+Per fer-ho possible s'utilitza el paquet \helvetica{shinyhelper} que s'instal·la en executar la funció \helvetica{runPathwayApp()}.
 
 \begin{figure}[H]
 \centering
@@ -169,14 +168,14 @@ Per fer-ho possible s'utilitza el paquet \helvetica{shinyhelper} que s'instal·l
 \caption{Senyals d'ajuda}
 \end{figure}
 
-El clic en aquests senyal es fa que aparegui una finestreta amb la informació d'ajuda.
+El clic en aquests senyals fa que aparegui una finestreta amb la informació d'ajuda.
 
-Aquí són informacions de l'apartat \textbf{Data Input}:
+Aquí hi ha informació de l'apartat \textbf{Data Input}:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{Help_Specie.jpg} 
-\caption{Ajuda per a elecció de l'espècie}
+\caption{Ajuda per a l'elecció de l'espècie}
 \end{figure}
 
 \begin{figure}[H]
@@ -185,14 +184,20 @@ Aquí són informacions de l'apartat \textbf{Data Input}:
 \caption{Ajuda per pujar les dades}
 \end{figure}
 
-Les informacions per a apartat ORA són següents:
+Les informacions per a l'apartat ORA són les següents:
 
- \begin{figure}[H]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{Help_ORA_output.jpg} 
 \caption{Infromació per la interpretació d'anàlisi ORA}
 \end{figure}
-Aquí cal destacar que les formulas, depen de l'ordinador, no apareixen degudament en el RStudio Browser. Sí que aparexen bé quan l'aplicació s'obra via el internet browser. L'usuari ha de tenir la conecció amb internet perquè l'aplicació pugui decodificar la formula via MathJax. Encara no he trobat la causa per la qual el Rstudio Browser en alguns ordenadors no visualitza bé les formules. Pot ser un problema amb Java, que s'ha d'actualitza? Ho estic investigant.
+Aquí cal destacar que les fòrmules, depenent de l'ordinador, no apareixen degudament en el RStudio Browser. Sí que apareixen bé quan l'aplicació s'obre via l’internet browser. L'usuari ha de tenir connexió amb internet perquè l'aplicació pugui descodificar la fòrmula via MathJax. Encara no he trobat la causa per la qual el Rstudio Browser en alguns ordinadors no visualitza bé les fòrmules. Pot ser un problema amb Java, que s'ha d'actualitzar? Ho estic investigant.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{Help_pAdjustMethod.jpg} 
+\caption{L'ajuda per a la selecció del mètode d'ajustament}
+\end{figure}
 
 
 \begin{figure}[H]
@@ -202,7 +207,7 @@ Aquí cal destacar que les formulas, depen de l'ordinador, no apareixen degudame
 \end{figure}
 
 \subsection{Memoria}
-Ja he començat descriure els mètodes per a memoria.  El draft de la memòria l'adjunto junts amb aquesta PAC. Clarament hi escriuré mès informació. Per ara, amb el temps disponible, m'he centrat en la descripció dels mètodes ORA i GSEA. A mès a mès encara no tinc disponible l'estructura predeterminda d'accord amb el pla docent. En les pròximes dues setmanes tindré temps suficient per acabar-la.
+Ja he començat a descriure els mètodes per a la memòria. El draft de la memòria l'adjunto juntament amb aquesta PAC. Clarament hi escriuré mès informació. Per ara, amb el temps disponible, m'he centrat en la descripció dels mètodes ORA i GSEA. A mès a mès encara no tinc disponible l'estructura predeterminda d'acord amb el pla docent. En les pròximes dues setmanes tindré temps suficient per acabar-la.
 
 \section{Grau de compliment dels objectius.}
 Mirem el calendari previst per a aquesta PAC
@@ -212,19 +217,18 @@ Mirem el calendari previst per a aquesta PAC
 \caption{Calender}
 \end{figure}
 
-Les activitats previster eren:
+Les activitats previstes eren:
 \begin{enumerate}
 \item \textbf{Programar amb Shiny};
 
-	 Crec que he pogut millorar l'aplicació affegint el manual i les ajudes. Temporalment m'ha costat trobar i implementar les ajudes però finalment ho he aconseguit i estic content amb el resultat. Les millores en aquesta direcció (afegir més informació o més apartats al manual) ja no trigaran gaire, perquè ja sé com ho fer.
-	 
+Crec que he pogut millorar l'aplicació afegint el manual i les ajudes. Temporalment m'ha costat trobar i implementar les ajudes però finalment ho he aconseguit i estic content amb el resultat. Les millores en aquesta direcció (afegir més informació o més apartats al manual) ja no trigaran gaire, perquè ja sé com fer-ho.
 \item \textbf{Publicació de l'aplicació}.
 
-Com he explicat en el primer apartat, la opció de publicació elegida és la via GitHub. Les altres opcions són també possibles però al mateix temps impliquen una feina fora del límite temporal previst per el TFM. 
+Com he explicat en el primer apartat, l’opció de publicació elegida és la via GitHub. Les altres opcions són també possibles però al mateix temps impliquen una feina fora del límit temporal previst pel TFM. 
 
-\item \textbf{Apuntar els resultats en memoria}.
+\item \textbf{Apuntar els resultats en la memòria}.
 
-Ja ho he començat fent i estic segur que tenint l'aplicació acabada  i rebent les instruccions determinades per part del professor acabaré amb la memoria més ràpidament. 
+Ja ho he començat a fer i estic segur que tenint l'aplicació acabada i rebent les instruccions determinades per part del professor acabaré la memòria ràpidament. 
 
 \end{enumerate}
 
@@ -240,5 +244,6 @@ Ja ho he començat fent i estic segur que tenint l'aplicació acabada  i rebent 
 
 
 \end{document}
+
 
 
