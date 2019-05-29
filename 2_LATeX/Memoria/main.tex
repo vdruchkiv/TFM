@@ -58,6 +58,7 @@
 
 %% BibLaTeX-settings: (see biblatex reference for further description)
 \newcommand{\mybiblatexstyle}{authoryear}
+
 %% e.g., "alphabetic", "authoryear", ...
 %% The biblatex style which is being used for referencing. See
 %% biblatex documentation for further details and more values.
@@ -74,7 +75,7 @@
 \newcommand{\mybiblatexbackref}{true}  %% "true" or "false"
 %% If true: create backward links from reference to citations.
 
-\newcommand{\mybiblatexfile}{references-biblatex.bib}
+\newcommand{\mybiblatexfile}{references.bib}
 %% Name of the biblatex file that holds the references.
 
 \newcommand{\mydispositioncolor}{30,103,182}
@@ -91,7 +92,7 @@
 \newcommand{\mycolorlinks}{true}  %% "true" or "false"
 %% Enables or disables colored links (hyperref package).
 
-\newcommand{\mytitlepage}{template/title_Thesis_TU_Graz}
+\newcommand{\mytitlepage}{template/title_Thesis_UOC}
 %% Your own or one of following pre-defined title pages:
 %% "template/title_plain_maketitle": simple maketitle page
 %% "template/title_Diplomarbeit_KF_Uni_Graz.tex": fancy (german) title page for KF Uni Graz
@@ -133,32 +134,32 @@
 %% ========================================================================
 
 %% general metadata:
-\newcommand{\myauthor}{AUTHOR}  %% also used for PDF metadata (hyperref)
-\newcommand{\myauthorwithexistingtitles}{\myauthor{}, OLDDEGREE}  %% including
+\newcommand{\myauthor}{Vasyl Druchkiv}  %% also used for PDF metadata (hyperref)
+\newcommand{\myauthorwithexistingtitles}{\myauthor{}, MSc.}  %% including
                                 %% university degree already held
                                 %% (BSc, MSc, ...)
-\newcommand{\mytitle}{TITLE}  %% also used for PDF metadata (hyperref)
+\newcommand{\mytitle}{Implementació d’una eina en R/Shiny per a l’anàlisi de significació biològica utilitzant l'anàlisi de les rutes}  %% also used for PDF metadata (hyperref)
 \newcommand{\mysubtitle}{ }  %% only used with title_Thesis_TU_Graz_-_kazemakase
 \newcommand{\mysubject}{SUBJECT}  %% also used for PDF metadata (hyperref)
 \newcommand{\mykeywords}{KEYWORDS}  %% also used for PDF metadata (hyperref)
 
 %% this information is used only for generating the title page:
-\newcommand{\myworktitle}{Master's Thesis}  %% official type of work like ``Master theses''
-\newcommand{\mygrade}{Master of Science} %% title you are getting with this work like ``Master of ...''
-\newcommand{\mystudy}{Telematik} %% your study like ``Arts''
-\newcommand{\mydegreeprogramme}{Master's degree programme: \mystudy} %% Master's or PhD degree programme
-\newcommand{\myuniversity}{Graz University of Technology} %% your university/school
+\newcommand{\myworktitle}{Memoria del treball}  %% official type of work like ``Master theses''
+\newcommand{\mygrade}{Master unversitari en} %% title you are getting with this work like ``Master of ...''
+\newcommand{\mystudy}{Bioinformàtica i bioestadística} %% your study like ``Arts''
+\newcommand{\mydegreeprogramme}{\mystudy} %% Master's or PhD degree programme
+\newcommand{\myuniversity}{Universitat oberta de Catalunya} %% your university/school
 \newcommand{\myfaculty}{ }  %% only used with title_Thesis_TU_Graz_-_kazemakase
-\newcommand{\myinstitute}{Institute for Softwaretechnology} %% affiliation
-\newcommand{\myinstitutehead}{Univ.-Prof.\,Dipl-Ing.\,Dr.techn.~Some One} %% head of institute
-\newcommand{\mysupervisor}{Dr.~Some Body} %% your supervisor
+\newcommand{\myinstitute}{ } %% affiliation
+%\newcommand{\myinstitutehead}{Dr. Alexandre Sánchez Pla (UB) i Dra. Àgata Lapedriza (UOC)} %% head of institute
+\newcommand{\mysupervisor}{Dr.~Alexandre Sánchez Pla (UB)} %% your supervisor
 \newcommand{\mycosupervisor}{\ }  %% only used with title_Thesis_TU_Graz_-_kazemakase
 \newcommand{\myevaluator}{Prof.~Some Genius} %% your evaluator
 \newcommand{\myhomestreet}{Street~42} %% your home street (with house number)
-\newcommand{\myhometown}{Graz} %% your home town
+\newcommand{\myhometown}{València} %% your home town
 \newcommand{\myhomepostalnumber}{8010} %% your postal number of home town
-\newcommand{\mysubmissionmonth}{November} %% month you are handing in
-\newcommand{\mysubmissionyear}{2013} %% year you are handing in
+\newcommand{\mysubmissionmonth}{Maig} %% month you are handing in
+\newcommand{\mysubmissionyear}{2019} %% year you are handing in
 \newcommand{\mysubmissiontown}{\myhometown} %% town of handing in (or \myhometown)
 
 
@@ -234,17 +235,22 @@
 %% ========================================================================
 %%%% begin{document}
 %% ========================================================================
+
+   
 \begin{document}
+\renewcommand*\listfigurename{Llista de les imatges}
+\renewcommand{\figurename}{Imatge}
+\renewcommand{\contentsname}{Contingut}
 
 \frontmatter                    %% KOMA: roman page numbers and such; only available in scrbook
 
-\input{colophon}                %% defines information about editor, LaTeX, font, ...
+%\input{colophon}                %% defines information about editor, LaTeX, font, ...
 
 %% Choose your desired title page:
 \input{\mytitlepage}            %% include title page
 
 
-\input{template/declaration_TU_Graz}  %% Statutory Declaration
+%\input{template/declaration_TU_Graz}  %% Statutory Declaration
 % \input{thanks}                %% this is a suggestion: you have to create this file on demand
 % \input{foreword}              %% this is a suggestion: you have to create this file on demand
 
@@ -268,7 +274,7 @@
 \mainmatter                     %% KOMA: marks main part using arabic page numbers and such; only available in scrbook
 
 
-\input{example-style-chapter}   %% remove this line to get rid of the style chapter
+\input{Memoria}   %% remove this line to get rid of the style chapter
 
 %% include tex file chapters:
 % \include{introduction}        %% this is a suggestion: you have to create this file on demand
@@ -280,7 +286,9 @@
 \appendix                       %% closes main document, appendix follows until end; only available in book-classes
 \addpart*{Appendix}             %% adding Appendix to tableofcontents
 
-\printbibliography              %% remove, if using BibTeX instead of biblatex
+\bibliography{references}
+\bibliographystyle{apalike}
+
 % \include{further_ressources}  %% this is a suggestion: you have to create this file on demand
 
 
