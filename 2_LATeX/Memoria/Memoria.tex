@@ -271,12 +271,14 @@ Aquest gràfic mostra les relacións entre els gens dins de la ruta específica.
 \end{figure}
 
 \subsection{Reactome Pathway}
-En canvi a Goplot i les rutes KEGG les relacions entre els gens dins les rutes Reactome són més senzilles. Aquí les relacions són mostrades només amb les línies, on es pot interpretar només la distància entre els gens. 
+Les rutes de Rectome són similares a les rutes de KEGG. La seva implementació amb Bioconductor, com ho veruem properament, no visualitza les rutes originales mostrades per \href{https://reactome.org/PathwayBrowser/}{Pathway Browser} de Reactome. La visualització és més modesta i ofereix només les relacions nominals no direccionals. D'aquesta manera però podem identificar quanes coneccions amb altres gens de la ruta tenen els gens diferencialment expressats. 
 
+En canvi a Goplot i les rutes KEGG les relacions entre els gens dins les rutes Reactome són més senzilles. Aquí les relacions són mostrades només amb les línies, on es pot interpretar només la distància entre els gens. 
+%https://reactome.org/userguide/pathway-browser
 
 \section{Desenvolupament del protocol}
 
-Crec que l'aplicació és molt intuitiva i deixa entreveure l'esquema següent:
+Tenint en compte el marc teòric he intentat dessenyar l'aplicació que ofereixi els mètodes com ara ORA, GSEA i algunes visualitzacions de la topografia de les rutes. Igual amb quina base de dades l'usuari vol anotar les dades d'expressió l'usuari podrà decidir quin métode voll aplicar. En el millor dels casos l'usuari faria els dos mètodes ORA i GSEA. Això implicaria la disponibilitat de dos arxius: l'arxiu amb tots els gens (Universe) i l'arxiu amb el grup de gens diferencialment expressats (Gene set). Si l'usuari vol fer només l'anpalisi GSEA haurá de pujar només l'arxiu amb tots els gens. Una vegada seleccionada l'estratègia l'usuari puja els arxius necessaris i gener el resultat de ORA i/o GSEA aplicant uns critèris com ara selecció d'ontologia en ORA, valor de P com al filtre de visualització de les rutes més significatives, i el mètode d'ajustament.
 
 \begin{figure}[H]
 \centering
