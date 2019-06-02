@@ -547,6 +547,7 @@ server <- function(input,output,session) {
                       header = TRUE,
                       sep = ",")
         names(df)<-c("Entrez ID","FoldChange")
+        df<-df[order(-df$FoldChange),]
         df$`Entrez ID`<-as.character(df$`Entrez ID`)
     return(df)
   })
@@ -555,6 +556,7 @@ server <- function(input,output,session) {
                  header = TRUE,
                  sep = ",")
     names(df)<-c("Entrez ID","FoldChange")
+    df<-df[order(-df$FoldChange),]
     df$`Entrez ID`<-as.character(df$`Entrez ID`)
     return(df)
   })
@@ -603,7 +605,7 @@ server <- function(input,output,session) {
                     pvalueCutoff  = as.numeric(input$pval_go),
                     minGSSize = 5,
                     maxGSSize = 500,
-                    qvalueCutoff  = 0.05,
+                    qvalueCutoff  = 0.2,
                     readable      = TRUE)
   })
 output$EnrichResultTable_GO<-renderText({

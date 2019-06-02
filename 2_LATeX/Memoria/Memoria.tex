@@ -31,6 +31,7 @@
 
 El treball consistirà en el desenvolupament d'una aplicació per dur a terme l'anàlisi de les rutes (\textit{Pathway analysis}). Amb les rutes entenem un conjunt de gens que actuen junts per dur a terme un procès biològic. Així doncs aquest anàlisi permet donar més sentit a una expressió genètica diferencial entre les proves biològiques d'interès. Recordem que recents avenços tecnològics permeten mesurar els nivells d'expressió en una gran quantitat de gens, cosa que implica una gran quantitat de dades. Al nivell dels gens individuals es poden fer servir mètodes estadístics per comprovar si les diferències en les expressions entre els grups (proves biològiques) són estadísticament significatives. Per dotar encara de més sentit aquesta anàlisi és necessari agregar els resultats al nivell més raonable com ara al nivell de les rutes. Al final el que volem és comprovar si hi ha diferències estadísticament significatives entre les proves no al nivell dels gens perticulars sinó al nivell de les rutes. Tan com en el cas dels gens particulars també en el nivell de les rutes s'han desenvolupat mètodes estadístics específics \cite{khatri2012ten}. En aquest treball vull analitzar quins mètodes són i quins tenen més avantatges que d'altres. A part d'aquest component més biològic i teòric del treball he buscat la possibilitat d'implementar aquests mètodes d'anàlisi en una aplicació intuïtiva i d'un ús fàcil a la qual qualsevol científic que no disposi dels coneixements informàtics suficients per fer aquesta anàlisi podrà accedir gratuïtament. La plataforma que he utilitzat per crear l'aplicació és l'eina Shiny de Rstudio \cite{Shiny}.  La feina ha consistit en la cerca dels paquets de Bioconductor que inclouen els mètodes per l'anàlisi de les rutes, selecció dels paquets més apropiats i la seva integració en una aplicació Shiny amb una interfície atractiva. 
 
+\section{Context i justificació del treball}
 La justificació d'aquest tema ve de dues fonts diferents: d'una banda tinc un interès personal i d'altra banda entenc la importància de la meva aportació per a la comunitat científica. El meu interès personal és degut al fet que durant el màster he fet servir àmpliament el programa R però no he arribat a conèixer bé la creació d'una aplicació estadística amb Shiny. Per completar aquesta deficiència i entenent que aquesta eina és útil per al méu desenvolupament professional he buscat el tema que en requeria l'ús. Encara que hi ha algunes aplicacions de Shiny relacionats amb l'anàlisi de les rutes\footnote{Algunes splicacions existens de Shiny són: iDINGO \cite{class2017idingo}, ShinyGO \cite{ge2018shinygo}, PAEA \cite{clark2015principle}} i tanbé en altres plataformes \cite{reimand2019pathway}, elles no representen tota la diversitat dels paquest disponibles a Bioconductor. L'ús d'aquests paquets queda restringit per a experts en informàtica i estadística i per tant són difícilment accecibles per la gran part de la comunitat scientífica, de modo que seria convenient donar-hi més accessibilitat via una aplicació amb interfici visual. 
 
 
@@ -68,6 +69,8 @@ Entre els objectius del treball podem distingir els general i els més especific
 \end{enumerate}
 \end{enumerate}
 
+\section{Enfocament i mètode de seguir}
+
 Com es pot entendre dels objectius la feina ha consistit d'una banda en l'anàlisi teòrica dels mètodes disponibles actualment per a l'anàlisi de rutes, i d'altra banda en el desenvolupament d'una aplicació que incorporarà aquests mètodes. El mètode triat per per aconseguir aqusts objectius era el mètode simultani on la programació es desenvolupava alhora de l'anàlisi dels conceptes teòrics. D'aquesta manera he seguit auqests pasos:
 
 \begin{enumerate}
@@ -83,7 +86,52 @@ Com es pot entendre dels objectius la feina ha consistit d'una banda en l'anàli
  
 S'ha d'emfatitzar el punt 5 i 6. Era essencial trobar les dades que s'utilitzin per fer les probes durant la fase de desenvolupament de \textit{pipeline}. Les dades havien de provenir d'uns resultats ja publicats per poder comparar-los amb els resultats obtinguts amb el programari elaborat. 
 
+\section{Planificació del treball}
 
+Es van definir les tasques següents per aconseguir els objectius:
+
+\begin{enumerate}
+\item Cerca de la literatura sobre els mètodes de l'anàlisi de les rutes;
+\item Relacionar els mètodes trobats en 1 amb els paquets actuals de Bioconductor;
+\item Decidir sobre quals resultats son més interesants per a una aplicació Shiny i desenvolupar un protocol de l'anàlis (\textit{pipeline}) que formarà la base de l'aplicació. Documentar el protocol;
+\item Buscar 3-5 exemples de dades i fer proves aplicant el protocol i comparant els resultats amb els resultats publicats sobre aquestes dades (si n'hi ha);
+\item Fer últims canvis en el protocol;
+\item Dissenyar i programar l'aplicació de Shiny;
+\item Pupblicar l'aplicació en web;
+\item Tancar la memòria i fer la presentació per la defensa.
+\end{enumerate}
+
+Aquestes tasques he distribuït de modo següent: 
+
+\begin{figure}[H]
+\caption{Gantt Plot}
+\centering
+\includegraphics[width=0.9\textwidth]{figures/GanttPlot}
+\end{figure}
+
+Els treballs previstos per plà docent i realizades i entregades a temps eren esl següents: 
+
+\begin{center}
+ \begin{tabular}{||c | l | c | c||} 
+ \hline
+ Activitat & Nom d'activitat & Data d'inici & Data d'entrega  \\ [0.5ex] 
+ \hline\hline
+ PAC0 & Definició dels continguts del treball & 20/02/19 & 04/03/2019 \\ 
+ \hline
+ PAC1 & Pla de treball & 05/03/19 & 18/03/19 \\
+ \hline
+ PAC2 & Desenvolupament del treball - Fase 1 & 19/03/19 & 4/04/19 \\
+ \hline
+ PAC3 & Desenvolupament del treball - Fase 2 &  25/04/19 & 20/05/19 \\
+ \hline
+ PAC4 & PAC4 - Tancament de la memòria & 21/05/19 & 05/06/19 \\
+ \hline
+\end{tabular}
+\end{center}
+
+\section{Breu sumari dels productes obtinguts}
+
+El producte central obtingut és l'aplicació Shiny que actualment es pot descargar del meu repositori a Github (veure l'apartat instal·lació de l'aplicació).  Al mateix repositori es pot trobar tot el material relacionat amb la creació de l'aplicació: els arxius de latex per a les proves d'avaluació continuada, les captures de pantalla utilitzades en aquestes PACs, també el paquet modificat \helvetica(pathview) que es diu \helvetica{pathviewPatched} i que permet guardar les imatges de les rutes al directori especificat.
 
 \chapter{El marc teòric}
 
@@ -126,7 +174,8 @@ En els capítols següents presisaré més formal els métodes d'ORA i GSEA i ta
 
 
 \section{Annotació dels gens}
-Com veurem més endavant per a anàlisi de les rutes és imprescindible tenir com a referència anotacions dels gens. Per a aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes i Reactome. 
+
+Com veurem més endavant per a anàlisi de les rutes és imprescindible tenir com a referència anotacions dels gens. Per a aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes i Reactome. clusterProfiler també inclou WikiPathways però per raons de temps he decidit focusar-me només a les tres mencionts anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb inconvenient que són comercials i no gratuites. 
 
 \subsection{Gene ontology}
 Gene Ontology \cite{gene2004gene} dona tan un vocabulari estructurat i controlat (ontologies) com la classificació que cobreix alguns dominis de la biologia molecular i cel·lular. És una base de dades gratuïta per a anotació de gens, el seu producte i les seqüències. El projecte GO proporciona ontologies per a descriure els atributs dels productes de gens als tres dominis separats de la biologia molecular:
@@ -271,7 +320,8 @@ Aquest gràfic mostra les relacións entre els gens dins de la ruta específica.
 \end{figure}
 
 \subsection{Reactome Pathway}
-Les rutes de Rectome són similares a les rutes de KEGG. La seva implementació amb Bioconductor, com ho veruem properament, no visualitza les rutes originales mostrades per \href{https://reactome.org/PathwayBrowser/}{Pathway Browser} de Reactome. La visualització és més modesta i ofereix només les relacions nominals no direccionals. D'aquesta manera però podem identificar quanes coneccions amb altres gens de la ruta tenen els gens diferencialment expressats. 
+
+Les rutes de Rectome són similares a les rutes de KEGG. La seva implementació amb Bioconductor, com ho veruem properament, no visualitza les rutes originales mostrades per \href{https://reactome.org/PathwayBrowser/}{Pathway Browser} de Reactome. La visualització amb al paquet \helvetica{ReactomePA} és més modesta i ofereix només les relacions nominals sense mostrar direcionalitat, com ho fa el gràfic de la ruta original de Reactome. Tot i així podem identificar quantes coneccions amb altres gens de la ruta tenen els gens diferencialment expressats i d'aquesta maner intuir la seva importancia relativa.  
 
 En canvi a Goplot i les rutes KEGG les relacions entre els gens dins les rutes Reactome són més senzilles. Aquí les relacions són mostrades només amb les línies, on es pot interpretar només la distància entre els gens. 
 %https://reactome.org/userguide/pathway-browser
@@ -308,8 +358,7 @@ $\rightarrow$ El gràfic GSEA es genera automàticament. Es pot elegir la ruta m
 \chapter{Tractament bioinformàtic}
 
 \section{Cerca dels paquets de Bioconductor}
-
-El paquet \helvetica{clusterProfiler} de Bioconductor integra els mètodes per dur a terme l'anàlisi de les rutes basant-se en les bases de dades GO, KEGG i Reactome. Els dos mètodes principals són ORA (Overrepresentation analysis) i GSEA (Gene set enrichment Analysis). També inclou les possibilitats de visualització dels resultats suficients per considerar l'anàlisi de les rutes complet. Notem però que el test de permutació a l'anàlisi GSEA implementat per clusterPrifiler es basa en la permutació dels gens i no de les mostres com originalment és proposat per \cite{subramanian2005gene}.
+Bioconductor ofereix molts paquest per dur a terme l'anàlisi de les rutes implementat algoritmes diferents a l'hora de calcular les estadístiques de les anàlisis ORA i GSEA. La busqueda s'ha reduit a tres paquets principals: clusterProfiler, ReactomePA i pathview. D'aquests tres paquets  el paquet clusterProfiler és més complet i integra els mètodes per dur a terme l'anàlisi de les rutes basant-se en les bases de dades GO, KEGG i Reactome. Els dos mètodes principals són ORA (Overrepresentation analysis) i GSEA (Gene set enrichment Analysis). També inclou les possibilitats de visualització dels resultats suficients per considerar l'anàlisi de les rutes complet. Notem però que el test de permutació a l'anàlisi GSEA implementat per clusterPrifiler es basa en la permutació dels gens i no de les mostres com originalment és proposat per \cite{subramanian2005gene}.
 
 Els paquets i les seves funcions per generar els resultats són els següents: 
 
@@ -753,7 +802,7 @@ Aquí cal destacar que les fòrmules, depenent de l'ordinador, no apareixen degu
 \chapter{Validació dels resultats}
 \label{sec:ValRes}
 
-L’anàlisi de les rutes representa l’últim pas de l’anàlisi d’expressions. Per dur a terme l’anàlisi de rutes és necessari tenir unes dades que ja estiguin processades prèviament (normalització, càlcul de les LogRatios, ajustament dels gens repetits a l’array, selecció dels gens diferencialment expressats, etc.). Les dades de \href{https://www.ncbi.nlm.nih.gov/geo/}{GEO (Gene Expression Omnibus)} estan però disponibles com a màxim en format normalitzat. Caldria doncs fer una anàlisi per arribar a un llistat de gens diferencialment expressats amb les logRatios per tots els gens de la mostra. Fer això no seria cap problema i de fet ho he fet per altres estudis. El problema és que arribo a resultats diferents dels resultats dels estudis d’on provenen les dades (i no parlo de l’anàlisi de les rutes sinó ja del càlcul de les logRatios). Per tant les dades que entraria a l’aplicació serien diferents de les dades de l’estudi i lògicament amb aquesta comprovació no comprovo el que realment m’interessa. Podria, doncs, dedicar-me a trobar el motiu pel qual els resultats són diferents, però fer totes aquestes comprovacions prèvies no té a veure amb l’objecte del meu treball de màster, l’anàlisi de les rutes. Per tant he procedit a contactar el meu profesor per si tindria (o coneixeria) dades preprocessades fins a un llistat de gens amb logRatios i amb el set de gens diferencialment expressats, per tal que les pugui utilitzar en la meva aplicació. El meu professor m'ha redirigit, entre altres enllaços molt útils, al seu repositori en \href{https://github.com/alexsanchezpla?tab=repositories}{github.com}. 
+L’anàlisi de les rutes representa l’últim pas de l’anàlisi d’expressions. Per dur a terme l’anàlisi de rutes és necessari tenir unes dades que ja estiguin processades prèviament (normalització, càlcul de les LogRatios, ajustament dels gens repetits a l’array, selecció dels gens diferencialment expressats, etc.). Les dades de \href{https://www.ncbi.nlm.nih.gov/geo/}{GEO (Gene Expression Omnibus)} estan però disponibles com a màxim en format normalitzat. Caldria doncs fer una anàlisi per arribar a un llistat de gens diferencialment expressats amb les logRatios per tots els gens de la mostra. Fer això no seria cap problema i de fet ho he fet per altres estudis. El problema és que arribo a resultats diferents dels resultats dels estudis d’on provenen les dades. Per tant les dades que entraria a l’aplicació serien diferents de les dades de l’estudi i lògicament amb aquesta comprovació no comprovo el que realment m’interessa. He procedit a contactar el meu profesor per si tindria (o coneixeria) dades preprocessades fins a un llistat de gens amb logRatios i amb el set de gens diferencialment expressats, per tal que les pugui utilitzar en la meva aplicació. El meu professor m'ha redirigit, entre altres enllaços molt útils, al seu repositori en \href{https://github.com/alexsanchezpla?tab=repositories}{github.com}. 
 
 
 \begin{table}[ht]
@@ -780,7 +829,10 @@ Les dades de \cite{schmidt2008humoral}, que s'utilitzen en els vignettes de \hel
 
 \section{Exemple d'anàlisi 1. GEO: GSE100924}
 
-Les dades d'estudi \cite{li2017zbtb7b} són ja preprocessades per Ricardo Gonzalo Sanz i Sanchez Pla i estan disponibles a \href{https://github.com/alexsanchezpla/StatisticalAnalysisOfMicroarrayData}{github}. De la carpeta \textit{results} he agafat la taula \textit{topAnnotated\_KOvsWT\_COLD.csv}. Sanz i Pla utilitzen el paquet \helvetica{ReactomePA} per a l'anàlisi d'enriquiment. Repeteixo doncs el seu anàlisi utilitzant l'aplicació. 
+\cite{li2017zbtb7b} analitzen l'associació del gen Zbtb7b amb la produccó de les grasses marons que al seu torn influeixen termogenesis i procesos metabòlics diferents. D'aquesta manera les grasses marons són importants per a tractament dels disorders metanòlics.
+
+Les dades d'estudi són ja preprocessades per Ricardo Gonzalo Sanz i Sanchez Pla i estan disponibles a \href{https://github.com/alexsanchezpla/StatisticalAnalysisOfMicroarrayData}{github}. De la carpeta \textit{results} he agafat la taula \textit{topAnnotated\_KOvsWT\_COLD.csv}. Sanz i Pla utilitzen el paquet \helvetica{ReactomePA} per a l'anàlisi d'enriquiment. Repeteixo doncs el seu anàlisi utilitzant l'aplicació. 
+
 
 \begin{enumerate}
 
@@ -808,9 +860,11 @@ L'output a baix indica que s'ha pujat el total de 5995 gens. Per a l'arxiu dels 
 \caption{Resultat d'anàlisi ORA de Reactome}
 \end{figure}
 
-Observem que els gens mostrats són els mateixos esmentats per Sanz i Pla.
+Observem que les rutes mostrats són els mateixos esmentats per Sanz i Pla. També destaquem que el resultat conicideix amb les torbades d'estudi de \cite{li2017zbtb7b}. S'observa la perturbació de les rutes relacionades amb les grasses marrons \textbf{Fatty acyl-CoA biosynthesis} i \textbf{Fatty-acid metabolism}.
 
 \item Visualització del resultat ORA
+
+L'aplicació permet visualitzar els resultats obtinguts amb la ORA. 
 
 \begin{itemize}
 \item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Bar Plot}
@@ -838,6 +892,8 @@ Observem que els gens mostrats són els mateixos esmentats per Sanz i Pla.
 \end{figure}
 
 \item Selecciono \textit{Reactome Analysis}$\rightarrow$\textit{Category Gene Network}
+Aquesta visualització incorpora les gens individuals de la ruta i el magnitud de la seva expressió diferencial. Observem que el gen Evol3 està sotaexpressat, tal com es comenta al paper de \cite{li2017zbtb7b}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/Estudi1_Fig7_ORA_CP_RA.png} 

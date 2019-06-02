@@ -33,9 +33,13 @@ head(geneList)
 str(geneList)
 
 
+geneList<-read.csv("D:/UOC/TFM/3_TestData/GSE100924/topAnnotated_KOvsWT_COLD_universe.csv")
+genes<-read.csv("D:/UOC/TFM/3_TestData/GSE100924/topAnnotated_KOvsWT_COLD_genesin.csv")
+
+head(geneList)
 str(geneListv)
 ego3 <- gseGO(geneList     = geneList,
-              OrgDb        = org.Hs.eg.db,
+              OrgDb        = org.Mm.eg.db,
               ont          = "CC",
               nPerm        = 1000,
               minGSSize    = 100,
@@ -70,14 +74,20 @@ head(ggo)
 names(geneList)<-c("ID","FoldChange")
 geneList$ID<-as.character(geneList$ID)
 head(geneList)
-ego <- enrichGO(gene          = gene,
-                universe      = names(geneList),
-                OrgDb         = org.Hs.eg.db,
+gene<-genes$ENTREZID
+head(names(geneList))
+ego <- enrichGO(gene          = as.character(genes$ENTREZID),
+                universe      = as.character(geneList$ENTREZID),
+                OrgDb         = org.Mm.eg.db,
                 ont           = "CC",
-                pAdjustMethod = "BH",
-                pvalueCutoff  = 0.01,
-                qvalueCutoff  = 0.05,
+                pAdjustMethod = "none",
+                pvalueCutoff  = 0.1,
+                qvalueCutoff  = 0.2,
                 readable      = TRUE)
+png("D:/UOC/TFM/3_TestData/GSE100924/testbarplot.png")
+clusterProfiler::dotplot(ego)
+dev.off()
+head(ego@result)
 ego@result%>%
   filter(p.adjust<0.2)%>%
   mutate(
@@ -152,7 +162,7 @@ plot.new()
 plot.window(0:1, 0:1)
 
 #fill plot with image
-usr<-par("usr")    
+usr<-par("usr")
 rasterImage(img, usr[1], usr[3], usr[2], usr[4])
 dev.off()
 
