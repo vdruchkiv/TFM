@@ -133,6 +133,22 @@ Els treballs previstos per plà docent i realizades i entregades a temps eren es
 
 El producte central obtingut és l'aplicació Shiny que actualment es pot descargar del meu repositori a Github (veure l'apartat instal·lació de l'aplicació).  Al mateix repositori es pot trobar tot el material relacionat amb la creació de l'aplicació: els arxius de latex per a les proves d'avaluació continuada, les captures de pantalla utilitzades en aquestes PACs, també el paquet modificat \helvetica(pathview) que es diu \helvetica{pathviewPatched} i que permet guardar les imatges de les rutes al directori especificat.
 
+\section{Breva descripció dels capítols del treball}
+
+Al primer capítol més teòric presentaré els mètodes més relevant per a anàlisi de les rutes. Començaré però amb el context d'investigació de l'expressió genètica i més específicament amb l'anàlisi de microarrays per poder situar millor l'anàlisi biològic de les rutes. Donat les dades d'experiment explicaré brevament quins resultats habitualment s'en deriven. Veurem que aquests resultats són la llista de gens diferencialment expressats i el magnitud d'expressio diferencial mesurada via \textit{logRatio} per tots als gens. 
+
+Seguidament investigaré quines estratègies existen per dur a terme l'anàlisi de les rutes. Aquí identificaré tres estratègies generals: l'anàlisi ORA (Over-Representation Analisis), FCS (Functional Class Scoring) i l'anàlisi topològic de les rutes. Veurem que aquests anàlisis accepten com les dades d'entrada els resultats obtinguts via \textit{microarrays} descrits anteriorment. Per poder fer us d'aquestes dades però és necessari anotar els gens d'experiment. Per aquest motiu presentaré els tres bases de dades més relevant per anotar els gens amb objectiu de fer anàlisi de les rutes: GO, KEGG i Reactome.
+
+Finalment parlaré sobre els mètoded ORA i GSEA més detalladament enfocant especialment als resultat que preporcionen. També descriure brevament la visualitzacions possible de les rutes. Per acabar presentaré el protocol que utilitzaré per crear l'aplicació.
+
+Al capítol següent explicaré els paquets de Bioconductor per dur a terme l'anàlisi descrit al capítol anterior i el modo amb el qual he fet l'aplicació accessible. Veurem que al moment de redacció d'aquesta memòria l'aplicació es pot ser descargada de GitHub utilitzant el paquet \helvetica{devtools} de R. S'intentarà però habilitat l'aplicació  per a internet utilitzant el servidor de l'area d'estadística i bioinformàtica. 
+
+Al capítol següent presentaré l'aplicació. Aquí utilitzaré les dades del paquet clusterProfiler per mostrar el funcionament d'aplicació: des de pujament de les dades fins obtenció de les representacions gràfiques.
+
+Al capítol següent intentaré validar l'aplicació. Parlaré dels problemes a l'hora de trobar les dades preprocessades i presentaré les dades amb les quals en faig intent i em concentraré més en l'estudi de l'expressió gènica dels ratolins midificats genèticament de tal manera, que el seu gen  Zbtb7b està silenciat. Veurem que els resultats obtinguts amb l'aplicació s'assemblen als resultats descrits al \textit{paper} original. 
+
+Per acabar faré conlusions del meu treball.
+ 
 \chapter{El marc teòric}
 
 \section{Les dades d'expressió genètica}
@@ -175,7 +191,7 @@ En els capítols següents presisaré més formal els métodes d'ORA i GSEA i ta
 
 \section{Annotació dels gens}
 
-Com veurem més endavant per a anàlisi de les rutes és imprescindible tenir com a referència anotacions dels gens. Per a aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes i Reactome. clusterProfiler també inclou WikiPathways però per raons de temps he decidit focusar-me només a les tres mencionts anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb inconvenient que són comercials i no gratuites. 
+Com veurem més endavant per a anàlisi de les rutes és imprescindible tenir com a referència anotacions dels gens. Per a aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) i Reactome. clusterProfiler també inclou WikiPathways però per raons de temps he decidit focusar-me només a les tres mencionts anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb inconvenient que són comercials i no gratuites. 
 
 \subsection{Gene ontology}
 Gene Ontology \cite{gene2004gene} dona tan un vocabulari estructurat i controlat (ontologies) com la classificació que cobreix alguns dominis de la biologia molecular i cel·lular. És una base de dades gratuïta per a anotació de gens, el seu producte i les seqüències. El projecte GO proporciona ontologies per a descriure els atributs dels productes de gens als tres dominis separats de la biologia molecular:
@@ -493,6 +509,8 @@ shinycssloaders & CRAN\\
 
 Després d'instal·lació l'aplicació és completament funcional localment i ofereix l'anàlisi a partir de les bases de dades GO, KEGG i Reactome. A l'apartat \textbf{Input data} l'usuari primer ha d'indicar l'espècie per a totes tres bases de dades. Per les bases de dades de Reactome l'usuari pot elegir entre Homo Sapiens, Rat, Mouse, Celegans, Yeast, Zebrafish, Fly. Per a l’anàlisi GO, a més de les anteriors, hi ha disponibles aquestes espècies addicionals: Arabidopsis, Bovine, Chicken, Canine, Pig, Rhesus, E coli strain K12, Xenopus, Anopheles, Chimp, Malaria, E coli strain Sakai. Hi ha més espècies disponibles per a l'anàlisis KEGG, perquè la funció de \helvetica{culsterProfiler} \helvetica{enrichKEGG()} descarrega les últimes anotacions directament de la base de dades KEGG. Es poden trobar totes les espècies \href{http://www.genome.jp/kegg/catalog/org_list.html}{aquí}. També l'usuari pot buscar l'espècie introduint els termes de cerca. Finalment l'usuari puja l'arxiu amb els gens i els LogRatios provinents de l'estudi de \textit{microarrays}. 
 
+A la presentació següent fer us de les dades disponibles al paquet \helvetica{DOSE} de Bioconductor que provenen de l'estudi de schmidt2008humoral on es comparen les mostres del càncer de mama del grau III vs. el grau I. 
+
 
 \begin{figure}[H]
 \caption{Pàgina d'entrada}
@@ -616,7 +634,7 @@ Una vegada introduïts els paràmetres i premut el botó \textbf{Calculate} apar
 \caption{El resultat de l'anàlisi ORA. KEGG.}
 \end{figure}
 
-\subsubsection{Reactome}
+\subsection{Reactome}
 En el cas de Reactome el procediment és similar. La funció usada és \helvetica{enrichPathway()} del paquet \helvetica{ReactomePA}:
 
 
@@ -655,6 +673,8 @@ Per completar l'anàlisi l'usuari pot calcular GSEA per a base de dades Reactome
 \includegraphics[width=0.9\textwidth]{figures/App_F13_Items_RA_GSEA.png} 
 \caption{El resultat d'anàlisi GSEA. Reactome.}
 \end{figure}
+
+\section{Visualització i l'anàlisi topològic}
 
 \subsection{Bar-Plots}
 Els resultats de \helvetica{enrichGO}, \helvetica{enrichKEGG} i \helvetica{enrichPathway} es poden visualitzar amb el gràfic de barres. L'usuari pot elegir el nombre de les categories visualitzades entre 2 i 30. Es dona l'opció per descarregar el gràfic en format .png.
@@ -699,11 +719,6 @@ L'usuari pot visualitzar una de les categories disponibles via \textit{dropdown 
 \includegraphics[width=0.9\textwidth]{figures/App_F18_Items_GO_GSEA_Plot.png} 
 \caption{GSEA Plot. GO.}
 \end{figure}
-
-
-\section{L'anàlisi específic de GO, KEGG i Reactome}
-
-\label{sec:ASpec}
 
 
 \subsection{GO Plot}
@@ -963,4 +978,7 @@ Clico en l'apartat \textit{GO Analysis}$\rightarrow$\textit{ORA}. Selecciono com
 \caption{L'anàlisi ORA de GO}
 \end{figure}
 
-\chapter{Discussió}
+\chapter{Conclusió}
+
+Al treball final he tingut com a objectiu la creació d'una aplicació per a anàlisi de les rutes. Primer he determinat que és l'anàlisi de les rutes i on es situa a l'anàlisi global d'expressió genètica. He explicat que l'anàlisi de les rutes és l'ultim pas de l'anàlisi d'expressió gènica on es preten fer sentit biològic de les dades d'expressió. Per dur a terme aquest anàlisi s'utilitza una llista dels gens diferencialment expressats i els logRatios de tots els gens d'experiment. He explicat que es necessari anotar aquests gens a les bases existents per poder agrupar-los als conceptes (o rutes). He triat les bases de dades més coneguts i que són utilitzades pels paquets de Bioconductor. Aquestes bases de dades són: GO (Gene Ontology), KEGG (Kyoto Encyclopedia of Genes  and Genomes) i Reactome. He descrit quins mètodes existen per calcular la significació biològica de les rutes. Entre altres he identificat tres estratègies:  ORA (Over-Representation Analisis), FCS (Functional Class Scoring) i l'anàlisi topològic de les rutes. He desctit amb més detall les mètodes ORA i GSEA i també he identificat les possibilitats per visualitzar les rutes.  Després de formular un protocol d'anàlisi he buscat i identificat els paquets de Bioconductor que permiten aplicar els mètodes descrits. Entre altres he triat \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. He posat aquests paquets com a base per la futura aplicació. El resultat era l'aplicació dividida en quatre apartats: 1) Entrada de les dades; 2) Anàlisi amb la base d'anotació GO; 3) L'anàlisi amb la base d'anotació KEGG i l'anàlisi amb la base d'anotació Reactome. Per a cada base de dades l'usuari pot fer ORA, GSEA i obtenir visualització de la topologia de les rutes. L'aplicació perment descargar els resultats com a l'arxiu .csv i imatges .png, les quals l'usuari pot personalitzar. La validació dels resultats ha mostrat una bona coincidència amb l'estudi triat per validar les dades.  Aquest estudi investiga l'impacte del gen Zbtb7b sobre la producció de les grasses marrons. Justament les rutes relacionades amb el síntesi de grasses marrons estaben identificats amb l'aplicació. L'aplicació pot ser descargada i instal·lada llibrement del repositori GitHub i la via per fer-ho s'explica a la memòria. Actualment es busca el mètode per publicar l'aplicació a l'internet per fer-la encara més accessible.
+ 
