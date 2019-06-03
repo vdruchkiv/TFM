@@ -11,7 +11,10 @@ runPathwayApp <- function() {
   if(!require(kableExtra))install.packages("kableExtra")
   if(!require(formattable))install.packages("formattable")
   if(!require(shinyhelper))install.packages("shinyhelper")
+  if(!require(ReactomePA))BiocManager::install("ReactomePA")
   if(!require(pathviewPatched))devtools::install_github("vdruchkiv/TFM/5_Packages/pathviewPatched")
+  if(!require(org.Hs.eg.db))BiocManager::install("org.Hs.eg.db")
+
   appDir <- system.file("shiny-examples", "PathwayApp", package = "PathwayApp")
   if (appDir == "") {
     stop("Could not find example directory. Try re-installing `PathwayApp`.", call. = FALSE)

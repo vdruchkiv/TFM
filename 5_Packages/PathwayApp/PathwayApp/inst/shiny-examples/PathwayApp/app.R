@@ -541,6 +541,7 @@ server <- function(input,output,session) {
   # in this example, we use the withMathJax parameter to render formulae
   observe_helpers(withMathJax = TRUE)
 
+
   #Reading data
   geneList <- reactive({
         df<-read.csv(input$file1$datapath,
