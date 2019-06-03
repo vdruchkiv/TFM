@@ -247,7 +247,7 @@
 \input{colophon}                %% defines information about editor, LaTeX, font, ...
 
 %% Choose your desired title page:
-\input{\mytitlepage}            %% include title page
+%\input{\mytitlepage}            %% include title page
 
 
 %\input{template/declaration_TU_Graz}  %% Statutory Declaration
@@ -260,6 +260,7 @@
 %\phantomsection
 %\addcontentsline{toc}{chapter}{Abstract}
 %\include{abstract}              %% Abstract
+\includepdf[pages=-]{Cover}
 \frontmatter  
 \includepdf[pages=-]{Abstract}
 
@@ -285,8 +286,8 @@
 % \include{evaluation}          %% this is a suggestion: you have to create this file on demand
 % \include{outlook}             %% this is a suggestion: you have to create this file on demand
 
-\appendix                       %% closes main document, appendix follows until end; only available in book-classes
-\addpart*{Appendix}             %% adding Appendix to tableofcontents
+%\appendix                       %% closes main document, appendix follows until end; only available in book-classes
+%\addpart*{Appendix}             %% adding Appendix to tableofcontents
 
 \bibliography{references}
 \bibliographystyle{apalike}
