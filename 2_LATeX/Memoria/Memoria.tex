@@ -139,7 +139,7 @@ Al primer capítol més teòric presentaré els mètodes més relevant per a an�
 
 Seguidament investigaré quines estratègies existen per dur a terme l'anàlisi de les rutes. Aquí identificaré tres estratègies generals: l'anàlisi \Gls{ORA} (Over-Representation Analisis), FCS (Functional Class Scoring) i l'anàlisi topològic de les rutes. Veurem que aquests anàlisis accepten com les dades d'entrada els resultats obtinguts via \textit{microarrays} descrits anteriorment. Per poder fer us d'aquestes dades però és necessari anotar els gens d'experiment. Per aquest motiu presentaré els tres bases de dades més relevant per anotar els gens amb objectiu de fer anàlisi de les rutes: GO, KEGG i Reactome.
 
-Finalment parlaré sobre els mètoded ORA i GSEA més detalladament enfocant especialment als resultat que preporcionen. També descriure brevament la visualitzacions possible de les rutes. Per acabar presentaré el protocol que utilitzaré per crear l'aplicació.
+Finalment parlaré sobre els mètoded \gls{ORA} i GSEA més detalladament enfocant especialment als resultat que preporcionen. També descriure brevament la visualitzacions possible de les rutes. Per acabar presentaré el protocol que utilitzaré per crear l'aplicació.
 
 Al capítol següent explicaré els paquets de Bioconductor per dur a terme l'anàlisi descrit al capítol anterior i el modo amb el qual he fet l'aplicació accessible. Veurem que al moment de redacció d'aquesta memòria l'aplicació es pot ser descargada de GitHub utilitzant el paquet \helvetica{devtools} de R. S'intentarà però habilitat l'aplicació  per a internet utilitzant el servidor de l'area d'estadística i bioinformàtica. 
 
@@ -303,7 +303,7 @@ L'aplicació que he desenvolupat agafa aquesta idea i calcula la taula que inclo
 \end{itemize}
 
 \section{L'anàlisi topològic de les rutes}
-Tan ORA com GSEA no visualitzen les relacions entre les rutes i entre els gens dins de les rutes. Els avenços en anotació manual de les bases de dades disponibles (GO, KEGG i Reactome) contenen però aquesta informació i l'aplicació, gràcies al paquet \helvetica{clusterProfiler}, hi treu l'avantatge i visualitza aquestes relacions més detalladament. 
+Tan \gls{ORA} com GSEA no visualitzen les relacions entre les rutes i entre els gens dins de les rutes. Els avenços en anotació manual de les bases de dades disponibles (GO, KEGG i Reactome) contenen però aquesta informació i l'aplicació, gràcies al paquet \helvetica{clusterProfiler}, hi treu l'avantatge i visualitza aquestes relacions més detalladament. 
 
 \subsection{El mapa d'enriquement}
 
@@ -311,7 +311,7 @@ Navegant a la categoria \textbf{Enrichment plot} l'usuari obté el mapa d'enriqu
 
 \subsection{Gene-Concept-Network}
 
-L'anàlisi ORA no visualitza per si sola els gens que contribueixen al fet que la ruta sigui diferencialment expressada. Amb la xarxa de gens-concepte es pretén visualitzar els gens al voltant dels conceptes on els gens poden ser connectats amb les rutes (conceptes) diferents. D'aquesta manera es fa possible identificar les associasions biològiques més complexes entre les rutes mitjançant els gens. 
+L'anàlisi \gls{ORA} no visualitza per si sola els gens que contribueixen al fet que la ruta sigui diferencialment expressada. Amb la xarxa de gens-concepte es pretén visualitzar els gens al voltant dels conceptes on els gens poden ser connectats amb les rutes (conceptes) diferents. D'aquesta manera es fa possible identificar les associasions biològiques més complexes entre les rutes mitjançant els gens. 
 
 \subsection{GOplot}
 %Per a mès informació http://geneontology.org/docs/ontology-relations/
@@ -344,7 +344,7 @@ En canvi a Goplot i les rutes KEGG les relacions entre els gens dins les rutes R
 
 \section{Desenvolupament del protocol}
 
-Tenint en compte el marc teòric he intentat dessenyar l'aplicació que ofereixi els mètodes com ara ORA, GSEA i algunes visualitzacions de la topografia de les rutes. Igual amb quina base de dades l'usuari vol anotar les dades d'expressió l'usuari podrà decidir quin métode voll aplicar. En el millor dels casos l'usuari faria els dos mètodes ORA i GSEA. Això implicaria la disponibilitat de dos arxius: l'arxiu amb tots els gens (Universe) i l'arxiu amb el grup de gens diferencialment expressats (Gene set). Si l'usuari vol fer només l'anpalisi GSEA haurá de pujar només l'arxiu amb tots els gens. Una vegada seleccionada l'estratègia l'usuari puja els arxius necessaris i gener el resultat de ORA i/o GSEA aplicant uns critèris com ara selecció d'ontologia en ORA, valor de P com al filtre de visualització de les rutes més significatives, i el mètode d'ajustament.
+Tenint en compte el marc teòric he intentat dessenyar l'aplicació que ofereixi els mètodes com ara ORA, GSEA i algunes visualitzacions de la topografia de les rutes. Igual amb quina base de dades l'usuari vol anotar les dades d'expressió l'usuari podrà decidir quin métode voll aplicar. En el millor dels casos l'usuari faria els dos mètodes \gls{ORA} i GSEA. Això implicaria la disponibilitat de dos arxius: l'arxiu amb tots els gens (Universe) i l'arxiu amb el grup de gens diferencialment expressats (Gene set). Si l'usuari vol fer només l'anpalisi GSEA haurá de pujar només l'arxiu amb tots els gens. Una vegada seleccionada l'estratègia l'usuari puja els arxius necessaris i gener el resultat de \gls{ORA} i/o GSEA aplicant uns critèris com ara selecció d'ontologia en ORA, valor de P com al filtre de visualització de les rutes més significatives, i el mètode d'ajustament.
 
 \begin{figure}[H]
 \centering
@@ -356,12 +356,12 @@ D'aquí podem definir per exemple el protocol:
 \begin{enumerate}
 \item Decidir quin anàlisi vol fer: GO, KEGG o Reactome
 \item Seleccionar l'espècie de referència
-\item Decidir quin mètode vol implementar: ORA o GSEA i respectivament pujar les dades necessàries.
+\item Decidir quin mètode vol implementar: \gls{ORA} o GSEA i respectivament pujar les dades necessàries.
 
 $\rightarrow$ Per a anàlisi GO tots dos arxius són necessaris: Gens Seleccionats (Gene) i Tots els gens (Universe). 
 
-$\rightarrow$ Per a l'anàlisi KEGG o Reactome les dades necessàries varien: Pel mètode ORA l'arxiu amb els gens seleccionats és suficient. Dos arxius són necessaris pel mètode GSEA.
-\item En el cas que volguem fer l'anàlisis ORA seleccionar a l'apartat corresponent (GO, KEGG o Reactome) la pestanya ORA i definir els criteris.
+$\rightarrow$ Per a l'anàlisi KEGG o Reactome les dades necessàries varien: Pel mètode \gls{ORA} l'arxiu amb els gens seleccionats és suficient. Dos arxius són necessaris pel mètode GSEA.
+\item En el cas que volguem fer l'anàlisis \gls{ORA} seleccionar a l'apartat corresponent (GO, KEGG o Reactome) la pestanya \gls{ORA} i definir els criteris.
 
 $\rightarrow$ Els gràfics: Bar Plot, Dot Plot Enrichment Map, Cnet Plot, GO Plot (en cas d'anàlisi GO) i els gràfics de les rutes (KEGG/Reactome) es calculen automàticament
 
@@ -374,7 +374,7 @@ $\rightarrow$ El gràfic GSEA es genera automàticament. Es pot elegir la ruta m
 \chapter{Tractament bioinformàtic}
 
 \section{Cerca dels paquets de Bioconductor}
-Bioconductor ofereix molts paquest per dur a terme l'anàlisi de les rutes implementat algoritmes diferents a l'hora de calcular les estadístiques de les anàlisis ORA i GSEA. La busqueda s'ha reduit a tres paquets principals: clusterProfiler, ReactomePA i pathview. D'aquests tres paquets  el paquet clusterProfiler és més complet i integra els mètodes per dur a terme l'anàlisi de les rutes basant-se en les bases de dades GO, KEGG i Reactome. Els dos mètodes principals són ORA (Overrepresentation analysis) i GSEA (Gene set enrichment Analysis). També inclou les possibilitats de visualització dels resultats suficients per considerar l'anàlisi de les rutes complet. Notem però que el test de permutació a l'anàlisi GSEA implementat per clusterPrifiler es basa en la permutació dels gens i no de les mostres com originalment és proposat per \cite{subramanian2005gene}.
+Bioconductor ofereix molts paquest per dur a terme l'anàlisi de les rutes implementat algoritmes diferents a l'hora de calcular les estadístiques de les anàlisis \gls{ORA} i GSEA. La busqueda s'ha reduit a tres paquets principals: clusterProfiler, ReactomePA i pathview. D'aquests tres paquets  el paquet clusterProfiler és més complet i integra els mètodes per dur a terme l'anàlisi de les rutes basant-se en les bases de dades GO, KEGG i Reactome. Els dos mètodes principals són \gls{ORA} (Overrepresentation analysis) i GSEA (Gene set enrichment Analysis). També inclou les possibilitats de visualització dels resultats suficients per considerar l'anàlisi de les rutes complet. Notem però que el test de permutació a l'anàlisi GSEA implementat per clusterPrifiler es basa en la permutació dels gens i no de les mostres com originalment és proposat per \cite{subramanian2005gene}.
 
 Els paquets i les seves funcions per generar els resultats són els següents: 
 
@@ -385,7 +385,7 @@ Els paquets i les seves funcions per generar els resultats són els següents:
 \hline
 Base de dades & Mètode & Paquet Bioconductor & Funció & Observació \\ [0.5ex] 
 \hline\hline
-GO & ORA & clusterProfiler & enrichGO() & Només 7 espècies disponibles \\ 
+GO & \gls{ORA} & clusterProfiler & enrichGO() & Només 7 espècies disponibles \\ 
 \hline
 GO & GSEA & clusterProfiler & gseGO() & Permutació de gens \\
 \hline
@@ -397,7 +397,7 @@ GO & Gene-Concept Network & enrichplot & cnetplot() & Necessita l'objecte del cl
 \hline
 GO & GO directed acyclic graph & enrichplot & goplot() & Necessita l'objecte del class enrichResult \\
 \hline\hline
-KEGG & ORA & clusterProfiler & enrichKEGG() & Totes les espècies de KEGG \\ 
+KEGG & \gls{ORA} & clusterProfiler & enrichKEGG() & Totes les espècies de KEGG \\ 
 \hline
 KEGG & GSEA & clusterProfiler & gseKEGG() & Permutació de gens \\
 \hline
@@ -409,7 +409,7 @@ KEGG & Gene-Concept Network & enrichplot & cnetplot() & Necessita l'objecte del 
 \hline
 KEGG & Pathway & pathview & pathview() & Cal modificar la funció per guardar els gràfics en el directori temporal \\
 \hline\hline
-Reactome & ORA & ReactomePA & enrichPathway() & Totes les espècies de KEGG \\ 
+Reactome & \gls{ORA} & ReactomePA & enrichPathway() & Totes les espècies de KEGG \\ 
 \hline
 Reactome & GSEA & ReactomePA & gsePathway() & Permutació de gens \\
 \hline
@@ -537,7 +537,7 @@ L'aplicació està dividida doncs en 4 parts substancials:
 \end{enumerate}
 
 
-L'aplicació ofereix dos mètodes d'anàlisi: d'una banda es pot fer ORA (Over-Representation Analysis) i d'altra banda l'anàlisi GSEA (Gene Set Enrichment Analisis). Recordem que l'ORA consisteix a seleccionar els gens diferencialment expressats i basant-se en GO, KEGG o Reactome comprovar si una de les agrupacions de gens suggerides per aquestes bases de dades està sobre o sotraexpressada en els gens seleccionats. Per dur a terme l'ORA l'usuari té l’opció de definir un \textit{cut-off} de Log-Ratio per formar el conjunt dels gens que s'hi utilitzarà (\textit{gene set}). ORA és una bona eina per veure els efectes grans però els efectes petits se li escapen. Els efectes petits derivats dels gens individuals poden acumular-se en un efecte conjunt substancial el qual ORA no serà capaç de detectar. És aquí on GSEA mostra la seva utilitat. 
+L'aplicació ofereix dos mètodes d'anàlisi: d'una banda es pot fer \gls{ORA} (Over-Representation Analysis) i d'altra banda l'anàlisi GSEA (Gene Set Enrichment Analisis). Recordem que l'ORA consisteix a seleccionar els gens diferencialment expressats i basant-se en GO, KEGG o Reactome comprovar si una de les agrupacions de gens suggerides per aquestes bases de dades està sobre o sotraexpressada en els gens seleccionats. Per dur a terme l'ORA l'usuari té l’opció de definir un \textit{cut-off} de Log-Ratio per formar el conjunt dels gens que s'hi utilitzarà (\textit{gene set}). \gls{ORA} és una bona eina per veure els efectes grans però els efectes petits se li escapen. Els efectes petits derivats dels gens individuals poden acumular-se en un efecte conjunt substancial el qual \gls{ORA} no serà capaç de detectar. És aquí on GSEA mostra la seva utilitat. 
 
 Els apartats d'anàlisi (GO, KEGG i Reactome) ofereixen tan representacions comunes com representacions específiques. 
 
@@ -579,7 +579,7 @@ Les anàlisis específics són:
 
 \subsection{GO}
 
-Per realitzar l'anàlisi ORA per a termes GO s'utilitza la funció \helvetica{enrichGO} del paquet \helvetica{clusterPrifiler}.
+Per realitzar l'anàlisi \gls{ORA} per a termes GO s'utilitza la funció \helvetica{enrichGO} del paquet \helvetica{clusterPrifiler}.
 
 He implementat els valors per defecte amb la possibilitat per a l’usuari d'elegir entre:
 
@@ -756,12 +756,12 @@ Per facilitar l'ús de l’aplicació he pensat com es podria fer de manera més
 \caption{Manual per a aplicació}
 \end{figure}
 
-Com es veu hi ha apartats diferents. Depenent dels objectius de l'usuari, aquest pot seleccionar l'apartat que més l'interessi. Així, si l'usuari vol fer l'anàlisi ORA amb l'anotació KEGG pot navegar en la secció |textbf{Scenario 3: ORA Analysis. KEGG Database}. 
+Com es veu hi ha apartats diferents. Depenent dels objectius de l'usuari, aquest pot seleccionar l'apartat que més l'interessi. Així, si l'usuari vol fer l'anàlisi \gls{ORA} amb l'anotació KEGG pot navegar en la secció |textbf{Scenario 3: \gls{ORA} Analysis. KEGG Database}. 
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\textwidth]{figures/Manual2.jpg} 
-\caption{Manual per a l'anàlisi ORA amb l'anotació KEGG}
+\caption{Manual per a l'anàlisi \gls{ORA} amb l'anotació KEGG}
 \end{figure}
 
 
@@ -791,7 +791,7 @@ Aquí hi ha informació de l'apartat \textbf{Data Input}:
 \caption{Ajuda per pujar les dades}
 \end{figure}
 
-Les informacions per a l'apartat ORA són les següents:
+Les informacions per a l'apartat \gls{ORA} són les següents:
 
 \begin{figure}[H]
 \centering
@@ -872,7 +872,7 @@ L'output a baix indica que s'ha pujat el total de 5995 gens. Per a l'arxiu dels 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/Estudi1_Fig3_ORA_RA.png} 
-\caption{Resultat d'anàlisi ORA de Reactome}
+\caption{Resultat d'anàlisi \gls{ORA} de Reactome}
 \end{figure}
 
 Observem que les rutes mostrats són els mateixos esmentats per Sanz i Pla. També destaquem que el resultat conicideix amb les torbades d'estudi de \cite{li2017zbtb7b}. S'observa la perturbació de les rutes relacionades amb les grasses marrons \textbf{Fatty acyl-CoA biosynthesis} i \textbf{Fatty-acid metabolism}.
@@ -924,7 +924,7 @@ Aquesta visualització incorpora les gens individuals de la ruta i el magnitud d
 \end{itemize}
 \end{enumerate}
 
-Addicionalment a l'anàlisi ORA podem fer, mitjançant l'aplicació, l'anàlisi GSEA per les rutes de Reactome. Per fer-ho:
+Addicionalment a l'anàlisi \gls{ORA} podem fer, mitjançant l'aplicació, l'anàlisi GSEA per les rutes de Reactome. Per fer-ho:
 
 \begin{enumerate}
 
@@ -958,7 +958,7 @@ També podem fer l'anàlisi de KEGG. El resultat de KEGG és similar a l'anàlis
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/Estudi1_Fig11_ORA_KEGG.png} 
-\caption{Anàlisi ORA de KEGG}
+\caption{Anàlisi \gls{ORA} de KEGG}
 \end{figure}
 
 \item Anem a \textit{KEGG}$\rightarrow$\textit{KEGG Pathway}
@@ -975,11 +975,11 @@ Clico en l'apartat \textit{GO Analysis}$\rightarrow$\textit{ORA}. Selecciono com
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/Estudi1_Fig13_GO.png} 
-\caption{L'anàlisi ORA de GO}
+\caption{L'anàlisi \gls{ORA} de GO}
 \end{figure}
 
 \chapter{Conclusió}
 
-Al treball final he tingut com a objectiu la creació d'una aplicació per a anàlisi de les rutes. Primer he determinat que és l'anàlisi de les rutes i on es situa a l'anàlisi global d'expressió genètica. He explicat que l'anàlisi de les rutes és l'ultim pas de l'anàlisi d'expressió gènica on es preten fer sentit biològic de les dades d'expressió. Per dur a terme aquest anàlisi s'utilitza una llista dels gens diferencialment expressats i els logRatios de tots els gens d'experiment. He explicat que es necessari anotar aquests gens a les bases existents per poder agrupar-los als conceptes (o rutes). He triat les bases de dades més coneguts i que són utilitzades pels paquets de Bioconductor. Aquestes bases de dades són: GO (Gene Ontology), KEGG (Kyoto Encyclopedia of Genes  and Genomes) i Reactome. He descrit quins mètodes existen per calcular la significació biològica de les rutes. Entre altres he identificat tres estratègies:  ORA (Over-Representation Analisis), FCS (Functional Class Scoring) i l'anàlisi topològic de les rutes. He desctit amb més detall les mètodes ORA i GSEA i també he identificat les possibilitats per visualitzar les rutes.  Després de formular un protocol d'anàlisi he buscat i identificat els paquets de Bioconductor que permiten aplicar els mètodes descrits. Entre altres he triat \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. He posat aquests paquets com a base per la futura aplicació. El resultat era l'aplicació dividida en quatre apartats: 1) Entrada de les dades; 2) Anàlisi amb la base d'anotació GO; 3) L'anàlisi amb la base d'anotació KEGG i l'anàlisi amb la base d'anotació Reactome. Per a cada base de dades l'usuari pot fer ORA, GSEA i obtenir visualització de la topologia de les rutes. L'aplicació perment descargar els resultats com a l'arxiu .csv i imatges .png, les quals l'usuari pot personalitzar. La validació dels resultats ha mostrat una bona coincidència amb l'estudi triat per validar les dades.  Aquest estudi investiga l'impacte del gen Zbtb7b sobre la producció de les grasses marrons. Justament les rutes relacionades amb el síntesi de grasses marrons estaben identificats amb l'aplicació. L'aplicació pot ser descargada i instal·lada llibrement del repositori GitHub i la via per fer-ho s'explica a la memòria. Actualment es busca el mètode per publicar l'aplicació a l'internet per fer-la encara més accessible.
+Al treball final he tingut com a objectiu la creació d'una aplicació per a anàlisi de les rutes. Primer he determinat que és l'anàlisi de les rutes i on es situa a l'anàlisi global d'expressió genètica. He explicat que l'anàlisi de les rutes és l'ultim pas de l'anàlisi d'expressió gènica on es preten fer sentit biològic de les dades d'expressió. Per dur a terme aquest anàlisi s'utilitza una llista dels gens diferencialment expressats i els logRatios de tots els gens d'experiment. He explicat que es necessari anotar aquests gens a les bases existents per poder agrupar-los als conceptes (o rutes). He triat les bases de dades més coneguts i que són utilitzades pels paquets de Bioconductor. Aquestes bases de dades són: GO (Gene Ontology), KEGG (Kyoto Encyclopedia of Genes  and Genomes) i Reactome. He descrit quins mètodes existen per calcular la significació biològica de les rutes. Entre altres he identificat tres estratègies:  \gls{ORA} (Over-Representation Analisis), FCS (Functional Class Scoring) i l'anàlisi topològic de les rutes. He desctit amb més detall les mètodes \gls{ORA} i GSEA i també he identificat les possibilitats per visualitzar les rutes.  Després de formular un protocol d'anàlisi he buscat i identificat els paquets de Bioconductor que permiten aplicar els mètodes descrits. Entre altres he triat \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. He posat aquests paquets com a base per la futura aplicació. El resultat era l'aplicació dividida en quatre apartats: 1) Entrada de les dades; 2) Anàlisi amb la base d'anotació GO; 3) L'anàlisi amb la base d'anotació KEGG i l'anàlisi amb la base d'anotació Reactome. Per a cada base de dades l'usuari pot fer ORA, GSEA i obtenir visualització de la topologia de les rutes. L'aplicació perment descargar els resultats com a l'arxiu .csv i imatges .png, les quals l'usuari pot personalitzar. La validació dels resultats ha mostrat una bona coincidència amb l'estudi triat per validar les dades.  Aquest estudi investiga l'impacte del gen Zbtb7b sobre la producció de les grasses marrons. Justament les rutes relacionades amb el síntesi de grasses marrons estaben identificats amb l'aplicació. L'aplicació pot ser descargada i instal·lada llibrement del repositori GitHub i la via per fer-ho s'explica a la memòria. Actualment es busca el mètode per publicar l'aplicació a l'internet per fer-la encara més accessible.
  
 
