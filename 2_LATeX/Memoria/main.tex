@@ -239,14 +239,122 @@
 \newglossaryentry{ORA}
 {
     name=ORA,
-    description={Over-representation analysis}
+    description={Over-Representation Analysis},
+type={acronym}
+}
+
+\newglossaryentry{GSEA}
+{
+    name={GSEA},
+    description={Gene Set Enrichment Analysis},
+type={acronym}
+}
+
+
+\newglossaryentry{FCS}
+{
+    name={FCS},
+    description={Functional Class Scoring},
+type={acronym}
+}
+
+\newglossaryentry{PT}
+{
+    name={PT},
+    description={Pathway Topology},
+type={acronym}
+}
+
+\newglossaryentry{GO}
+{
+    name={GO},
+    description={Gene Ontology},
+type={acronym}
+}
+
+\newglossaryentry{KEGG}
+{
+    name={KEGG},
+    description={Kyoto Encyclopedia of Genes and Genomes},
+type={acronym}
+}
+
+\newglossaryentry{logRatio}
+{
+    name={logRatio},
+    description={El mateix que logFC},
+type={acronym}
+}
+
+\newglossaryentry{logFC}
+{
+    name={logFC},
+    description={logarítme de Fold Change},
+type={acronym}
+}
+
+\newglossaryentry{ES}
+{
+    name={ES},
+    description={Enrichment Score},
+   type={acronym}
+}
+
+\newglossaryentry{Bar-Plot}
+{
+    name={Bar-Plot},
+    description={La visualització de les rutes enriquides mitjançant ORA amb el nombre de gens diferencialment expressats dins de la ruta i el valor de P}
+}
+
+\newglossaryentry{Dot-Plot}
+{
+    name={Dot-Plot},
+    description={La visualització de les rutes enriquides mitjançant ORA amb el nombre de gens diferencialment expressats dins de la ruta i el valor de P a relació amb GeneRatio}
+}
+
+\newglossaryentry{Enrichment Map}
+{
+    name={Enrichment Map},
+    description={La visualització per reduir la redundància als conjunts de gens obtinguts amb ORA. Els cantells indiquen els nodes que tenen gens compartits, on el seu gruix depèn del nombre de gens compartits.}
+}
+
+\newglossaryentry{Gene-Concept-Network}
+{
+    name={Gene-Concept-Network},
+    description={La visualització de gens al voltant dels conceptes on els gens poden ser connectats amb rutes diferents. D'aquesta manera es pot veuré quins gens contribueixen a que les rutes són diferencialment expressades}
+}
+
+
+\newglossaryentry{GO-Plot}
+{
+    name={GO-Plot},
+    description={Directed Acyclic Graph que visualitza els conceptes jeràrquicament mostrant les relacions is-a, part of, i regulates}
+}
+\newglossaryentry{KEGG Pathway}
+{
+    name={KEGG Pathway},
+    description={Les rutes descargades de la base de dades KEGG on els gens enriquits són emfatitzats}
+}
+
+\newglossaryentry{Reactome Pathway}
+{
+    name={Reactome Pathway},
+    description={Les rutes construides a partir de la base de dades Reacotme on els gens enriquits són emfatitzats}
+}
+
+\newglossaryentry{Bioconductor}
+{
+    name={Bioconductor},
+    description={Projecte lliure i del codi obert per a anàlisi de les dades genòmiques a base de la llengua de programació R}
 }
 
 \begin{document}
 \renewcommand*\listfigurename{Llista de les imatges}
 \renewcommand{\figurename}{Imatge}
 \renewcommand{\contentsname}{Contingut}
-
+\renewcommand*{\acronymname}{Acrònims}
+\renewcommand*{\glossaryname}{Glossari}
+\renewcommand*{\bibname}{Bibliografia}
                   %% KOMA: roman page numbers and such; only available in scrbook
 
 \input{colophon}                %% defines information about editor, LaTeX, font, ...
@@ -294,6 +402,10 @@
 %\appendix                       %% closes main document, appendix follows until end; only available in book-classes
 %\addpart*{Appendix}             %% adding Appendix to tableofcontents
 
+\clearpage 
+\printnoidxglossary[type=\acronymtype] 
+\addcontentsline{toc}{chapter}{Glossari}
+\printnoidxglossary
 
   
 
@@ -305,8 +417,6 @@
 
 
 
-\clearpage 
-\printnoidxglossaries
 
 
 %%%% end{document}
