@@ -38,7 +38,7 @@ Per dotar encara de més sentit aquesta anàlisi és necessari agregar els resul
 En aquest treball vull analitzar quins mètodes hi ha i quins tenen més avantatges que d'altres. A part d'aquest component més biològic i teòric del treball he buscat la possibilitat d'implementar aquests mètodes d'anàlisi en una aplicació intuïtiva i d'un ús fàcil a la qual qualsevol científic que no disposi dels coneixements informàtics suficients per fer aquesta anàlisi podrà accedir gratuïtament. La plataforma que he utilitzat per crear l'aplicació és l'eina Shiny de Rstudio \cite{Shiny}. La feina ha consistit en la cerca dels paquets de \gls{Bioconductor} que inclouen els mètodes per l'anàlisi de les rutes, selecció dels paquets més apropiats i la seva integració en una aplicació Shiny amb una interfície atractiva. 
 
 \section{Context i justificació del treball}
-La justificació d'aquest tema ve de dues fonts diferents: d'una banda tinc un interès personal en aquest tema, i d'altra banda entenc la potencial importància de la meva aportació per a la comunitat científica. El meu interès personal és degut al fet que durant el màster he fet servir àmpliament el programa R però no he arribat a conèixer bé la creació d'una aplicació estadística amb Shiny. Per completar aquesta deficiència i entenent que aquesta eina és útil per al meu desenvolupament professional he buscat el tema que en requeria l'ús. Encara que hi ha algunes aplicacions de Shiny relacionades amb l'anàlisi de les rutes\footnote{Algunes aplicacions existens de Shiny són: iDINGO \cite{class2017idingo}, ShinyGO \cite{ge2018shinygo}, PAEA \cite{clark2015principle}} i també en altres plataformes \cite{reimand2019pathway}, elles no representen tota la diversitat dels paquest disponibles a \gls{Bioconductor}. L'ús d'aquests paquets queda restringit per a experts en informàtica i estadística i per tant són difícilment accessibles per la gran part de la comunitat científica, de manera que seria convenient donar-hi més accessibilitat via una aplicació amb interficie visual. 
+La justificació d'aquest tema ve de dues fonts diferents: d'una banda tinc un interès personal en aquest tema, i d'altra banda entenc la potencial importància de la meva aportació per a la comunitat científica. El meu interès personal és degut al fet que durant el màster he fet servir àmpliament el programa R però no he arribat a conèixer bé la creació d'una aplicació estadística amb Shiny. Per completar aquesta deficiència i entenent que aquesta eina és útil per al meu desenvolupament professional he buscat el tema que en requeria l'ús. Encara que hi ha algunes aplicacions de Shiny relacionades amb l'anàlisi de les rutes\footnote{Algunes aplicacions existents de Shiny són: iDINGO \cite{class2017idingo}, ShinyGO \cite{ge2018shinygo}, PAEA \cite{clark2015principle}} i també en altres plataformes \cite{reimand2019pathway}, elles no representen tota la diversitat dels paquest disponibles a \gls{Bioconductor}. L'ús d'aquests paquets queda restringit per a experts en informàtica i estadística i per tant són difícilment accessibles per la gran part de la comunitat científica, de manera que seria convenient donar-hi més accessibilitat via una aplicació amb interficie visual. 
 
 
 \section{Objectius}
@@ -74,7 +74,7 @@ Entre els objectius del treball podem distingir els generals i els més especifi
 \end{enumerate}
 \end{enumerate}
 
-\section{Enfocament i mètode de seguir}
+\section{Enfocament i mètode a seguir}
 
 Com es pot entendre dels objectius la feina ha consistit d'una banda en l'anàlisi teòrica dels mètodes disponibles actualment per a l'anàlisi de rutes, i d'altra banda en el desenvolupament d'una aplicació que incorporarà aquests mètodes. El mètode triat per aconseguir aquests objectius era el mètode simultani on la programació es desenvolupava al mateix moment de l'anàlisi dels conceptes teòrics. D'aquesta manera he seguit aquests passos:
 
@@ -143,21 +143,21 @@ Al primer capítol més teòric presentaré els mètodes més rellevants per a l
 
 Seguidament investigaré quines estratègies existeixen per dur a terme l'anàlisi de les rutes. Aquí identificaré tres estratègies generals: l'anàlisi \gls{ORA} (Over-Representation Analisis), \gls{FCS} (Functional Class Scoring) i l'anàlisi topològica de les rutes. Veurem que aquestes anàlisis accepten com a dades d'entrada els resultats obtinguts via \textit{microarrays} descrits anteriorment. Per poder fer ús d'aquestes dades però és necessari anotar els gens de l'experiment. Per aquest motiu presentaré les tres bases de dades més rellevants per anotar els gens amb l’objectiu de fer l’anàlisi de les rutes: \gls{GO}, \gls{KEGG} i Reactome.
 
-Finalment parlaré sobre els mètoded \gls{ORA} i \gls{GSEA} més detalladament enfocant especialment en els resultat que proporcionen. També descriure breument les visualitzacions possibles de les rutes. Per acabar presentaré el protocol que utilitzaré per crear l'aplicació.
+Finalment parlaré sobre els mètodes \gls{ORA} i \gls{GSEA} més detalladament concentrant-me especialment en els resultat que proporcionen. També descriure breument les visualitzacions possibles de les rutes. Per acabar presentaré el protocol que utilitzaré per crear l'aplicació.
 
-Al capítol següent explicaré els paquets del \gls{Bioconductor} per dur a terme l'anàlisi descrita al capítol anterior i la manera amb la qual he fet l'aplicació accessible. Veurem que al moment de redacció d'aquesta memòria l'aplicació pot ser descarregada de GitHub utilitzant el paquet \helvetica{devtools} de R. S'intentarà però habilitar l'aplicació per a internet utilitzant el servidor de l'àrea d'estadística i bioinformàtica. 
+Tot seguit explicaré els paquets del \gls{Bioconductor} per dur a terme l'anàlisi descrita al capítol anterior i la manera amb la qual he fet l'aplicació accessible. Veurem que al moment de redacció d'aquesta memòria l'aplicació pot ser descarregada de GitHub utilitzant el paquet \helvetica{devtools} de R. S'intentarà però habilitar l'aplicació per a internet utilitzant el servidor de l'àrea d'estadística i bioinformàtica. 
 
-Al capítol següent presentaré l'aplicació. Aquí utilitzaré les dades del paquet clusterProfiler per mostrar el funcionament d'aplicació: des de la pujada de les dades fins a l’obtenció de les representacions gràfiques.
+A continuació presentaré l'aplicació. Aquí utilitzaré les dades del paquet \helvetica{clusterProfiler} per mostrar el funcionament de l'aplicació: des de la pujada de les dades fins a l’obtenció de les representacions gràfiques.
 
-Al capítol següent intentaré validar l'aplicació. Parlaré dels problemes a l'hora de trobar les dades preprocessades i presentaré les dades amb les que en faig l’intent i em concentraré més en l'estudi de l'expressió gènica dels ratolins modificats genèticament de tal manera que el seu gen Zbtb7b està silenciat. Veurem que els resultats obtinguts amb l'aplicació s'assemblen als resultats descrits al \textit{paper} original. 
+Després intentaré validar l'aplicació. Parlaré dels problemes a l'hora de trobar les dades preprocessades i presentaré les dades amb les que en faig l’intent i em concentraré més en l'estudi de l'expressió gènica dels ratolins modificats genèticament de tal manera que el seu gen Zbtb7b està silenciat. Veurem que els resultats obtinguts amb l'aplicació s'assemblen als resultats descrits al \textit{paper} original. 
 
 Per acabar redactaré les conlusions del meu treball.
-\chapter{El marc teòric}
+\chapter{Marc teòric}
 
-\section{Les dades d'expressió genètica}
+\section{Dades d'expressió genètica}
 Les dades d'entrada per a l'anàlisi de les rutes provenen típicament de l'anàlisi de \textit{microarrays} d'ADN, que produeix dades d'expressió de $m$ gens (variables) per a $n$ mARN mostres (observacions). Les dades com aquestes poden resultar d'un estudi d'investigació sobre efectes d'una proteïna com per exemple a l'estudi de \cite{li2017zbtb7b} on s'investiga la correlació entre la proteïna Zbtb7b (Zinc finger and BTB domain-containing protein 7B) i la formació de teixit adipós marró i beix i d'aquesta manera influeix sobre fisiologia metabòlica. En aquest cas l'objectiu és comparar teixits de dos ratolins un de tipus salvatge i l'altre amb el gen ZBTB7B silenciat i investigar quins gens són diferencialment expressats entre aquestes mostres biològiques. 
 
-Al gràfic següent veiem l'estructura habitual d'un experiment de \textit{Microarray}  \cite{plaPID00192743}.
+Al gràfic següent veiem l'estructura habitual d'un experiment de \textit{Microarray}  \cite{plaPID00192743}:
 
 \begin{figure}[H]
 \centering
@@ -194,7 +194,7 @@ En els capítols següents precisaré més formalment els mètodes d'\gls{ORA} i
 
 \section{Annotació dels gens}
 
-Com veurem més endavant per a l’anàlisi de les rutes és imprescindible tenir com a referència les anotacions dels gens. Per a l’aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) i Reactome. clusterProfiler també inclou WikiPathways però per raons de temps he decidit centrar-me només en les tres menciondes anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb l’inconvenient que són comercials i no gratuïtes. 
+Com veurem més endavant per a l’anàlisi de les rutes és imprescindible tenir com a referència les anotacions dels gens. Per a l’aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) i Reactome. \helvetica{clusterProfiler} també inclou WikiPathways però per raons de temps he decidit centrar-me només en les tres menciondes anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb l’inconvenient que són comercials i no gratuïtes. 
 
 \subsection{Gene ontology}
 Gene Ontology \cite{gene2004gene} dona tan un vocabulari estructurat i controlat (ontologies) com la classificació que cobreix alguns dominis de la biologia molecular i cel·lular. És una base de dades gratuïta per a anotació de gens, el seu producte i les seqüències. El projecte \gls{GO} proporciona ontologies per a descriure els atributs dels productes de gens als tres dominis separats de la biologia molecular:
@@ -318,7 +318,7 @@ Encara que GSEA és una millora respecte a ORA, aquest mètode també té les se
 \item	GSEA utilitza els canvis d’expressió gènica dins de la ruta específica i descarta els canvis d’altres anàlisis. Per exemple, agafem dos gens A i B, que canvien dues vegades l’un (2-fold) i 20 vegades l’altre (20-fold) respectivament. Fins que aquests gens tinguin el mateix rang comparat amb altres gens de la ruta, GSEA els tractarà igual, encara que seria preferible donar més pes al gen B.
 \end{itemize}
 
-\section{L'anàlisi topològic de les rutes}
+\section{Anàlisi topològic de les rutes}
 Tan \gls{ORA} com \gls{GSEA} no visualitzen les relacions entre les rutes i entre els gens dins de les rutes. Els avenços en anotació manual de les bases de dades disponibles (\gls{GO}, \gls{KEGG} i Reactome) contenen però aquesta informació i l'aplicació, gràcies al paquet \helvetica{clusterProfiler}, hi treu l'avantatge i visualitza aquestes relacions més detalladament. 
 
 \subsection{El mapa d'enriquement}
@@ -390,7 +390,7 @@ $\rightarrow$ El gràfic GSEA es genera automàticament. Es pot elegir la ruta m
 \chapter{Tractament bioinformàtic}
 
 \section{Cerca dels paquets de \gls{Bioconductor}}
-El \gls{Bioconductor} ofereix molts paquets per dur a terme l'anàlisi de les rutes implementant algoritmes diferents a l'hora de calcular les estadístiques de les anàlisis \gls{ORA} i \gls{GSEA}. La cerca s'ha reduït a tres paquets principals: clusterProfiler, ReactomePA i pathview. D'aquests tres paquets el paquet clusterProfiler és el més complet i integra els mètodes per dur a terme l'anàlisi de les rutes basant-se en les bases de dades \gls{GO}, \gls{KEGG} i Reactome. Els dos mètodes principals són \gls{ORA} i \gls{GSEA}. També inclou les possibilitats de visualització dels resultats suficients per considerar l'anàlisi de les rutes completa. Notem però que el test de permutació a l'anàlisi \gls{GSEA} implementat per clusterPrifiler es basa en la permutació dels gens i no de les mostres com originalment és proposat per \cite{subramanian2005gene}.
+El \gls{Bioconductor} ofereix molts paquets per dur a terme l'anàlisi de les rutes implementant algoritmes diferents a l'hora de calcular les estadístiques de les anàlisis \gls{ORA} i \gls{GSEA}. La cerca s'ha reduït a tres paquets principals: \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. D'aquests tres paquets el paquet \helvetica{clusterProfiler} és el més complet i integra els mètodes per dur a terme l'anàlisi de les rutes basant-se en les bases de dades \gls{GO}, \gls{KEGG} i Reactome. Els dos mètodes principals són \gls{ORA} i \gls{GSEA}. També inclou les possibilitats de visualització dels resultats suficients per considerar l'anàlisi de les rutes completa. Notem però que el test de permutació a l'anàlisi \gls{GSEA} implementat per clusterPrifiler es basa en la permutació dels gens i no de les mostres com originalment és proposat per \cite{subramanian2005gene}.
 
 Els paquets i les seves funcions per generar els resultats són els següents: 
 
@@ -710,7 +710,7 @@ El \textit{\gls{Dot-Plot}} visualitza addicionalment el \textit{gen ratio}. Tamb
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/App_F15_Items_GO_DotPlot.png} 
-\caption{\gls{Bar-Plot}. GO.}
+\caption{\gls{Dot-Plot}. GO.}
 \end{figure}
 
 \subsection{\gls{Enrichment Map}s}
@@ -718,7 +718,7 @@ El \textit{\gls{Dot-Plot}} visualitza addicionalment el \textit{gen ratio}. Tamb
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/App_F16_Items_GO_Emap.png} 
-\caption{\gls{Bar-Plot}. GO.}
+\caption{\gls{Enrichment Map}. GO.}
 \end{figure}
 
 \subsection{Category-Gene-Network Plot}
@@ -764,7 +764,7 @@ L'usuari pot visualitzar una de les categories disponibles via \textit{dropdown 
 \end{figure}
 
 
-\section{Manual i les ajudes del programa}
+\section{Manual i ajudes del programa}
 
 Per facilitar l'ús de l’aplicació he pensat com es podria fer de manera el més intuïtiva possible. Primer cal destacar que com a llengua de manual he elegit l’anglès per poder fer l'ús de l'aplicació el més inclusiu possible. Segon, l'usuari pot accedir tant al manual com a l'ajuda, que es guarden en arxius .Md separats. Per accedir al manual l'usuari ha de clicar al símbol d’interrogació a prop del títol \textbf{Pathway analysis}:
 \begin{figure}[H]
@@ -880,7 +880,7 @@ L'output a baix indica que s'ha pujat el total de 5995 gens. Per a l'arxiu dels 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/Estudi1_Fig2_Select_Specie.png} 
-\caption{Selecció d'espècie}
+\caption{Breu resum de les dades}
 \end{figure}
 
 
@@ -997,9 +997,9 @@ Clico en l'apartat \textit{\gls{GO} Analysis}$\rightarrow$\textit{ORA}. Seleccio
 \caption{L'anàlisi \gls{ORA} de \gls{GO}}
 \end{figure}
 
-\chapter{Conclusió}
+\chapter{Conclusions}
 
-Al treball final he tingut com a objectiu la creació d'una aplicació per a l’anàlisi de les rutes. Primer he determinat què és l'anàlisi de les rutes i on se situa en l'anàlisi global d'expressió genètica. He explicat que l'anàlisi de les rutes és l'últim pas de l'anàlisi d'expressió gènica on es pretén donar sentit biològic a les dades d'expressió. Per dur a terme aquesta anàlisi s'utilitza una llista dels gens diferencialment expressats i els logRatios de tots els gens d'experiment. Així, he explicat que es necessari anotar aquests gens a les bases existents per poder agrupar-los als conceptes (o rutes). 
+Al treball final he tingut com a objectiu la creació d'una aplicació per a l’anàlisi de les rutes. Primer he determinat què és l'anàlisi de les rutes i on se situa en l'anàlisi global d'expressió genètica. He explicat que l'anàlisi de les rutes és l'últim pas de l'anàlisi d'expressió gènica on es pretén donar sentit biològic a les dades d'expressió. Per dur a terme aquesta anàlisi s'utilitza una llista dels gens diferencialment expressats i els \gls{logRatio}s de tots els gens de l'experiment. Així, he explicat que es necessari anotar aquests gens a les bases existents per poder agrupar-los en conceptes (o rutes). 
 
 En segon lloc, he triat les bases de dades més conegudes i que són utilitzades pels paquets de \gls{Bioconductor}. Aquestes bases de dades són: \gls{GO}, \gls{KEGG} i Reactome. En tercer lloc, he descrit quins mètodes existeixen per calcular la significació biològica de les rutes. Entre altres he identificat tres estratègies: \gls{ORA}, \gls{FCS} i l'anàlisi topològic de les rutes. En quart lloc, he desctit amb més detall els mètodes \gls{ORA} i \gls{GSEA} i també he identificat les possibilitats per visualitzar les rutes. En cinquè lloc, després de formular un protocol d'anàlisi, he buscat i identificat els paquets de \gls{Bioconductor} que permeten aplicar els mètodes descrits. Entre altres he triat \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. He posat aquests paquets com a base per la futura aplicació. 
 
