@@ -1,0 +1,91 @@
+---
+title: "Aplicació per a anàlisi de les rutes"
+author: Vasyl Druchkiv
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  beamer_presentation: 
+    theme: "AnnArbor"
+    colortheme: "dolphin"
+    latex_engine: xelatex
+    include:
+      in_header: mystyle.tex
+---
+
+# Contents
+
+1. Que és l'anàlisi de les rutes?
+
+2. Què necessitem per començar?
+
+3. Quins mètodes n'hi ha?
+    + ORA
+    + GSEA
+    + Topologia de les rutes
+
+4. Instal·lació de l'aplicació
+
+5. L'exemple d'ús
+
+# Qué és l'anàlisi de les rutes?
+
+- Reducció de la informació/complexitat resultant de l'experiment d'expressió genètica
+
+- Millor comprensió del funcionament mecànic de la biologia de la condició estudiada
+
+- Més poder estadístic via reducció del nombre de'hipòtesis múltiples
+
+- Agrupació de gens relacionats en un conjunt (*set*)
+    + Funció biològica
+    + Functió molecular
+    + Component cel·lular
+
+- A més poder valorar:
+    + Relació entre els gens
+    + Relativa importància de cada gen etc.
+  
+---
+# Qué és l'anàlisi de les rutes?
+\begin{center}
+\begin{alertenv}
+Un Pathway és un conjunt de gens que actuen junts per dur a terme un procès biològic.
+\end{alertenv}
+\end{center}
+
+# Què necessitem per començar?
+
+- Dades d'un experiment de *microarrays*
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/Pipeline_Microarray.jpg} 
+\caption{El procès d'anàlisi de microarrays.}
+\end{figure}
+
+$\rightarrow$ Llista ordenada de gens anotats amb Entrez ID
+
+$\rightarrow$ log Fold Change per a cada gen
+
+# Què necessitem per començar?
+\footnotesize
+\begin{itemize}
+\item Una base de dades d'anotació de les rutes/conceptes
+\begin{itemize}
+\item Gene Ontology (GO)
+\begin{itemize}
+    \item Biological proces
+    \item Molecular function
+    \item Cellular component
+\end{itemize}
+\item KEGG
+\begin{itemize}
+\item Metabolism
+\item Genetic Information Processing
+\item Environmental Information Processing
+\item Cellular Processes
+\item Organismal Systems
+\item Human Deseases
+\item Drug Development
+\end{itemize}
+\item Reactome
+\end{itemize}
+\end{itemize}

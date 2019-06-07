@@ -1,0 +1,318 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Introduction to statistical inference},
+  pdfauthor={Brian Caffo, Jeff Leek, Roger Peng},
+  pdfborder={0 0 0},
+  breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\newif\ifbibliography
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-2}
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Introduction to statistical inference}
+\subtitle{Statistical inference}
+\author{Brian Caffo, Jeff Leek, Roger Peng}
+\date{}
+\logo{\includegraphics{bloomberg\_shield.png}}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+\begin{frame}{Statistical inference defined}
+\protect\hypertarget{statistical-inference-defined}{}
+
+Statistical inference is the process of drawing formal conclusions from
+data.
+
+In our class, we wil define formal statistical inference as settings
+where one wants to infer facts about a population using noisy
+statistical data where uncertainty must be accounted for.
+
+\end{frame}
+
+\begin{frame}{Motivating example: who's going to win the election?}
+\protect\hypertarget{motivating-example-whos-going-to-win-the-election}{}
+
+In every major election, pollsters would like to know, ahead of the
+actual election, who's going to win. Here, the target of estimation (the
+estimand) is clear, the percentage of people in a particular group
+(city, state, county, country or other electoral grouping) who will vote
+for each candidate.
+
+We can not poll everyone. Even if we could, some polled may change their
+vote by the time the election occurs. How do we collect a reasonable
+subset of data and quantify the uncertainty in the process to produce a
+good guess at who will win?
+
+\end{frame}
+
+\begin{frame}{Motivating example: is hormone replacement therapy
+effective?}
+\protect\hypertarget{motivating-example-is-hormone-replacement-therapy-effective}{}
+
+A large clinical trial (the Women's Health Initiative) published results
+in 2002 that contradicted prior evidence on the efficacy of hormone
+replacement therapy for post menopausal women and suggested a negative
+impact of HRT for several key health outcomes. \textbf{Based on a
+statistically based protocol, the study was stopped early due an excess
+number of negative events.}
+
+Here's there's two inferential problems.
+
+\begin{enumerate}
+\tightlist
+\item
+  Is HRT effective?
+\item
+  How long should we continue the trial in the presence of contrary
+  evidence?
+\end{enumerate}
+
+See WHI writing group paper JAMA 2002, Vol 288:321 - 333. for the paper
+and Steinkellner et al.~Menopause 2012, Vol 19:616 621 for adiscussion
+of the long term impacts
+
+\end{frame}
+
+\begin{frame}{Motivating example}
+\protect\hypertarget{motivating-example}{}
+
+\begin{block}{Brain activation}
+
+\begin{figure}
+\centering
+\includegraphics{fig/fmri-salmon.jpg}
+\caption{fMRI salmon study}
+\end{figure}
+
+\url{http://www.wired.com/2009/09/fmrisalmon/}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Summary}
+\protect\hypertarget{summary}{}
+
+\begin{itemize}
+\tightlist
+\item
+  These examples illustrate many of the difficulties of trying to use
+  data to create general conclusions about a population.
+\item
+  Paramount among our concerns are:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Is the sample representative of the population that we'd like to
+    draw inferences about?
+  \item
+    Are there known and observed, known and unobserved or unknown and
+    unobserved variables that contaminate our conclusions?
+  \item
+    Is there systematic bias created by missing data or the design or
+    conduct of the study?
+  \item
+    What randomness exists in the data and how do we use or adjust for
+    it? Here randomness can either be explicit via randomization or
+    random sampling, or implicit as the aggregation of many complex
+    uknown processes.
+  \item
+    Are we trying to estimate an underlying mechanistic model of
+    phenomena under study?
+  \end{itemize}
+\item
+  Statistical inference requires navigating the set of assumptions and
+  tools and subsequently thinking about how to draw conclusions from
+  data.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example tools of the trade}
+\protect\hypertarget{example-tools-of-the-trade}{}
+
+\begin{enumerate}
+\tightlist
+\item
+  Randomization: concerned with balancing unobserved variables that may
+  confound inferences of interest
+\item
+  Random sampling: concerned with obtaining data that is representative
+  of the population of interest
+\item
+  Sampling models: concerned with creating a model for the sampling
+  process, the most common is so called ``iid''.
+\item
+  Hypothesis testing: concerned with decision making in the presence of
+  uncertainty
+\item
+  Confidence intervals: concerned with quantifying uncertainty in
+  estimation
+\item
+  Probability models: a formal connection between the data and a
+  population of interest. Often probability models are assumed or are
+  approximated.
+\item
+  Study design: the process of designing an experiment to minimize
+  biases and variability.
+\item
+  Nonparametric bootstrapping: the process of using the data to, with
+  minimal probability model assumptions, create inferences.
+\item
+  Permutation, randomization and exchangeability testing: the process of
+  using data permutations to perform inferences.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}{In this class}
+\protect\hypertarget{in-this-class}{}
+
+\begin{itemize}
+\tightlist
+\item
+  In this class, we will primarily focus on basic sampling models, basic
+  probability models and frequency style analyses to create standard
+  inferences.
+\item
+  Being data scientists, we will also consider some inferential
+  strategies that rely heavily on the observed data, such as permutation
+  testing and bootstrapping.
+\item
+  As probability modeling will be our starting point, we first build up
+  basic probability.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Where to learn more on the topics not covered}
+\protect\hypertarget{where-to-learn-more-on-the-topics-not-covered}{}
+
+\begin{enumerate}
+\tightlist
+\item
+  Explicit use of random sampling in inferences: look in references on
+  ``finite population statistics''. Used heavily in polling and sample
+  surveys.
+\item
+  Explicit use of randomization in inferences: look in references on
+  ``causal inference'' especially in clinical trials.
+\item
+  Bayesian probability and Bayesian statistics: look for basic
+  itroductory books (there are many).
+\item
+  Missing data: well covered in biostatistics and econometric
+  references; look for references to ``multiple imputation'', a popular
+  tool for addressing missing data.
+\item
+  Study design: consider looking in the subject matter area that you are
+  interested in; some examples with rich histories in design:
+\item
+  The epidemiological literature is very focused on using study design
+  to investigate public health.
+\item
+  The classical development of study design in agriculture broadly
+  covers design and design principles.
+\item
+  The industrial quality control literature covers design thoroughly.
+\end{enumerate}
+
+\end{frame}
+
+\end{document}
