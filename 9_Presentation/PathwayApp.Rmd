@@ -251,4 +251,4 @@ shinycssloaders & CRAN\\
 \item Dades normalitzades i preanalitzades en \href{https://github.com/alexsanchezpla/StatisticalAnalysisOfMicroarrayData}{Github Sanchez Pla}
 \item Comparació KO vs. WT a temperatures fredes
 \end{itemize}
-\textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la produccó dels greixos marrons
+\textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la producció dels greixos marrons
