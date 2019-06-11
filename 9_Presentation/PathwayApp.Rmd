@@ -9,7 +9,6 @@ output:
     latex_engine: xelatex
     include:
       in_header: mystyle.tex
-bibliography: references.bib
 ---
 
 # Continguts
@@ -245,5 +244,11 @@ shinycssloaders & CRAN\\
 \centering\textcolor{red}{L'usuari ha de baixar les bases d'anotacions d'interès!!!}
 
 # L'exemple d'ús
-
-Dades de \cite{li2017zbtb7b}
+\begin{itemize}
+\item Dades de Li et al. (2017).
+\item \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE100924}{GSE100924}
+\item Organism: Mus Musculus
+\item Dades normalitzades i preanalitzades en \href{https://github.com/alexsanchezpla/StatisticalAnalysisOfMicroarrayData}{Github Sanchez Pla}
+\item Comparació KO vs. WT a temperatures fredes
+\end{itemize}
+\textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la produccó dels greixos marrons
