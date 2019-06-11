@@ -1396,7 +1396,7 @@ output$GseaPlot_RA2<-renderImage({
 output$downloadGseaPlotRA <- downloadHandler(
   filename = "GseaPlot.png",
   content = function(file) {
-    png(file,width = input$wid_gsp_ra, height = hei_gsp_ra,res=res_gsp_ra)
+    png(file,width = input$wid_gsp_ra, height = input$hei_gsp_ra,res=input$res_gsp_ra)
     print(gseaplot(enrichresRA_gsea(), geneSetID = enrichresRA_gsea()@result$ID[enrichresRA_gsea()@result$Description==input$geneSetGseaRA]))
     dev.off()
   })
@@ -1417,9 +1417,6 @@ PathPlotRA<-eventReactive(input$calcPathRA,{
 
 
 output$PathPlot_RA2<-renderImage({
-  width  <- session$clientData$output_PathPlot_RA2_width
-  height <- session$clientData$output_PathPlot_RA2_height
-
   # For high-res displays, this will be greater than 1
   pixelratio <- session$clientData$pixelratio
 
@@ -1437,9 +1434,9 @@ output$PathPlot_RA2<-renderImage({
 
 
 output$downloadPathPlotRA<- downloadHandler(
-  filename = "GseaPlot.png",
+  filename = "PathPlotRA.png",
   content = function(file) {
-    png(file,width = input$wid_pp_ra, height = hei_pp_ra,res=res_pp_ra)
+    png(file,width = input$wid_pp_ra, height = input$hei_pp_ra,res=input$res_pp_ra)
     print(PathPlotRA())
     dev.off()
   })
