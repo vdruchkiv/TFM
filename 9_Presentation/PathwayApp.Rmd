@@ -1,7 +1,7 @@
 ---
-title: "Aplicació per a anàlisi de les rutes"
+title: "Eina Shiny per a l’anàlisi de rutes"
 author: Vasyl Druchkiv
-date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "13 de juny, 2019"
 output:
   beamer_presentation: 
     theme: "AnnArbor"
@@ -11,45 +11,48 @@ output:
       in_header: mystyle.tex
 ---
 
-# Contents
+# Continguts
 
-1. Que és l'anàlisi de les rutes?
+1. Que és l'anàlisi de rutes?
 
 2. Què necessitem per començar?
 
-3. Quins mètodes n'hi ha?
+3. Quins mètodes hi ha?
     + ORA
     + GSEA
-    + Topologia de les rutes
+    + Topologia de rutes
 
 4. Instal·lació de l'aplicació
 
-5. L'exemple d'ús
+5. Exemple d'ús
 
-# Qué és l'anàlisi de les rutes?
 
-- Reducció de la informació/complexitat resultant de l'experiment d'expressió genètica
-
-- Millor comprensió del funcionament mecànic de la biologia de la condició estudiada
-
-- Més poder estadístic via reducció del nombre de'hipòtesis múltiples
-
-- Agrupació de gens relacionats en un conjunt (*set*)
-    + Funció biològica
-    + Functió molecular
-    + Component cel·lular
-
-- A més poder valorar:
-    + Relació entre els gens
-    + Relativa importància de cada gen etc.
-  
----
-# Qué és l'anàlisi de les rutes?
+# Qué és l'anàlisi de rutes?
 \begin{center}
 \begin{alertenv}
 Un Pathway és un conjunt de gens que actuen junts per dur a terme un procès biològic.
 \end{alertenv}
 \end{center}
+
+# Què és l'anàlisi de rutes?
+
+- Reducció de la informació/complexitat resultant de l'experiment d'expressió genètica
+
+- Millor comprensió del funcionament mecànic de la biologia de la condició estudiada
+
+- Agrupació de gens relacionats en un conjunt (*set*)
+    + Funció biològica
+    + Funció molecular
+    + Component cel·lular
+
+- Permet valorar:
+    + Relació entre els gens
+    + Relativa importància de cada gen etc.
+
+- Més potència estadístic via reducció del nombre d'hipòtesis múltiples
+  
+---
+
 
 # Què necessitem per començar?
 
@@ -57,26 +60,28 @@ Un Pathway és un conjunt de gens que actuen junts per dur a terme un procès bi
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\textwidth]{figures/Pipeline_Microarray.jpg} 
+\includegraphics[width=0.35\textwidth]{figures/Pipeline_Microarray.jpg} 
 \caption{El procès d'anàlisi de microarrays.}
 \end{figure}
 
 $\rightarrow$ Llista ordenada de gens anotats amb Entrez ID
 
-$\rightarrow$ log Fold Change per a cada gen
+$\rightarrow$ \textit{log Fold Change} per a cada gen
+
+$\rightarrow$ Un \textit{subset} de gens diferencialment expressats
 
 # Què necessitem per començar?
 \footnotesize
 \begin{itemize}
 \item Una base de dades d'anotació de les rutes/conceptes
 \begin{itemize}
-\item Gene Ontology (GO)
+\item \href{http://geneontology.org/docs/ontology-documentation/}{Gene Ontology (GO)}
 \begin{itemize}
     \item Biological proces
     \item Molecular function
     \item Cellular component
 \end{itemize}
-\item KEGG
+\item \href{https://www.genome.jp/kegg/pathway.html}{KEGG}
 \begin{itemize}
 \item Metabolism
 \item Genetic Information Processing
@@ -86,6 +91,68 @@ $\rightarrow$ log Fold Change per a cada gen
 \item Human Deseases
 \item Drug Development
 \end{itemize}
-\item Reactome
+\item \href{https://reactome.org/PathwayBrowser/}{Reactome}
 \end{itemize}
 \end{itemize}
+
+# Quins mètodes hi ha?
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Pipeline_Pathway.png} 
+\caption{Mètodes per a anàlisi de les rutes.}
+\end{figure}
+
+# Quins mètodes hi ha?
+## ORA
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/boyle} 
+\end{figure}
+
+
+\begin{enumerate}
+\item Selecció dels gens diferencialment expressats.
+
+
+\item Determinar si algunes rutes anoten la llista especificada de gens amb la freqüència més alta que la que s’esperaria per casualitat.
+
+
+$$p = 1 - \displaystyle\sum_{i = 0}^{k-1}\frac{{M \choose i}{{N-M} \choose {n-i}}} {{N \choose n}}$$
+
+\item Ajustament de valors de P per a \textit{Multiple hypothesis testing}
+
+\end{enumerate}
+
+# Quins mètodes hi ha
+## ORA. Exemple.
+
+```{r echo=TRUE, warning=FALSE,message=FALSE,comment=NA}
+d <-  matrix(c(25, 237, 177, 11323), 
+          nrow = 2, 
+          dimnames = list(c("DE", "Not DE"),
+                        c("In GS", "Not in GS")))
+d
+fisher.test(d, alternative = "greater")$p.value
+```
+
+
+# Quins mètodes hi ha?
+## GSEA
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/subramanian} 
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/GSEA_Method} 
+\end{figure}
+
+\begin{enumerate}
+\item Càlcul de la puntuació d'enriquement (\textit{ES: Enrichment Score}). 
+\item Estimació del nivell de significació per a la puntuació \textit{ES}. 
+\item Càlcul del valor de P ajustat. 
+\end{enumerate}
