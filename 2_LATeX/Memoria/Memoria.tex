@@ -239,7 +239,7 @@ El paper original que se cita habitualment quan es parla d'anàlisi d'expressió
 \begin{enumerate}
 \item \textbf{De tots els gens de la mostra seleccionar un grup de gens que es considera que són significativament expressats.}
 
-Els criteris de selecció poden basar-se en \textit{\gls{logRatio}s} i/o en el valor de p provinent d'un test estadístic. \textit{\gls{logRatio}s} donen la magnitud amb la qual un gen és sobre o sotaexpressat. Les diferències entre els grups però són el resultat d'un procès estochàstic i per tant hem d'intentar de minimitzar el risc de prendre decisions falses. El valor de p representa la probabilitat d'aquest risc i per tant dona certa confiança sobre la significació de les diferències observades.
+Els criteris de selecció poden basar-se en \textit{\gls{logRatio}s} i/o en el valor de p provinent d'un test estadístic. \textit{\gls{logRatio}s} donen la magnitud amb la qual un gen és sobre o sotaexpressat. Les diferències entre els grups però són el resultat d'un procés estocàstic i per tant hem d'intentar de minimitzar el risc de prendre decisions falses. El valor de p representa la probabilitat d'aquest risc i per tant dona certa confiança sobre la significació de les diferències observades.
 
 \item \textbf{Determinar si algunes rutes anoten la llista especificada de gens amb la freqüència més alta que la que s’esperaria per casualitat.} 
 
@@ -249,7 +249,7 @@ $$p = 1 - \displaystyle\sum_{i = 0}^{k-1}\frac{{M \choose i}{{N-M} \choose {n-i}
 
 Aquesta equació $N$ és el nombre total de gens en la distribució de fons, $M$ és el nombre de gens dins d'aquesta distribució que són anotats a la ruta d'interès, $n$ és el nombre total en la llista especificada de gens i $k$ és el nombre de gens dins d'aquesta llista que són anotats a la ruta. La distribució de fons pot ser o bé tots els gens en la base de dades d'anotació o bé tots els gens de l'experiment.
 
-El valor de P obtingut amb aquesta fòrmula dona la probabilitat de veure el nombre $x$ de gens de la llista relacionats amb la ruta específica en la llista del nombre total de gens $n$ donat la proporció de gens relacionats amb aquesta ruta en la distibucó de fons.
+El valor de P obtingut amb aquesta fòrmula dona la probabilitat de veure el nombre $x$ de gens de la llista relacionats amb la ruta específica en la llista del nombre total de gens $n$ donat la proporció de gens relacionats amb aquesta ruta en la distibució de fons.
 \end{enumerate}
 
 L'aplicació utilitza aquesta idea i calcula una taula amb els camps següents:
@@ -278,7 +278,7 @@ Amb l'anàlisi \gls{GSEA} podem analitzar els resultats d'un experiment d'expres
 
 Donat el conjunt definit dels gens $S$, que pertanyen per exemple al mateix terme de Gene Ontology, l'objectiu de GSEA és determinar si els membres de $S$ són distribuïts aleatòriament en el $L$ o es troben més al cap o a la cua. S'esperaria que els gens relacionats amb la separació fenotípica mostrin aquesta última distribució. 
 
-L'anàlisi \gls{GSEA} consisteix en tres passos subramanian2005gene:
+L'anàlisi \gls{GSEA} consisteix en tres passos \cite{subramanian2005gene}:
 
 \begin{enumerate}
 \item Càlcul de la puntuació d'enriquement (\textit{\gls{ES}: Enrichment Score}). La puntuació està calculada anant per la llista i augmentant la suma corrent sempre quan es troba un gen que pertany a $S$ o, al contrari, restant-la quan el gen no forma part del conjunt $S$. La puntuació és la desviació màxima del zero observada en aquet camí. L'estadística obtinguda és l’estadística de Kolmogorov-Smirnov amb pesos.
