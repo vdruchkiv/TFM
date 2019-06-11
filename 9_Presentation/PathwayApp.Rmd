@@ -9,6 +9,7 @@ output:
     latex_engine: xelatex
     include:
       in_header: mystyle.tex
+bibliography: references.bib
 ---
 
 # Continguts
@@ -156,3 +157,93 @@ fisher.test(d, alternative = "greater")$p.value
 \item Estimació del nivell de significació per a la puntuació \textit{ES}. 
 \item Càlcul del valor de P ajustat. 
 \end{enumerate}
+
+# Quins mètodes hi ha?
+\footnotesize
+## Visualització ORA i GSEA
+\begin{itemize}
+\item Bar Plot
+\item Dot Plot
+\item GSEA Plot
+\end{itemize}
+
+## Topologia de les rutes
+
+\begin{itemize}
+\item Gràfic de les rutes \href{https://yulab-smu.github.io/clusterProfiler-book/chapter12.html\#pathview-from-pathview-package}{KEGG}
+\item Gràfic de les rutes Reactome. 
+\end{itemize}
+
+## Altres gràfics interessants
+
+\begin{itemize}
+\item GO Plots
+
+$\rightarrow$ Relacions \textit{is a}, \textit{part of}, \textit{regulate}
+\item \href{https://yulab-smu.github.io/clusterProfiler-book/chapter12.html\#enrichment-map}{Enrichment Map}
+
+$\rightarrow$ Reduir/simplificar la informació obtinguda mitjançant els mètodes ORA o GSEA
+
+\item \href{https://yulab-smu.github.io/clusterProfiler-book/chapter12.html|\#gene-concept-network}{Gene-Concept Network}
+
+$\rightarrow$ Els gens compartits entre les categories/rutes
+\end{itemize}
+
+# Instal·lacio de l'aplicació
+
+\centering \underline{L'aplicació està empaquetada i guardada en \href{https://github.com/vdruchkiv/TFM}{GitHub}}
+
+\vspace{5mm} 
+\scriptsize
+```{r echo=TRUE, warning=FALSE,message=FALSE,comment=NA,eval=FALSE}
+if(!require(devtools))install.packages("devtools")
+if(!require(BiocManager))install.packages("BiocManager")
+devtools::install_github("vdruchkiv/TFM/5_Packages/PathwayApp/PathwayApp")
+PathwayApp::runPathwayApp()
+```
+
+# Instal·lacio de l'aplicació
+## Els paquets que s'instal·laran
+
+\scriptsize
+\begin{center}
+\begin{tabular}{||c | c ||} 
+\hline\hline 
+\textbf{Paquet} & \textbf{Font} \\ [0.5ex] 
+\hline\hline
+clusterProfiler & Bioconductor \\
+\hline
+ReactomePA & Bioconductor \\
+\hline
+pathview & Bioconductor \\ 
+\hline
+pathviewPatched & GitHub vdruchkiv/TFM\\
+\hline
+dplyr & CRAN \\
+\hline 
+ggplot2 & CRAN \\
+\hline
+knitr & CRAN \\
+\hline
+kableExtra & CRAN \\
+\hline
+formattable & CRAN \\
+\hline
+shiny & CRAN \\
+\hline 
+shinydashboard & CRAN \\ 
+\hline
+shinyhelper & CRAN \\
+\hline 
+shinycssloaders & CRAN\\
+\hline\hline
+\end{tabular}
+\end{center}
+
+\vspace{5mm} 
+\Large
+\centering\textcolor{red}{L'usuari ha de baixar les bases d'anotacions d'interès!!!}
+
+# L'exemple d'ús
+
+Dades de \cite{li2017zbtb7b}
