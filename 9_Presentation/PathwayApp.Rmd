@@ -159,9 +159,10 @@ fisher.test(d, alternative = "greater")$p.value
 
 # Quins mètodes hi ha?
 \footnotesize
+
 ## Visualització ORA i GSEA
 \begin{itemize}
-\item Bar Plot
+\item \href{https://yulab-smu.github.io/clusterProfiler-book/chapter12.html\#bar-plot}{Bar Plot}
 \item Dot Plot
 \item GSEA Plot
 \end{itemize}
@@ -183,7 +184,7 @@ $\rightarrow$ Relacions \textit{is a}, \textit{part of}, \textit{regulate}
 
 $\rightarrow$ Reduir/simplificar la informació obtinguda mitjançant els mètodes ORA o GSEA
 
-\item \href{https://yulab-smu.github.io/clusterProfiler-book/chapter12.html|\#gene-concept-network}{Gene-Concept Network}
+\item \href{https://yulab-smu.github.io/clusterProfiler-book/chapter12.html\#gene-concept-network}{Gene-Concept Network}
 
 $\rightarrow$ Els gens compartits entre les categories/rutes
 \end{itemize}
@@ -195,8 +196,8 @@ $\rightarrow$ Els gens compartits entre les categories/rutes
 \vspace{5mm} 
 \scriptsize
 ```{r echo=TRUE, warning=FALSE,message=FALSE,comment=NA,eval=FALSE}
-if(!require(devtools))install.packages("devtools")
 if(!require(BiocManager))install.packages("BiocManager")
+if(!require(devtools))install.packages("devtools")
 devtools::install_github("vdruchkiv/TFM/5_Packages/PathwayApp/PathwayApp")
 PathwayApp::runPathwayApp()
 ```
