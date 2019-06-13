@@ -253,3 +253,23 @@ shinycssloaders & CRAN\\
 \item Comparació KO vs. WT a temperatures fredes
 \end{itemize}
 \textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la producció dels greixos marrons
+
+#Conclusions
+
+\begin{itemize}
+\item PathwayApp és una eina amb una fundació teòrica forta
+\item Ofereix els mètodes per reduir la complexitat d'un experiment d'expressió genètica
+\item Visualitza dades de manera automàtica i fàcil d'entendre
+\item Requereix els coneixements  mínims de R
+\item És de codi obert. Pot ser modificada i instal·lada en un servidor
+\end{itemize}
+
+---
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{figures/Endslide} 
+\end{figure}
+
+  \centering \Large
+  \emph{Gràcies per la vostra atenció!}
