@@ -253,6 +253,7 @@ shinycssloaders & CRAN\\
 \item Comparació KO vs. WT a temperatures fredes
 \end{itemize}
 <<<<<<< HEAD
+<<<<<<< HEAD
 \textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la producció dels greixos marrons
 
 #Conclusions
@@ -274,6 +275,9 @@ shinycssloaders & CRAN\\
 
   \centering \Large
   \emph{Gràcies per la vostra atenció!}
+=======
+\textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la producció dels greixos marrons
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 =======
 \textbf{OBJECTIU:} Analitzar l'associació del gen Zbtb7b amb la producció dels greixos marrons
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae

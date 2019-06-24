@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6840 64-bit) (preloaded format=xelatex 2019.6.8)  12 JUN 2019 21:35
+=======
+This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6840 64-bit) (preloaded format=xelatex 2019.6.8)  11 JUN 2019 21:36
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 =======
 This is XeTeX, Version 3.14159265-2.6-0.99999 (MiKTeX 2.9.6840 64-bit) (preloaded format=xelatex 2019.6.8)  11 JUN 2019 21:36
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
@@ -1500,6 +1504,7 @@ File: figures/logoUOC.png Graphic file (type bmp)
 
 ]
 <<<<<<< HEAD
+<<<<<<< HEAD
 File: figures/logoUOC.png Graphic file (type bmp)
 <figures/logoUOC.png>
 [15
@@ -1516,6 +1521,8 @@ File: figures/logoUOC.png Graphic file (type bmp)
 ]
 =======
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
+=======
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 \tf@nav=\write7
 \openout7 = `PathwayApp.nav'.
 
@@ -1526,22 +1533,29 @@ File: figures/logoUOC.png Graphic file (type bmp)
 \openout9 = `PathwayApp.snm'.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 491.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 491.
 (PathwayApp.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 491.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 491.
 =======
+=======
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 467.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 467.
 (PathwayApp.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 467.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 467.
+<<<<<<< HEAD
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
+=======
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 Package rerunfilecheck Info: File `PathwayApp.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E.
  ) 
 Here is how much of TeX's memory you used:
+<<<<<<< HEAD
 <<<<<<< HEAD
  34293 strings out of 427796
  665248 string characters out of 3147801
@@ -1553,6 +1567,8 @@ Here is how much of TeX's memory you used:
 
 Output written on PathwayApp.pdf (16 pages).
 =======
+=======
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
  34280 strings out of 427796
  664999 string characters out of 3147801
  788497 words of memory out of 3000000
@@ -1562,4 +1578,7 @@ Output written on PathwayApp.pdf (16 pages).
  57i,15n,62p,816b,817s stack positions out of 5000i,500n,10000p,200000b,50000s
 
 Output written on PathwayApp.pdf (14 pages).
+<<<<<<< HEAD
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
+=======
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae

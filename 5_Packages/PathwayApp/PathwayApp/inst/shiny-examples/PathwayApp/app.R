@@ -1111,6 +1111,10 @@ output$downloadGseaPlotKegg <- downloadHandler(
     dev.off()
   })
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 =======
 
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
@@ -1128,6 +1132,7 @@ output$pathway_KEGG2<-renderImage({
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
 <<<<<<< HEAD
+<<<<<<< HEAD
   path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
   pathviewPatched::pathview(gene.data  = geneListv,
                             pathway.id = path.id,
@@ -1135,12 +1140,17 @@ output$pathway_KEGG2<-renderImage({
                             species    =  kegg_organism2(),
                             limit      = list(gene=max(abs(geneListv)), cpd=1))
 =======
+=======
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
  path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
  pathviewPatched::pathview(gene.data  = geneListv,
            pathway.id = path.id,
            kegg.dir = paste0(tempdir(),"\\"),
            species    =  kegg_organism2(),
            limit      = list(gene=max(abs(geneListv)), cpd=1))
+<<<<<<< HEAD
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
+=======
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 
   img <- readPNG(paste0(tempdir(),"\\",path.id,".pathview.png"))
@@ -1162,6 +1172,7 @@ output$downloadPathKegg <- downloadHandler(
     path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
     pathviewPatched::pathview(gene.data  = geneListv,
 <<<<<<< HEAD
+<<<<<<< HEAD
                               pathway.id = path.id,
                               kegg.dir = paste0(tempdir(),"\\"),
                               species    =  kegg_organism2(),
@@ -1171,6 +1182,8 @@ output$downloadPathKegg <- downloadHandler(
 
 
 =======
+=======
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
              pathway.id = path.id,
              kegg.dir = paste0(tempdir(),"\\"),
              species    =  kegg_organism2(),
@@ -1178,6 +1191,9 @@ output$downloadPathKegg <- downloadHandler(
     file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
   }, contentType = 'image/png')
 
+<<<<<<< HEAD
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
+=======
 >>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 ##################################################################
 ##################################################################
