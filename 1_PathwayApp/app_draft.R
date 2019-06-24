@@ -1110,50 +1110,6 @@ output$downloadGseaPlotKegg <- downloadHandler(
     print(gseaplot(enrichreskegg_gsea(), geneSetID = enrichreskegg_gsea()@result$ID[enrichreskegg_gsea()@result$Description==input$geneSetGseaKegg]))
     dev.off()
   })
-###################################
-##########Pathway_KEGG############
-output$PathKeggUi <- renderUI({
-  selectInput("PathKegg", "Select gene set", enrichreskegg()@result$Description[enrichreskegg()@result$p.adjust<=as.numeric(input$pval_kegg)])
-})
-# path.id<-reactive({
-#   enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
-#   })
-
-output$pathway_KEGG2<-renderImage({
-  req(enrichreskegg())
-  geneListv<-geneList()[,2]
-  names(geneListv)<-geneList()[,1]
-  path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
-  pathviewPatched::pathview(gene.data  = geneListv,
-                            pathway.id = path.id,
-                            kegg.dir = paste0(tempdir(),"\\"),
-                            species    =  kegg_organism2(),
-                            limit      = list(gene=max(abs(geneListv)), cpd=1))
-
-  img <- readPNG(paste0(tempdir(),"\\",path.id,".pathview.png"))
-  width <- ncol(img)*0.5
-  height <- nrow(img)*0.5
-
-  list(src = paste0(tempdir(),"\\",path.id,".pathview.png"),
-       contentType = 'image/png',
-       width = width,
-       height = height,
-       alt = "Something wrong")
-}, deleteFile = TRUE)
-
-output$downloadPathKegg <- downloadHandler(
-  filename = "Test.png",
-  content = function(file) {
-    geneListv<-geneList()[,2]
-    names(geneListv)<-geneList()[,1]
-    path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
-    pathviewPatched::pathview(gene.data  = geneListv,
-                              pathway.id = path.id,
-                              kegg.dir = paste0(tempdir(),"\\"),
-                              species    =  kegg_organism2(),
-                              limit      = list(gene=max(abs(geneListv)), cpd=1))
-    file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
-  }, contentType = 'image/png')
 
 
 ##################################################################
