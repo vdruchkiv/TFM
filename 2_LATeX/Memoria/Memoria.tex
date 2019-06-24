@@ -4,12 +4,10 @@
 %
 % File : thesis-style.tex
 %
-% Author : Keith Andrews, IICM, TU Graz, Austria
+% Author : Vasyl Druchkiv, UOC
 % 
-% Created : 27 May 93
-% 
-% Changed : 19 Feb 2004
-% 
+% Created : 24 juni 2019
+
 % styling and technical implementation adopted 2011 by Karl Voit
 %----------------------------------------------------------------
 
@@ -31,14 +29,14 @@
 
 \chapter{Introducció}
 
-El treball consistirà en el desenvolupament d'una aplicació per dur a terme l'anàlisi de les rutes (\textit{Pathway analysis}). Amb les rutes entenem un conjunt de gens que actuen junts per dur a terme un procès biològic. Així doncs aquesta anàlisi permet donar més sentit a una expressió genètica diferencial entre les proves biològiques d'interès. Recordem que recents avenços tecnològics permeten mesurar els nivells d'expressió en una gran quantitat de gens, cosa que implica una gran quantitat de dades. Al nivell dels gens individuals es poden fer servir mètodes estadístics per comprovar si les diferències en les expressions entre els grups (proves biològiques) són estadísticament significatives. 
+El treball consistirà en el desenvolupament d'una aplicació per dur a terme l'anàlisi de les rutes (\textit{Pathway analysis}). Amb les rutes entenem un conjunt de gens que actuen junts per dur a terme un procés biològic. Així doncs aquesta anàlisi permet donar més sentit a una expressió genètica diferencial entre les proves biològiques d'interès. Recordem que recents avenços tecnològics permeten mesurar els nivells d'expressió en una gran quantitat de gens, cosa que implica una gran quantitat de dades. Al nivell dels gens individuals es poden fer servir mètodes estadístics per comprovar si les diferències en les expressions entre els grups (proves biològiques) són estadísticament significatives. 
 
-Per dotar encara de més sentit aquesta anàlisi és necessari agregar els resultats al nivell més raonable com ara al nivell de les rutes. Al final el que volem és comprovar si hi ha diferències estadísticament significatives entre les proves no a nivell dels gens perticulars sinó a nivell de les rutes. Tan com en el cas dels gens particulars també en el nivell de les rutes s'han desenvolupat mètodes estadístics específics \cite{khatri2012ten}. 
+Per dotar encara de més sentit aquesta anàlisi és necessari agregar els resultats al nivell més raonable com ara al nivell de les rutes. Al final el que volem és comprovar si hi ha diferències estadísticament significatives entre les proves no a nivell dels gens particulars sinó a nivell de les rutes. Tan com en el cas dels gens particulars també en el nivell de les rutes s'han desenvolupat mètodes estadístics específics \cite{khatri2012ten}. 
 
 En aquest treball vull analitzar quins mètodes hi ha i quins tenen més avantatges que d'altres. A part d'aquest component més biològic i teòric del treball he buscat la possibilitat d'implementar aquests mètodes d'anàlisi en una aplicació intuïtiva i d'un ús fàcil a la qual qualsevol científic que no disposi dels coneixements informàtics suficients per fer aquesta anàlisi podrà accedir gratuïtament. La plataforma que he utilitzat per crear l'aplicació és l'eina Shiny de Rstudio \cite{Shiny}. La feina ha consistit en la cerca dels paquets de \gls{Bioconductor} que inclouen els mètodes per l'anàlisi de les rutes, selecció dels paquets més apropiats i la seva integració en una aplicació Shiny amb una interfície atractiva. 
 
 \section{Context i justificació del treball}
-La justificació d'aquest tema ve de dues fonts diferents: d'una banda tinc un interès personal en aquest tema, i d'altra banda entenc la potencial importància de la meva aportació per a la comunitat científica. El meu interès personal és degut al fet que durant el màster he fet servir àmpliament el programa R però no he arribat a conèixer bé la creació d'una aplicació estadística amb Shiny. Per completar aquesta deficiència i entenent que aquesta eina és útil per al meu desenvolupament professional he buscat el tema que en requeria l'ús. Encara que hi ha algunes aplicacions de Shiny relacionades amb l'anàlisi de les rutes\footnote{Algunes aplicacions existents de Shiny són: iDINGO \cite{class2017idingo}, ShinyGO \cite{ge2018shinygo}, PAEA \cite{clark2015principle}} i també en altres plataformes \cite{reimand2019pathway}, elles no representen tota la diversitat dels paquest disponibles a \gls{Bioconductor}. L'ús d'aquests paquets queda restringit per a experts en informàtica i estadística i per tant són difícilment accessibles per la gran part de la comunitat científica, de manera que seria convenient donar-hi més accessibilitat via una aplicació amb interficie visual. 
+La justificació d'aquest tema ve de dues fonts diferents: d'una banda tinc un interès personal en aquest tema, i d'altra banda entenc la potencial importància de la meva aportació per a la comunitat científica. El meu interès personal és degut al fet que durant el màster he fet servir àmpliament el programa R però no he arribat a conèixer bé la creació d'una aplicació estadística amb Shiny. Per completar aquesta deficiència i entenent que aquesta eina és útil per al meu desenvolupament professional he buscat el tema que en requeria l'ús. Encara que hi ha algunes aplicacions de Shiny relacionades amb l'anàlisi de les rutes\footnote{Algunes aplicacions existents de Shiny són: iDINGO \cite{class2017idingo}, ShinyGO \cite{ge2018shinygo}, PAEA \cite{clark2015principle}} i també en altres plataformes \cite{reimand2019pathway}, elles no representen tota la diversitat dels paquest disponibles a \gls{Bioconductor}. L'ús d'aquests paquets queda restringit per a experts en informàtica i estadística i per tant són difícilment accessibles per la gran part de la comunitat científica, de manera que seria convenient donar-hi més accessibilitat via una aplicació amb interfície visual. 
 
 
 \section{Objectius}
@@ -113,7 +111,7 @@ Aquestes tasques les he distribuït de manera següent:
 \includegraphics[width=0.9\textwidth]{figures/GanttPlot}
 \end{figure}
 
-Els treballs previstos pel pla docent i realizats i entregats a temps eren els següents: 
+Els treballs previstos pel pla docent i realitzats i entregats a temps eren els següents: 
 
 \begin{center}
 \begin{tabular}{||c | l | c | c||} 
@@ -157,7 +155,7 @@ Per acabar redactaré les conlusions del meu treball.
 \section{Dades d'expressió genètica}
 Les dades d'entrada per a l'anàlisi de les rutes provenen típicament de l'anàlisi de \textit{microarrays} d'ADN, que produeix dades d'expressió de $m$ gens (variables) per a $n$ mARN mostres (observacions). Les dades com aquestes poden resultar d'un estudi d'investigació sobre efectes d'una proteïna com per exemple a l'estudi de \cite{li2017zbtb7b} on s'investiga la correlació entre la proteïna Zbtb7b (Zinc finger and BTB domain-containing protein 7B) i la formació de teixit adipós marró i beix i d'aquesta manera influeix sobre fisiologia metabòlica. En aquest cas l'objectiu és comparar teixits de dos ratolins un de tipus salvatge i l'altre amb el gen ZBTB7B silenciat i investigar quins gens són diferencialment expressats entre aquestes mostres biològiques. 
 
-Al gràfic següent veiem l'estructura habitual d'un experiment de \textit{Microarray}  \cite{plaPID00192743}:
+Al gràfic següent veiem l'estructura habitual d'un experiment de \textit{Microarray} \cite{plaPID00192743}:
 
 \begin{figure}[H]
 \centering
@@ -165,16 +163,16 @@ Al gràfic següent veiem l'estructura habitual d'un experiment de \textit{Micro
 \caption{El procès d'anàlisi de microarrays.}
 \end{figure}
 
-El \textit{pipeline} de l'anàlisi consisteix doncs en el plantejament d'una pregunta i un disseny experimental a partir del qual es fa l'experiment de \textit{microarrays}. Els productes de l'experiment són bàsicament les images d'intensitats que es tradueixen als valors numèrics. Habitualment aquests valors són encara \textit{raw values} i han de ser processats adequadament. Aquest processament inclou el control de qualitat de les imatges i la normalització dels valors d'intensitat per reduir la variabilitat tècnica. Finalment les dades normalitzades s'utilitzen per a l'anàlisi estadística. Habitualment la mesura natural per comparar les mostres és el \textit{logRatio} el qual podem denominar alternativament \textit{\gls{logFC}} on \textit{FC} es refereix a \textit{fold change}. Hi ha diversos tests estadístics per comproval les diferències entre les mostres. En el cas de l'array d'un color podem fer servir tant els metodes paramètrics -com ara el test T o els mètodes del modelatge lineal-, com els mètodes nonparamètrics -com ara la proba de Mann-Whitney. El test adequat dependrà bàsicament de la distribució de les dades. El resultat d'aquest anàlisi serveix com a base per a la interpretació biològica dels resultats de l'experiment. Per poder donar sentit a les dades d'expressió i de l'anàlisi estadístic al nivell de gens és imprescindible fer una anàlisi a nivell de les categories de gens o les rutes. Per aquesta anàlisi es necessita, com ho veurem a l'apartat següent, una llista ordenada de les expressions relatives (\textit{\gls{logFC}}) i una subllista de gens que hem identificat mitjançant els tests estadístics com a diferencialment expressats.
+El \textit{pipeline} de l'anàlisi consisteix doncs en el plantejament d'una pregunta i un disseny experimental a partir del qual es fa l'experiment de \textit{microarrays}. Els productes de l'experiment són bàsicament les imatges d'intensitats que es tradueixen als valors numèrics. Habitualment aquests valors són encara \textit{raw values} i han de ser processats adequadament. Aquest processament inclou el control de qualitat de les imatges i la normalització dels valors d'intensitat per reduir la variabilitat tècnica. Finalment les dades normalitzades s'utilitzen per a l'anàlisi estadística. Habitualment la mesura natural per comparar les mostres és el \textit{logRatio} el qual podem denominar alternativament \textit{\gls{logFC}} on \textit{FC} es refereix a \textit{fold change}. Hi ha diversos tests estadístics per comprovar les diferències entre les mostres. En el cas de l'array d'un color podem fer servir tant els mètodes paramètrics -com ara el test T o els mètodes del modelatge lineal-, com els mètodes noparamètrics -com ara la proba de Mann-Whitney. El test adequat dependrà bàsicament de la distribució de les dades. El resultat d'aquest anàlisi serveix com a base per a la interpretació biològica dels resultats de l'experiment. Per poder donar sentit a les dades d'expressió i de l'anàlisi estadístic al nivell de gens és imprescindible fer una anàlisi a nivell de les categories de gens o les rutes. Per aquesta anàlisi es necessita, com ho veurem a l'apartat següent, una llista ordenada de les expressions relatives (\textit{\gls{logFC}}) i una subllista de gens que hem identificat mitjançant els tests estadístics com a diferencialment expressats.
 
-En aquest treball m'ocupo de l'últim pas de l'experiment descrit, més especificament de l'anàlisi de rutes (\textit{Pathway analysis}).
+En aquest treball m'ocupo de l'últim pas de l'experiment descrit, més específicament de l'anàlisi de rutes (\textit{Pathway analysis}).
 
-La vista general de l'anàlisi de les rutes ofereix el gràfic següent  \cite{khatri2012ten}:
+La vista general de l'anàlisi de les rutes ofereix el gràfic següent \cite{khatri2012ten}:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{figures/Pipeline_Pathway.png} 
-\caption{El procès d'anàlisi de les rutes.}
+\caption{El procés d'anàlisi de les rutes.}
 \end{figure}
 
 A part de les dades d'expressió, de les quals he parlat anteriorment, l'anàlisi requereix com a \textit{input} també la base de dades de les rutes. De les dades que utilitzaré a la meva aplicació en parlaré a la secció següent. Per ara és important entendre que els resultats d'expressió s'anoten a les bases de dades existents per comprovar si els gens sobre o sotaexpressats pertanyen a unes rutes específiques. Per comprovar aquesta, o millor dit, aquestes hipòtesis (per que hi haurà hipòtesis múltiples) s'han establert tres grups de mètodes:
@@ -183,9 +181,9 @@ A part de les dades d'expressió, de les quals he parlat anteriorment, l'anàlis
 \item \textbf{Over-Representation Anaysis (\gls{ORA})}.
 Aquesta anàlisi necessita la preselecció dels gens diferencialment expressats (DE) i compara la freqüència dels gens de la ruta d'interès en la mostra dels gens diferencialment expressats i la freqüència dels gens de la ruta a la distribució de fons (\cite{boyle2004go}. 
 \item \textbf{Functional Class Scoring (\gls{FCS})}
-Per a aquesta anàlisi no necessitem cap preselecció dels gens diferencialment expressats (DE) sinó ja és suficient amb tenir les estadístiques a nivell de gens, que al cas de l'aplicació és el \textit{\gls{logFC}}. Hi ha diversos mètodes que generen una estadística per a tot el conjunt de gens d'una ruta i la comparen amb una distribució teòrica per a constrastar la hipòtesi nul·la. Els mètodes es diferencien bàsicament en el càlcul de la puntuació d'enriquiment que poden incloure l'estadística de Kolmogorov-Smornov, la suma, media o mediana d'estadístiques al nivell de gens etc. \cite{khatri2012ten}. O bé es poden diferenciar en el càlcul de la distribució teòrica: aquí alguns mètodes utilitzen la permutació de les mostres o de gens, cosa que implica dues hipòtesis diferents. 
+Per a aquesta anàlisi no necessitem cap preselecció dels gens diferencialment expressats (DE) sinó ja és suficient amb tenir les estadístiques a nivell de gens, que al cas de l'aplicació és el \textit{\gls{logFC}}. Hi ha diversos mètodes que generen una estadística per a tot el conjunt de gens d'una ruta i la comparen amb una distribució teòrica per a contrastar la hipòtesi nul·la. Els mètodes es diferencien bàsicament en el càlcul de la puntuació d'enriquiment que poden incloure l'estadística de Kolmogorov-Smornov, la suma, mitjana o mediana d'estadístiques al nivell de gens etc. \cite{khatri2012ten}. O bé es poden diferenciar en el càlcul de la distribució teòrica: aquí alguns mètodes utilitzen la permutació de les mostres o de gens, cosa que implica dues hipòtesis diferents. 
 \item \textbf{Pathway Topology (\gls{PT})}.
-Aquest mètode enfoca la posició dels gens diferencialment expressats en la ruta i d'aquesta manera utilitza el coneixement de les bases de dades més àmpliament. Per exemple, si una ruta està activada per un sol producte genètic o mitjançant un receptor i si aquesta proteïna particular no està produïda, la ruta estarà molt afectada, o fins i tot apagada. Més específicament, si el receptor d'insulina no és en la ruta d'insulina (\url{https://www.genome.jp/dbget-bin/www_bget?hsa04910}) tota la ruta serà desactivada (\cite{tarca2008novel}). D'altra banda, si un nombre de gens està involucrat en la ruta però apareixen riu abaix el seu efecte podria ser menys important. A més a més, també el nombre de conexions amb altres gens a la ruta podria ser important \cite{rahnenfuhrer2004calculating}. O fins i tot les estadístiques que incorporen factors diferents com ara la posició, el tipus d'interacció etc. \cite{draghici2007systems}. Aquesta idea l'he implementat en l'aplicació afegint les rutes dibuixades de \gls{KEGG} i Reactome, on els gens estan emfatitzats d'acord amb els \textit{\gls{logFC}s} obtinguts mitjançant l'experiment.
+Aquest mètode enfoca la posició dels gens diferencialment expressats en la ruta i d'aquesta manera utilitza el coneixement de les bases de dades més àmpliament. Per exemple, si una ruta està activada per un sol producte genètic o mitjançant un receptor i si aquesta proteïna particular no està produïda, la ruta estarà molt afectada, o fins i tot apagada. Més específicament, si el receptor d'insulina no és en la ruta d'insulina (\url{https://www.genome.jp/dbget-bin/www_bget?hsa04910}) tota la ruta serà desactivada (\cite{tarca2008novel}). D'altra banda, si un nombre de gens està involucrat en la ruta però apareixen riu abaix el seu efecte podria ser menys important. A més a més, també el nombre de connexions amb altres gens a la ruta podria ser important \cite{rahnenfuhrer2004calculating}. O fins i tot les estadístiques que incorporen factors diferents com ara la posició, el tipus d'interacció etc. \cite{draghici2007systems}. Aquesta idea l'he implementat en l'aplicació afegint les rutes dibuixades de \gls{KEGG} i Reactome, on els gens estan emfatitzats d'acord amb els \textit{\gls{logFC}s} obtinguts mitjançant l'experiment.
 
 En els capítols següents precisaré més formalment els mètodes d'\gls{ORA} i \gls{GSEA} i també descriuré algunes possibilitats per visualitzar les dependències de gens dins de les rutes específiques i també les relacions entre les rutes diferencialment expressades.
 
@@ -194,20 +192,20 @@ En els capítols següents precisaré més formalment els mètodes d'\gls{ORA} i
 
 \section{Annotació dels gens}
 
-Com veurem més endavant per a l’anàlisi de les rutes és imprescindible tenir com a referència les anotacions dels gens. Per a l’aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) i Reactome. \helvetica{clusterProfiler} també inclou WikiPathways però per raons de temps he decidit centrar-me només en les tres menciondes anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb l’inconvenient que són comercials i no gratuïtes. 
+Com veurem més endavant per a l’anàlisi de les rutes és imprescindible tenir com a referència les anotacions dels gens. Per a l’aplicació he utilitzat tres bases de dades: Gene Onthology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) i Reactome. \helvetica{clusterProfiler} també inclou WikiPathways però per raons de temps he decidit centrar-me només en les tres mencionades anteriorment. Aquestes bases de dades no són però úniques. N'hi ha també altres com per exemple \textit{Pathway Studio pathways} o \textit{IPA} amb l’inconvenient que són comercials i no gratuïtes. 
 
 \subsection{Gene ontology}
 Gene Ontology \cite{gene2004gene} dona tan un vocabulari estructurat i controlat (ontologies) com la classificació que cobreix alguns dominis de la biologia molecular i cel·lular. És una base de dades gratuïta per a anotació de gens, el seu producte i les seqüències. El projecte \gls{GO} proporciona ontologies per a descriure els atributs dels productes de gens als tres dominis separats de la biologia molecular:
 \begin{enumerate}
-\item \textbf{Molecular Function (MF)}. Aquest domini descriu les activitats a nivell molecular. És important entendre que el terme ``molecular function'' representa més les activitats que no pas les entitats (com per exemple molecules o complexos) que fan aquestes accions, i a més a més no especifiquen quan o a quin context l'acció té lloc. Un exemple podria ser \textit{catalytic activity} o un terme més específic \textit{adenylate cyclase activity}.
-\item \textbf{Biological Process (BP)}. Aquest domini descriu els objectius biològics aconseguits per una de les funcions moleculars o un conjunt d’elles. Un exemple d'un procès biològic ampli podria ser \textit{DNA repair}. Un exemple més específic podria ser \textit{pyrimidine nucleobase biosynthetic process}. 
+\item \textbf{Molecular Function (MF)}. Aquest domini descriu les activitats a nivell molecular. És important entendre que el terme ``molecular function'' representa més les activitats que no pas les entitats (com per exemple molècules o complexos) que fan aquestes accions, i a més a més no especifiquen quan o a quin context l'acció té lloc. Un exemple podria ser \textit{catalytic activity} o un terme més específic \textit{adenylate cyclase activity}.
+\item \textbf{Biological Process (BP)}. Aquest domini descriu els objectius biològics aconseguits per una de les funcions moleculars o un conjunt d’elles. Un exemple d'un procés biològic ampli podria ser \textit{DNA repair}. Un exemple més específic podria ser \textit{pyrimidine nucleobase biosynthetic process}. 
 \item \textbf{Cellular Component (CC)}. EL CC descriu l'emplaçament al nivell d'estructures subcel·lulars (com \textit{mitocondri}) i els complexos macromoleculars (com \textit{ribisomes}) on el producte de gen fa la seva funció.
 \end{enumerate}
 
 Dins de cada ontologia, els termes tenen tan una definició de text com un identificador únic. El vocabulari està estructurat en una classificació que manté les relacions ``is-a'' i ``part-of'' i ``regulates''. Aquestes relacions les descric amb més detall més endavant en la secció dedicada al gràfic acíclic de \gls{GO} termes.
 
 \subsection{\gls{KEGG}}
-La base de dades \gls{KEGG} és la col·lecció dels mapes dibuixats manualment que representen el coneixemnet sobre interacció molecular dividit en set dominis principals:
+La base de dades \gls{KEGG} és la col·lecció dels mapes dibuixats manualment que representen el coneixement sobre interacció molecular dividit en set dominis principals:
 \begin{enumerate}
 \item Metabolism
 \item Genetic Information Processing
@@ -228,7 +226,7 @@ El significat més detallat d'aquests elements el presentaré a la secció dedic
 
 \subsection{Reactome}
 
-Reactome és una base de dades gratuïtament accessible i manualment curada per a reaccions i rutes biològiques. Al centre de Reactome hi ha reaccions que es defineixen com qualsevol esdeveniment molecular com ara unió, fosforilització, catàlisi bioquèmic, transport molecular o esdeveniments moleculars espontanis. Aquestes reaccions involucren qualsevol molècula, però més típicament passen entre proteïnes i les molècules petites. Encara que els mapes de Reactome disponibles online contenen una relació entre les molècules més detallada, el paquete de \gls{Bioconductor} que utilitzaré per generar els mapes visualitza només la conexió bàsica entre els gens. 
+Reactome és una base de dades gratuïtament accessible i manualment curada per a reaccions i rutes biològiques. Al centre de Reactome hi ha reaccions que es defineixen com qualsevol esdeveniment molecular com ara unió, fosforització, catàlisi bioquímic, transport molecular o esdeveniments moleculars espontanis. Aquestes reaccions involucren qualsevol molècula, però més típicament passen entre proteïnes i les molècules petites. Encara que els mapes de Reactome disponibles online contenen una relació entre les molècules més detallada, el paquet de \gls{Bioconductor} que utilitzaré per generar els mapes visualitza només la connexió bàsica entre els gens. 
 
 \section{\gls{ORA}}
 
@@ -249,7 +247,7 @@ $$p = 1 - \displaystyle\sum_{i = 0}^{k-1}\frac{{M \choose i}{{N-M} \choose {n-i}
 
 Aquesta equació $N$ és el nombre total de gens en la distribució de fons, $M$ és el nombre de gens dins d'aquesta distribució que són anotats a la ruta d'interès, $n$ és el nombre total en la llista especificada de gens i $k$ és el nombre de gens dins d'aquesta llista que són anotats a la ruta. La distribució de fons pot ser o bé tots els gens en la base de dades d'anotació o bé tots els gens de l'experiment.
 
-El valor de P obtingut amb aquesta fòrmula dona la probabilitat de veure el nombre $x$ de gens de la llista relacionats amb la ruta específica en la llista del nombre total de gens $n$ donat la proporció de gens relacionats amb aquesta ruta en la distibució de fons.
+El valor de P obtingut amb aquesta fórmula dona la probabilitat de veure el nombre $x$ de gens de la llista relacionats amb la ruta específica en la llista del nombre total de gens $n$ donat la proporció de gens relacionats amb aquesta ruta en la distribució de fons.
 \end{enumerate}
 
 L'aplicació utilitza aquesta idea i calcula una taula amb els camps següents:
@@ -266,9 +264,9 @@ L'aplicació utilitza aquesta idea i calcula una taula amb els camps següents:
 Debilitats d'aquest mètode són les següents:
 \begin{itemize}
 \item Les estadístiques utilitzades pel mètode ORA, com ara la distribució hipergeomètrica, són independents dels canvis mesurats. Això vol dir que aquests tests ignoren tots els valors associats amb ells com ara les intensitats (logRatios).
-\item	Típicament ORA utilitza només els gens més significatius i descarta els altres.
-\item	ORA tracta cada gen igual i per tant assumeix que tots els gens són independents els uns dels altres.
-\item	ORA assumeix que totes les rutes són independents l’una de l’altra.
+\item Típicament ORA utilitza només els gens més significatius i descarta els altres.
+\item ORA tracta cada gen igual i per tant assumeix que tots els gens són independents els uns dels altres.
+\item ORA assumeix que totes les rutes són independents l’una de l’altra.
 \end{itemize}
 
 
@@ -281,7 +279,7 @@ Donat el conjunt definit dels gens $S$, que pertanyen per exemple al mateix term
 L'anàlisi \gls{GSEA} consisteix en tres passos \cite{subramanian2005gene}:
 
 \begin{enumerate}
-\item Càlcul de la puntuació d'enriquement (\textit{\gls{ES}: Enrichment Score}). La puntuació està calculada anant per la llista i augmentant la suma corrent sempre quan es troba un gen que pertany a $S$ o, al contrari, restant-la quan el gen no forma part del conjunt $S$. La puntuació és la desviació màxima del zero observada en aquet camí. L'estadística obtinguda és l’estadística de Kolmogorov-Smirnov amb pesos.
+\item Càlcul de la puntuació d’enriquiment (\textit{\gls{ES}: Enrichment Score}). La puntuació està calculada anant per la llista i augmentant la suma corrent sempre quan es troba un gen que pertany a $S$ o, al contrari, restant-la quan el gen no forma part del conjunt $S$. La puntuació és la desviació màxima del zero observada en aquet camí. L'estadística obtinguda és l’estadística de Kolmogorov-Smirnov amb pesos.
 
 \item Estimació del nivell de significació per a la puntuació \textit{\gls{ES}}. El valor de P nominal es pot obtenir mitjançant o bé la permutació de les classes o bé la permutació de gens, on l'estadística \textit{\gls{ES}} observada es compara amb la distribució obtinguda amb permutació. Els dos modes de permutació comproven hipòtesis diferents. Mentre la permutació de gens comprova la hipòtesi que \textit{els gens en la ruta com a màxim són diferencialment expressats com els gens fora de la ruta},
 la permutació de les mostres implica la hipòtesi que cap de gens en la ruta són diferencialment expressats. Es diferencia doncs en el tractament dels gens fora de la ruta. A l'aplicació es fa ús de la permutació dels gens a causa bàsicament de la selecció dels paquets de \gls{Bioconductor} per a l’aplicació.
@@ -314,8 +312,8 @@ L'aplicació que he desenvolupat agafa aquesta idea i calcula la taula que inclo
 
 Encara que GSEA és una millora respecte a ORA, aquest mètode també té les seves debilitats: 
 \begin{itemize}
-\item	Tal com l’anàlisi ORA, també GSEA assumeix que les rutes són independents.
-\item	GSEA utilitza els canvis d’expressió gènica dins de la ruta específica i descarta els canvis d’altres anàlisis. Per exemple, agafem dos gens A i B, que canvien dues vegades l’un (2-fold) i 20 vegades l’altre (20-fold) respectivament. Fins que aquests gens tinguin el mateix rang comparat amb altres gens de la ruta, GSEA els tractarà igual, encara que seria preferible donar més pes al gen B.
+\item Tal com l’anàlisi ORA, també GSEA assumeix que les rutes són independents.
+\item GSEA utilitza els canvis d’expressió gènica dins de la ruta específica i descarta els canvis d’altres anàlisis. Per exemple, agafem dos gens A i B, que canvien dues vegades l’un (2-fold) i 20 vegades l’altre (20-fold) respectivament. Fins que aquests gens tinguin el mateix rang comparat amb altres gens de la ruta, GSEA els tractarà igual, encara que seria preferible donar més pes al gen B.
 \end{itemize}
 
 \section{Anàlisi topològic de les rutes}
@@ -323,7 +321,7 @@ Tan \gls{ORA} com \gls{GSEA} no visualitzen les relacions entre les rutes i entr
 
 \subsection{El mapa d'enriquement}
 
-L’anàlisi \gls{ORA} resulta en una llista de les rutes significativament  enriquides. Els gens dins dels conjunts o les rutes poden encavalcar i descriuen gairebé conceptes biològics idèntics \cite{merico2010enrichment}. Aquest problema de redundància és més evident als conceptes que són organitzats jeràrquicament, com és el cas dels conceptes de la base da dades \gls{GO}.  El mapa d’enriquiment redueix la redundància als conjunts de gens. Els conjunt de gens estan representats com a nodes els radis dels quals són proporcionalment relacionats amb el nombre de gens que formen part d’aquests conjunts. Els cantells indiquen els nodes que tenen gens compartits, on el seu gruix depèn del nombre de gens compartits. A més a més, es pot utilitzar el color dels nodes per representar una altra dimensió com ara el nivell de significació expressat per el valor de P. Si no hi ha cap gen compartit entre els conceptes (o rutes) els nodes no són connectats via  cantells. Aquest mètode de representació és molt útil per poder reduir/simplificar la informació obtinguda mitjançant els mètodes \gls{ORA} o \gls{GSEA} i per tant m’he posat l’objectiu també d’implementar-lo a l’aplicació. 
+L’anàlisi \gls{ORA} resulta en una llista de les rutes significativament enriquides. Els gens dins dels conjunts o les rutes poden encavalcar i descriuen gairebé conceptes biològics idèntics \cite{merico2010enrichment}. Aquest problema de redundància és més evident als conceptes que són organitzats jeràrquicament, com és el cas dels conceptes de la base da dades \gls{GO}. El mapa d’enriquiment redueix la redundància als conjunts de gens. Els conjunt de gens estan representats com a nodes els radis dels quals són proporcionalment relacionats amb el nombre de gens que formen part d’aquests conjunts. Els cantells indiquen els nodes que tenen gens compartits, on el seu gruix depèn del nombre de gens compartits. A més a més, es pot utilitzar el color dels nodes per representar una altra dimensió com ara el nivell de significació expressat per el valor de P. Si no hi ha cap gen compartit entre els conceptes (o rutes) els nodes no són connectats via cantells. Aquest mètode de representació és molt útil per poder reduir/simplificar la informació obtinguda mitjançant els mètodes \gls{ORA} o \gls{GSEA} i per tant m’he posat l’objectiu també d’implementar-lo a l’aplicació. 
 
 \subsection{\gls{Gene-Concept-Network}}
 
@@ -336,7 +334,7 @@ El gràfic de \gls{GO} està organitzat com direccional acíclic gràfic (Direct
 \begin{enumerate}
 \item \textit{is a}: Si dèiem que A \textit{is a} B, volem dir que A és un subtip de B. Per exemple el cicle mitòtic de la cèl·lula \textit{is a} cicle de la cèl·lula. 
 \item \textit{part of}: Aquesta relació s'utilitza per representar la relació entre una part i el tot. Aquesta relació entre A i B existeix només si B és necessàriament una part d'A: quan B existeix, ho fa només com una part de B i la presència de B implica la presència d’A.
-\item \textit{regulates}: La relació descriu el cas on un procès afecta directament la manifestació de l'altre procès.
+\item \textit{regulates}: La relació descriu el cas on un procés afecta directament la manifestació de l'altre procés.
 \end{enumerate}
 
 Els conceptes al llarg del gràfic estan marcats amb color depenent de si són estadísticament significatius o no.
@@ -353,14 +351,14 @@ Aquest gràfic mostra les relacions entre els gens dins de la ruta específica. 
 
 \subsection{Reactome Pathway}
 
-Les rutes de Rectome són similares a les rutes de \gls{KEGG}. La seva implementació amb \gls{Bioconductor}, com ho veurem properament, no visualitza les rutes originals mostrades per \href{https://reactome.org/PathwayBrowser/}{Pathway Browser} de Reactome. La visualització amb al paquet \helvetica{ReactomePA} és més modesta i ofereix només les relacions nominals sense mostrar direccionalitat, com ho fa el gràfic de la ruta original de Reactome. Tot i així podem identificar quantes conexions amb altres gens de la ruta tenen els gens diferencialment expressats i d'aquesta manera intuir la seva importància relativa. 
+Les rutes de Rectome són similares a les rutes de \gls{KEGG}. La seva implementació amb \gls{Bioconductor}, com ho veurem properament, no visualitza les rutes originals mostrades per \href{https://reactome.org/PathwayBrowser/}{Pathway Browser} de Reactome. La visualització amb al paquet \helvetica{ReactomePA} és més modesta i ofereix només les relacions nominals sense mostrar direccionalitat, com ho fa el gràfic de la ruta original de Reactome. Tot i així podem identificar quantes connexions amb altres gens de la ruta tenen els gens diferencialment expressats i d'aquesta manera intuir la seva importància relativa. 
 
 En canvi a Goplot i les rutes \gls{KEGG} les relacions entre els gens dins les rutes Reactome són més senzilles. Aquí les relacions estan mostrades només amb les línies, on es pot interpretar només la distància entre els gens. 
 %https://reactome.org/userguide/pathway-browser
 
 \section{Desenvolupament del protocol}
 
-Tenint en compte el marc teòric he intentat dissenyar l'aplicació de tal manera que ofereixi els mètodes \gls{ORA}, \gls{GSEA} i algunes visualitzacions de la topografia de les rutes. Tan se val amb quina base de dades l'usuari anoti les dades d'expressió, ja que l'usuari podrà decidir quin mètode vol aplicar. En el millor dels casos l'usuari faria els dos mètodes ORA i GSEA. Això implicaria la disponibilitat de dos arxius: l'arxiu amb tots els gens (Universe) i l'arxiu amb el grup de gens diferencialment expressats (Gene set). Si l'usuari vol fer només l'anpalisi \gls{GSEA} haurà de pujar només l'arxiu amb tots els gens. Una vegada seleccionada l'estratègia l'usuari puja els arxius necessaris i genera el resultat de \gls{ORA} i/o \gls{GSEA} aplicant uns critèris com ara selecció d'ontologia en ORA, valor de P com al filtre de visualització de les rutes més significatives, i el mètode d'ajustament.
+Tenint en compte el marc teòric he intentat dissenyar l'aplicació de tal manera que ofereixi els mètodes \gls{ORA}, \gls{GSEA} i algunes visualitzacions de la topografia de les rutes. Tan se val amb quina base de dades l'usuari anoti les dades d'expressió, ja que l'usuari podrà decidir quin mètode vol aplicar. En el millor dels casos l'usuari faria els dos mètodes ORA i GSEA. Això implicaria la disponibilitat de dos arxius: l'arxiu amb tots els gens (Universe) i l'arxiu amb el grup de gens diferencialment expressats (Gene set). Si l'usuari vol fer només l'anpalisi \gls{GSEA} haurà de pujar només l'arxiu amb tots els gens. Una vegada seleccionada l'estratègia l'usuari puja els arxius necessaris i genera el resultat de \gls{ORA} i/o \gls{GSEA} aplicant uns criteris com ara selecció d'ontologia en ORA, valor de P com al filtre de visualització de les rutes més significatives, i el mètode d'ajustament.
 
 \begin{figure}[H]
 \centering
@@ -377,11 +375,11 @@ D'aquí podem definir per exemple el protocol:
 $\rightarrow$ Per a anàlisi \gls{GO} tots dos arxius són necessaris: Gens Seleccionats (Gene) i Tots els gens (Universe). 
 
 $\rightarrow$ Per a l'anàlisi \gls{KEGG} o Reactome les dades necessàries varien: Pel mètode \gls{ORA} l'arxiu amb els gens seleccionats és suficient. Dos arxius són necessaris pel mètode \gls{GSEA}.
-\item En el cas que volguem fer l'anàlisis \gls{ORA} seleccionar a l'apartat corresponent (\gls{GO}, \gls{KEGG} o Reactome) la pestanya \gls{ORA} i definir els criteris.
+\item En el cas que vulguem fer l’anàlisi \gls{ORA} seleccionar a l'apartat corresponent (\gls{GO}, \gls{KEGG} o Reactome) la pestanya \gls{ORA} i definir els criteris.
 
 $\rightarrow$ Els gràfics: \gls{Bar-Plot}, \gls{Dot-Plot}, \gls{Enrichment Map}, Cnet Plot, GO Plot (en cas d'anàlisi \gls{GO}) i els gràfics de les rutes (\gls{KEGG}/Reactome) es calculen automàticament
 
-\item En el cas que volguem fer l'anàlisi \gls{GSEA} seleccionar a l'apartat corresponent (\gls{GO}, \gls{KEGG} o Reactome) la pestanya \gls{GSEA} i definir els criteris.
+\item En el cas que vulguem fer l'anàlisi \gls{GSEA} seleccionar a l'apartat corresponent (\gls{GO}, \gls{KEGG} o Reactome) la pestanya \gls{GSEA} i definir els criteris.
 
 $\rightarrow$ El gràfic GSEA es genera automàticament. Es pot elegir la ruta mitjançant un menú desplegable.
 
@@ -773,7 +771,7 @@ Per facilitar l'ús de l’aplicació he pensat com es podria fer de manera el m
 \caption{Manual per a aplicació}
 \end{figure}
 
-Com es veu hi ha apartats diferents. Depenent dels objectius de l'usuari, aquest pot seleccionar l'apartat que més li interessi. Així, si l'usuari vol fer l'anàlisi \gls{ORA} amb l'anotació KEGG pot navegar en la secció |textbf{Scenario 3: \gls{ORA} Analysis.\gls{KEGG} Database}. 
+Com es veu hi ha apartats diferents. Depenent dels objectius de l'usuari, aquest pot seleccionar l'apartat que més li interessi. Així, si l'usuari vol fer l'anàlisi \gls{ORA} amb l'anotació KEGG pot navegar en la secció \textbf{Scenario 3: \gls{ORA} Analysis.\gls{KEGG} Database}. 
 
 \begin{figure}[H]
 \centering
@@ -815,7 +813,7 @@ Les informacions per a l'apartat \gls{ORA} són les següents:
 \includegraphics[width=0.9\textwidth]{figures/Help_ORA_output.jpg} 
 \caption{Infromació per la interpretació d'anàlisi \gls{ORA}}
 \end{figure}
-Aquí cal destacar que les fòrmules, depenent de l'ordinador, no apareixen degudament en el RStudio Browser. Sí que apareixen bé quan l'aplicació s'obre via l’internet browser. L'usuari ha de tenir connexió amb internet perquè l'aplicació pugui descodificar la fòrmula via MathJax. Encara no he trobat la causa per la qual el Rstudio Browser en alguns ordinadors no visualitza bé les fòrmules. Pot ser un problema amb Java, que s'ha d'actualitzar? Ho estic investigant.
+Aquí cal destacar que les fórmules, depenent de l'ordinador, no apareixen degudament en el RStudio Browser. Sí que apareixen bé quan l'aplicació s'obre via l’internet browser. L'usuari ha de tenir connexió amb internet perquè l'aplicació pugui descodificar la fórmula via MathJax. Encara no he trobat la causa per la qual el Rstudio Browser en alguns ordinadors no visualitza bé les fórmules. Pot ser un problema amb Java, que s'ha d'actualitzar? Ho estic investigant.
 
 \begin{figure}[H]
 \centering
@@ -861,7 +859,7 @@ Les dades de \cite{schmidt2008humoral}, que s'utilitzen en els vignettes de \hel
 
 \section{Exemple d'anàlisi 1. GEO: GSE100924}
 
-\cite{li2017zbtb7b} analitzen l'associació del gen Zbtb7b amb la produccó dels greixos marrons que al seu torn influeixen en termogenesis i procesos metabòlics diferents. D'aquesta manera els greixos marrons són importants per al tractament dels desordres metabòlics.
+\cite{li2017zbtb7b} analitzen l'associació del gen Zbtb7b amb la producció dels greixos marrons que al seu torn influeixen en termogènesis i processos metabòlics diferents. D'aquesta manera els greixos marrons són importants per al tractament dels desordres metabòlics.
 
 Les dades d'estudi són ja preprocessades per Ricardo Gonzalo Sanz i Sanchez Pla i estan disponibles a \href{https://github.com/alexsanchezpla/StatisticalAnalysisOfMicroarrayData}{github}. De la carpeta \textit{results} he agafat la taula \textit{topAnnotated\_KOvsWT\_COLD.csv}. Sanz i Pla utilitzen el paquet \helvetica{ReactomePA} per a l'anàlisi d'enriquiment. Repeteixo doncs el seu anàlisi utilitzant l'aplicació. 
 
@@ -892,7 +890,7 @@ L'output a baix indica que s'ha pujat el total de 5995 gens. Per a l'arxiu dels 
 \caption{Resultat d'anàlisi ORA de Reactome}
 \end{figure}
 
-Observem que les rutes mostrades són les mateixes esmentades per Sanz i Pla. També destaquem que el resultat conicideix amb les trobades a l’estudi de \cite{li2017zbtb7b}. S'observa la perturbació de les rutes relacionades amb els greixos marrons \textbf{Fatty acyl-CoA biosynthesis} i \textbf{Fatty-acid metabolism}.
+Observem que les rutes mostrades són les mateixes esmentades per Sanz i Pla. També destaquem que el resultat coincideix amb les trobades a l’estudi de \cite{li2017zbtb7b}. S'observa la pertorbació de les rutes relacionades amb els greixos marrons \textbf{Fatty acyl-CoA biosynthesis} i \textbf{Fatty-acid metabolism}.
 
 \item Visualització del resultat \gls{ORA}
 
@@ -920,7 +918,7 @@ L'aplicació permet visualitzar els resultats obtinguts amb la \gls{ORA}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{figures/Estudi1_Fig6_ORA_EP_RA.png} 
-\caption{Mapa d'enriquement}
+\caption{Mapa d’enriquiment}
 \end{figure}
 
 Observem que totes les rutes identificades comparteixen els gens.
@@ -1001,8 +999,9 @@ Clico en l'apartat \textit{\gls{GO} Analysis}$\rightarrow$\textit{ORA}. Seleccio
 
 Al treball final he tingut com a objectiu la creació d'una aplicació per a l’anàlisi de les rutes. Primer he determinat què és l'anàlisi de les rutes i on se situa en l'anàlisi global d'expressió genètica. He explicat que l'anàlisi de les rutes és l'últim pas de l'anàlisi d'expressió gènica on es pretén donar sentit biològic a les dades d'expressió. Per dur a terme aquesta anàlisi s'utilitza una llista dels gens diferencialment expressats i els \gls{logRatio}s de tots els gens de l'experiment. Així, he explicat que es necessari anotar aquests gens a les bases existents per poder agrupar-los en conceptes (o rutes). 
 
-En segon lloc, he triat les bases de dades més conegudes i que són utilitzades pels paquets de \gls{Bioconductor}. Aquestes bases de dades són: \gls{GO}, \gls{KEGG} i Reactome. En tercer lloc, he descrit quins mètodes existeixen per calcular la significació biològica de les rutes. Entre altres he identificat tres estratègies: \gls{ORA}, \gls{FCS} i l'anàlisi topològic de les rutes. En quart lloc, he desctit amb més detall els mètodes \gls{ORA} i \gls{GSEA} i també he identificat les possibilitats per visualitzar les rutes. En cinquè lloc, després de formular un protocol d'anàlisi, he buscat i identificat els paquets de \gls{Bioconductor} que permeten aplicar els mètodes descrits. Entre altres he triat \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. He posat aquests paquets com a base per la futura aplicació. 
+En segon lloc, he triat les bases de dades més conegudes i que són utilitzades pels paquets de \gls{Bioconductor}. Aquestes bases de dades són: \gls{GO}, \gls{KEGG} i Reactome. En tercer lloc, he descrit quins mètodes existeixen per calcular la significació biològica de les rutes. Entre altres he identificat tres estratègies: \gls{ORA}, \gls{FCS} i l'anàlisi topològic de les rutes. En quart lloc, he descrit amb més detall els mètodes \gls{ORA} i \gls{GSEA} i també he identificat les possibilitats per visualitzar les rutes. En cinquè lloc, després de formular un protocol d'anàlisi, he buscat i identificat els paquets de \gls{Bioconductor} que permeten aplicar els mètodes descrits. Entre altres he triat \helvetica{clusterProfiler}, \helvetica{ReactomePA} i \helvetica{pathview}. He posat aquests paquets com a base per la futura aplicació. 
 
-El resultat ha estat l'aplicació dividida en quatre apartats: 1) Entrada de les dades; 2) Anàlisi amb la base d'anotació GO; 3) Anàlisi amb la base d'anotació \gls{KEGG} i anàlisi amb la base d'anotació Reactome. Per a cada base de dades l'usuari pot fer \gls{ORA}, \gls{GSEA} i obtenir la visualització de la topologia de les rutes. L'aplicació perment descarregar els resultats com a arxiu .csv i imatges .png, els quals l'usuari pot personalitzar. 
+El resultat ha estat l'aplicació dividida en quatre apartats: 1) Entrada de les dades; 2) Anàlisi amb la base d'anotació GO; 3) Anàlisi amb la base d'anotació \gls{KEGG} i anàlisi amb la base d'anotació Reactome. Per a cada base de dades l'usuari pot fer \gls{ORA}, \gls{GSEA} i obtenir la visualització de la topologia de les rutes. L'aplicació permet descarregar els resultats com a arxiu .csv i imatges .png, els quals l'usuari pot personalitzar. 
 Pel que fa a la validació dels resultats, s’ha mostrat una bona coincidència amb l'estudi triat per validar les dades. Aquest estudi investiga l'impacte del gen Zbtb7b sobre la producció dels greixos marrons. Justament les rutes relacionades amb la síntesi de greixos marrons estaven identificades amb l'aplicació. En darrer lloc, l'aplicació pot ser descarregada i instal·lada lliurement del repositori GitHub i la via per fer-ho s'explica a la memòria. Actualment es busca el mètode per publicar l'aplicació a internet per fer-la encara més accessible.
+
 
