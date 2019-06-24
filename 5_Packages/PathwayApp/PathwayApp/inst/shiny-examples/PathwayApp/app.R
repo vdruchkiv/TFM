@@ -105,6 +105,11 @@ ui <- dashboardPage(
                     type = "markdown",
                     content = "UploadingData",
                     style = "position:relative;left: 150px;top: -31px"),
+          actionButton("InputExampleTable", "Use example data")%>%helper(icon = "question",
+                                                                         colour = "green",
+                                                                         type = "markdown",
+                                                                         content = "ExampleData",
+                                                                         style = "position:relative;left: 140px;top: -25px"),
           fileInput("file1", h3(strong("File with all genes"),style = "color:#335EFF;"),
                 multiple = FALSE,
                 accept = c("text/csv",
@@ -563,19 +568,71 @@ server <- function(input,output,session) {
   })
 
 
+#Reading Test data
+observeEvent(input$InputExampleTable,{
+updateSelectInput(session, "specie_go",
+                  label = "Select Specie:",
+                  choices =  c("Homo Sapiens" = "org.Hs.eg.db",
+                               "Rat" = "org.Rn.eg.db",
+                               "Mouse"="org.Mm.eg.db",
+                               "Celegans"="org.Ce.eg.db",
+                               "Yeast"="org.Sc.sgd.db",
+                               "Zebrafish"="org.Dr.eg.db",
+                               "Fly"="org.Dm.eg.db",
+                               "Arabidopsis"="org.At.tair.db",
+                               "Bovine"="org.Bt.eg.db",
+                               "Chicken"="org.Gg.eg.db",
+                               "Canine"="org.Cf.eg.db",
+                               "Pig"="org.Ss.eg.db2",
+                               "Rhesus"="org.Mmu.eg.db",
+                               "E coli strain K12"="org.EcK12.eg.db",
+                               "Xenopus"="org.Xl.eg.db",
+                               "Anopheles"="org.Ag.eg.db",
+                               "Chimp"="org.Pt.eg.db",
+                               "Malaria"="org.Pf.plasmo.db",
+                               "E coli strain Sakai"="org.EcSakai.eg.db"),
+                  selected = "org.Hs.eg.db")
+  updateSelectInput(session, "specie",
+                    label = "Select Specie:",
+                    choices =  c("Homo Sapiens" = "human",
+                                 "Rat" = "rat",
+                                 "Mouse"="mouse",
+                                 "Celegans"="celegans",
+                                 "Yeast"="yeast",
+                                 "Zebrafish"="zebrafish",
+                                 "Fly"="fly"),
+                    selected = "human")
 
-##################################################################
-##################################################################
-##################################################################
-###########################GO#####################################
+  updateTextInput(session, "searchKEGGspecie",
+                  label = "Enter Search Term for Specie",
+                  value = "homo")
+   })
+
+  geneList<- eventReactive(input$InputExampleTable,{
+    df<-PathwayApp::Dose_geneList
+    names(df)<-c("Entrez ID","FoldChange")
+    df<-df[order(-df$FoldChange),]
+    df$`Entrez ID`<-as.character(df$`Entrez ID`)
+    return(df)
+  })
+
+  genes <- eventReactive(input$InputExampleTable,{
+    df<-PathwayApp::Dose_selectedGenes
+    names(df)<-c("Entrez ID","FoldChange")
+    df<-df[order(-df$FoldChange),]
+    df$`Entrez ID`<-as.character(df$`Entrez ID`)
+    return(df)
+  })
+
+
   #Show first few rows
   output$TxtEnterdGenes<-renderText({
-    req(input$file1)
+    req(geneList())
     paste0("You uploaded: ",length(geneList()[,1])," genes")
   })
 
   output$data_preview<-renderText({
-    req(input$file1)
+    req(geneList())
     head(geneList(),10)%>%
       kable(caption="First 10 entries",format = "html", escape = F,digits = 3,row.names = FALSE)%>%
       kable_styling(c("striped"), full_width = F,fixed_thead = T,position = "left")
@@ -585,16 +642,22 @@ server <- function(input,output,session) {
 
   #Rendering text. How many selected genes?
   output$TxtSelectedGenes<-renderText({
-    req(input$file2)
+    req(genes())
     paste0("You selected: ",length(genes()[,1])," genes")
   })
   output$data_preview2<-renderText({
-    req(input$file2)
+    req(genes())
     head(genes(),10)%>%
       kable(caption="First 10 entries",format = "html", escape = F,digits = 3,row.names = FALSE)%>%
       kable_styling(c("striped"), full_width = F,fixed_thead = T,position = "left")
 
   })
+
+##################################################################
+##################################################################
+##################################################################
+###########################GO#####################################
+
   ######################################################################
   #Enrichment Specs GO
   enrichresgo<-eventReactive(input$calcGo,{
@@ -1110,14 +1173,7 @@ output$downloadGseaPlotKegg <- downloadHandler(
     print(gseaplot(enrichreskegg_gsea(), geneSetID = enrichreskegg_gsea()@result$ID[enrichreskegg_gsea()@result$Description==input$geneSetGseaKegg]))
     dev.off()
   })
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
-=======
-
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 ###################################
 ##########Pathway_KEGG############
 output$PathKeggUi <- renderUI({
@@ -1131,27 +1187,12 @@ output$pathway_KEGG2<-renderImage({
   req(enrichreskegg())
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
-<<<<<<< HEAD
-<<<<<<< HEAD
-  path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
-  pathviewPatched::pathview(gene.data  = geneListv,
-                            pathway.id = path.id,
-                            kegg.dir = paste0(tempdir(),"\\"),
-                            species    =  kegg_organism2(),
-                            limit      = list(gene=max(abs(geneListv)), cpd=1))
-=======
-=======
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
  path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
  pathviewPatched::pathview(gene.data  = geneListv,
            pathway.id = path.id,
            kegg.dir = paste0(tempdir(),"\\"),
            species    =  kegg_organism2(),
            limit      = list(gene=max(abs(geneListv)), cpd=1))
-<<<<<<< HEAD
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
-=======
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 
   img <- readPNG(paste0(tempdir(),"\\",path.id,".pathview.png"))
   width <- ncol(img)*0.5
@@ -1171,19 +1212,6 @@ output$downloadPathKegg <- downloadHandler(
     names(geneListv)<-geneList()[,1]
     path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
     pathviewPatched::pathview(gene.data  = geneListv,
-<<<<<<< HEAD
-<<<<<<< HEAD
-                              pathway.id = path.id,
-                              kegg.dir = paste0(tempdir(),"\\"),
-                              species    =  kegg_organism2(),
-                              limit      = list(gene=max(abs(geneListv)), cpd=1))
-    file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
-  }, contentType = 'image/png')
-
-
-=======
-=======
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
              pathway.id = path.id,
              kegg.dir = paste0(tempdir(),"\\"),
              species    =  kegg_organism2(),
@@ -1191,10 +1219,6 @@ output$downloadPathKegg <- downloadHandler(
     file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
   }, contentType = 'image/png')
 
-<<<<<<< HEAD
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
-=======
->>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 ##################################################################
 ##################################################################
 ##################################################################
@@ -1374,7 +1398,7 @@ output$downloadEmapPlotRA <- downloadHandler(
 ##################################
 ###########CnetPlotRA##############
 output$CnetPlot_RA2<-renderImage({
-  req(input$file2)
+  req(enrichresRA())
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
   # A temp file to save the output.
@@ -1435,7 +1459,7 @@ output$GseaPlot_RA2<-renderImage({
 output$downloadGseaPlotRA <- downloadHandler(
   filename = "GseaPlot.png",
   content = function(file) {
-    png(file,width = input$wid_gsp_ra, height = input$hei_gsp_ra,res=input$res_gsp_ra)
+    png(file,width = input$wid_gsp_ra, height = hei_gsp_ra,res=res_gsp_ra)
     print(gseaplot(enrichresRA_gsea(), geneSetID = enrichresRA_gsea()@result$ID[enrichresRA_gsea()@result$Description==input$geneSetGseaRA]))
     dev.off()
   })
@@ -1456,6 +1480,9 @@ PathPlotRA<-eventReactive(input$calcPathRA,{
 
 
 output$PathPlot_RA2<-renderImage({
+  width  <- session$clientData$output_PathPlot_RA2_width
+  height <- session$clientData$output_PathPlot_RA2_height
+
   # For high-res displays, this will be greater than 1
   pixelratio <- session$clientData$pixelratio
 
@@ -1473,9 +1500,9 @@ output$PathPlot_RA2<-renderImage({
 
 
 output$downloadPathPlotRA<- downloadHandler(
-  filename = "PathPlotRA.png",
+  filename = "GseaPlot.png",
   content = function(file) {
-    png(file,width = input$wid_pp_ra, height = input$hei_pp_ra,res=input$res_pp_ra)
+    png(file,width = input$wid_pp_ra, height = hei_pp_ra,res=res_pp_ra)
     print(PathPlotRA())
     dev.off()
   })
