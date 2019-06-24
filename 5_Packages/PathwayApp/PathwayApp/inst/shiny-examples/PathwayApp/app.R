@@ -1110,6 +1110,10 @@ output$downloadGseaPlotKegg <- downloadHandler(
     print(gseaplot(enrichreskegg_gsea(), geneSetID = enrichreskegg_gsea()@result$ID[enrichreskegg_gsea()@result$Description==input$geneSetGseaKegg]))
     dev.off()
   })
+<<<<<<< HEAD
+=======
+
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 ###################################
 ##########Pathway_KEGG############
 output$PathKeggUi <- renderUI({
@@ -1123,12 +1127,21 @@ output$pathway_KEGG2<-renderImage({
   req(enrichreskegg())
   geneListv<-geneList()[,2]
   names(geneListv)<-geneList()[,1]
+<<<<<<< HEAD
   path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
   pathviewPatched::pathview(gene.data  = geneListv,
                             pathway.id = path.id,
                             kegg.dir = paste0(tempdir(),"\\"),
                             species    =  kegg_organism2(),
                             limit      = list(gene=max(abs(geneListv)), cpd=1))
+=======
+ path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
+ pathviewPatched::pathview(gene.data  = geneListv,
+           pathway.id = path.id,
+           kegg.dir = paste0(tempdir(),"\\"),
+           species    =  kegg_organism2(),
+           limit      = list(gene=max(abs(geneListv)), cpd=1))
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 
   img <- readPNG(paste0(tempdir(),"\\",path.id,".pathview.png"))
   width <- ncol(img)*0.5
@@ -1148,6 +1161,7 @@ output$downloadPathKegg <- downloadHandler(
     names(geneListv)<-geneList()[,1]
     path.id<-enrichreskegg()@result$ID[enrichreskegg()@result$Description==input$PathKegg]
     pathviewPatched::pathview(gene.data  = geneListv,
+<<<<<<< HEAD
                               pathway.id = path.id,
                               kegg.dir = paste0(tempdir(),"\\"),
                               species    =  kegg_organism2(),
@@ -1156,6 +1170,15 @@ output$downloadPathKegg <- downloadHandler(
   }, contentType = 'image/png')
 
 
+=======
+             pathway.id = path.id,
+             kegg.dir = paste0(tempdir(),"\\"),
+             species    =  kegg_organism2(),
+             limit      = list(gene=max(abs(geneListv)), cpd=1))
+    file.copy(paste0(tempdir(),"\\",path.id,".pathview.png"), file)
+  }, contentType = 'image/png')
+
+>>>>>>> f718be5bbd710b3ea41a419f4e83e287eb9bd0ae
 ##################################################################
 ##################################################################
 ##################################################################
